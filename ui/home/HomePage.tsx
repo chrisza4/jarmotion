@@ -12,9 +12,7 @@ const HomePage = () => {
   })
   return (
     <ScreenLayout>
-      <View style={styles.page}>
-        <Text>Home aaage</Text>
-      </View>
+      <View style={styles.page} />
     </ScreenLayout>
   )
 }
