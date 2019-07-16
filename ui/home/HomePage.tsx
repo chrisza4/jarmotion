@@ -1,17 +1,11 @@
 import React from 'react'
-import {
-  StyleSheet,
-  View,
-  ImageBackground,
-  TouchableOpacity,
-  Image,
-  Text
-} from 'react-native'
-import { offWhite } from '../styles/colors'
+import { StyleSheet, View, ImageBackground, Text } from 'react-native'
+import { offWhite, greenish, brownishGrey } from '../styles/colors'
 import ScreenLayout from '../layouts/ScreenLayout'
 import IconPeople from '../uikit/images/IconPeople'
 import MainLogo from '../uikit/images/MainLogo'
 import NotificationButton from '../uikit/buttons/NotificationButton'
+import IconChatNoti from '../uikit/images/IconChatNoti'
 
 const HomePage = () => {
   const styles = StyleSheet.create({
@@ -42,11 +36,27 @@ const HomePage = () => {
       alignSelf: 'center',
       borderRadius: 50,
       marginTop: 35,
-      paddingLeft: 10,
-      paddingTop: 7.5,
-      paddingBottom: 7.5,
-      flexDirection: 'row'
-    }
+      paddingHorizontal: 10,
+      paddingVertical: 7.5,
+      flexDirection: 'row',
+      justifyContent: 'space-between'
+    },
+    textGreeting: {
+      fontFamily: 'poppins-light',
+      color: brownishGrey,
+      fontSize: 10
+    },
+    textTellSomething: {
+      fontFamily: 'poppins-medium',
+      fontSize: 10,
+      color: greenish
+    },
+    chatNotiHolder: {
+      position: 'relative',
+      bottom: -10,
+      right: 10
+    },
+    greetingHolder: { marginTop: 2 }
   })
   return (
     <ScreenLayout>
@@ -63,7 +73,15 @@ const HomePage = () => {
           </View>
           <View style={styles.chatSection}>
             <IconPeople />
-            <Text style={{ color: 'black' }}>Placeholder</Text>
+            <View style={styles.greetingHolder}>
+              <Text style={styles.textGreeting}>Hello Chris</Text>
+              <Text style={styles.textTellSomething}>
+                Tell loved one how you feel?
+              </Text>
+            </View>
+            <View style={styles.chatNotiHolder}>
+              <IconChatNoti />
+            </View>
           </View>
         </ImageBackground>
       </View>
