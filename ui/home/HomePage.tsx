@@ -9,6 +9,9 @@ import {
 } from 'react-native'
 import { offWhite } from '../styles/colors'
 import ScreenLayout from '../layouts/ScreenLayout'
+import IconPeople from '../uikit/images/IconPeople'
+import MainLogo from '../uikit/images/MainLogo'
+import NotificationButton from '../uikit/buttons/NotificationButton'
 
 const HomePage = () => {
   const styles = StyleSheet.create({
@@ -22,16 +25,12 @@ const HomePage = () => {
       resizeMode: 'stretch',
       backgroundColor: 'transparent'
     },
-    notificationButton: {
+    notificationButtonHolder: {
       top: 10,
       right: 10,
-      width: 70,
-      height: 70,
       position: 'absolute'
     },
-    logo: {
-      width: 45,
-      height: 65,
+    logoHolder: {
       resizeMode: 'contain',
       alignSelf: 'center',
       marginTop: 20
@@ -56,17 +55,14 @@ const HomePage = () => {
           style={styles.topBackgroundImage}
           source={require('../../assets/curvy_top_bg.png')}
         >
-          <TouchableOpacity>
-            <Image
-              style={styles.notificationButton}
-              source={require('../../assets/btn_notification.png')}
-            />
-          </TouchableOpacity>
-          <Image
-            source={require('../../assets/logo.png')}
-            style={styles.logo}
-          />
+          <View style={styles.notificationButtonHolder}>
+            <NotificationButton />
+          </View>
+          <View style={styles.logoHolder}>
+            <MainLogo />
+          </View>
           <View style={styles.chatSection}>
+            <IconPeople />
             <Text style={{ color: 'black' }}>Placeholder</Text>
           </View>
         </ImageBackground>
