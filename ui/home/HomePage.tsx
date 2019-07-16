@@ -6,6 +6,7 @@ import IconPeople from '../uikit/images/IconPeople'
 import MainLogo from '../uikit/images/MainLogo'
 import NotificationButton from '../uikit/buttons/NotificationButton'
 import IconChatNoti from '../uikit/images/IconChatNoti'
+import Jar from '../uikit/Jar'
 
 const HomePage = () => {
   const styles = StyleSheet.create({
@@ -56,7 +57,13 @@ const HomePage = () => {
       bottom: -10,
       right: 10
     },
-    greetingHolder: { marginTop: 2 }
+    greetingHolder: { marginTop: 2 },
+    middleSection: {
+      justifyContent: 'center',
+      flexDirection: 'row',
+      width: '100%',
+      marginTop: 31
+    }
   })
   return (
     <ScreenLayout>
@@ -81,6 +88,11 @@ const HomePage = () => {
             </View>
             <View style={styles.chatNotiHolder}>
               <IconChatNoti />
+            </View>
+          </View>
+          <View style={styles.middleSection}>
+            <View>
+              <Jar />
             </View>
           </View>
         </ImageBackground>
