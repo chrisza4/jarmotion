@@ -7,6 +7,8 @@ import MainLogo from '../uikit/images/MainLogo'
 import NotificationButton from '../uikit/buttons/NotificationButton'
 import IconChatNoti from '../uikit/images/IconChatNoti'
 import Jar from '../uikit/Jar'
+import Circle from '../uikit/Circle'
+import NameTag from '../uikit/NameTag'
 
 const styles = StyleSheet.create({
   page: {
@@ -19,9 +21,6 @@ const styles = StyleSheet.create({
     width: '100%',
     resizeMode: 'stretch',
     backgroundColor: 'transparent'
-  },
-  bottomBackgroundImage: {
-    // bottom: -30
   },
   notificationButtonHolder: {
     top: 10,
@@ -66,6 +65,30 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     width: '100%',
     marginTop: 31
+  },
+  bottomSection: {
+    flexDirection: 'row',
+    justifyContent: 'center'
+  },
+  bottomBackgroundImage: {
+    bottom: -20
+  },
+  leftCircle: {
+    top: 50,
+    left: 30,
+    position: 'absolute',
+    backgroundColor: 'white',
+    opacity: 0.5
+  },
+  rightCircle: {
+    right: 43,
+    top: 30,
+    position: 'absolute',
+    backgroundColor: 'white',
+    opacity: 0.5
+  },
+  nameTag: {
+    top: 76
   }
 })
 
@@ -108,7 +131,13 @@ const HomePage = () => {
     <ImageBackground
       style={[styles.backgroundImage, styles.bottomBackgroundImage]}
       source={require('../../assets/curvy_bottom_bg.png')}
-    />
+    >
+      <View style={styles.bottomSection}>
+        <Circle radius={22} style={styles.leftCircle} />
+        <Circle radius={15} style={styles.rightCircle} />
+        <NameTag style={styles.nameTag} name='AWA' />
+      </View>
+    </ImageBackground>
   )
 
   return (
