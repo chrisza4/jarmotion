@@ -3,7 +3,7 @@ import { Image, StyleProp, ViewStyle } from 'react-native'
 import { createAppContainer, BottomTabNavigatorConfig } from 'react-navigation' // 1.0.0-beta.27
 import { createBottomTabNavigator } from 'react-navigation-tabs'
 import HomePage from './home/HomePage'
-import { sicklyYellow } from './styles/colors'
+import { greenish } from './styles/colors'
 import UnderConstructionPage from './UnderConstructionPage'
 
 // Custom Type until PR get merged and add @types definition
@@ -20,6 +20,24 @@ const TabbarIcon = ({ source }) => (
     source={source}
   />
 )
+
+const createTabbarOption: (
+  width: number
+) => JarmotionBottomTabNavigatorConfig = width => {
+  return {
+    tabBarOptions: {
+      showLabel: false,
+      tabStyle: {
+        borderTopWidth: width,
+        borderTopColor: 'transparent'
+      },
+      activeTabButtonStyle: {
+        borderTopColor: greenish,
+        borderTopWidth: width
+      }
+    }
+  }
+}
 
 const bottomTabNavigatorConfig: JarmotionBottomTabNavigatorConfig = {
   defaultNavigationOptions: ({ navigation }) => ({
@@ -44,24 +62,14 @@ const bottomTabNavigatorConfig: JarmotionBottomTabNavigatorConfig = {
       }
     }
   }),
-  tabBarOptions: {
-    showLabel: false,
-    tabStyle: {
-      borderTopWidth: 2,
-      borderTopColor: 'transparent'
-    },
-    activeTabButtonStyle: {
-      borderTopColor: sicklyYellow,
-      borderTopWidth: 2
-    }
-  }
+  ...createTabbarOption(6)
 }
 
 const TabNavigator = createBottomTabNavigator(
   {
     Home: {
       screen: HomePage,
-      navigationOptions: ({ navigation }) => ({})
+      navigationOptions: () => ({})
     },
     Calendar: UnderConstructionPage,
     Diary: UnderConstructionPage,
