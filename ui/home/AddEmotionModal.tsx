@@ -3,6 +3,7 @@ import { View, StyleSheet, Text } from 'react-native'
 import Modal from '../uikit/Modal'
 import { StatusBarHeight } from '../styles/margins'
 import { sicklyYellow } from '../styles/colors'
+import TextButton, { TextButtonStyle } from '../uikit/buttons/TextButton'
 
 type AddEmotionModalProps = {
   show: boolean
@@ -23,11 +24,22 @@ const styles = StyleSheet.create({
   },
   textHeaderDescription: {
     fontFamily: 'poppins-light'
+  },
+  footerHolder: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginLeft: 11,
+    marginRight: 11
   }
 })
 
 const AddEmotionModal = (props: AddEmotionModalProps) => {
-  const footer = <Text>Footer</Text>
+  const footer = (
+    <View style={styles.footerHolder}>
+      <TextButton text='CANCEL' />
+      <TextButton text='ADD' style={TextButtonStyle.BlackButton} />
+    </View>
+  )
   return (
     <Modal show={props.show} showFooter footer={footer}>
       <View style={styles.title}>

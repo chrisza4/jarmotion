@@ -4,3 +4,4 @@ export const greenish = '#627400'
 export const brownishGrey = '#707070'
 export const purple = '#825cba' // Name tag
 export const grayBorder = '#b9b9b9'
+export const blackButton = '#303030'
