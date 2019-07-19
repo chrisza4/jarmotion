@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { StyleSheet, View, ImageBackground, Text, Alert } from 'react-native'
 import { offWhite, greenish, brownishGrey } from '../styles/colors'
 import ScreenLayout from '../layouts/ScreenLayout'
@@ -10,6 +10,7 @@ import Jar from '../uikit/Jar'
 import Circle from '../uikit/Circle'
 import NameTag from '../uikit/NameTag'
 import AddEmotionButton from '../uikit/buttons/AddEmotionButton'
+import AddEmotionModal from './AddEmotionModal'
 
 const styles = StyleSheet.create({
   page: {
@@ -100,8 +101,9 @@ const styles = StyleSheet.create({
 })
 
 const HomePage = () => {
+  const [showAddEmotionModal, setShowAddEmotionModal] = useState(false)
   const onAddEmotion = () => {
-    Alert.alert('Jarmotion', 'Implementing')
+    setShowAddEmotionModal(true)
   }
   const renderTopSection = () => (
     <ImageBackground
@@ -153,6 +155,8 @@ const HomePage = () => {
     </ImageBackground>
   )
 
+  const renderModal = () => <AddEmotionModal show={showAddEmotionModal} />
+
   return (
     <ScreenLayout>
       <View style={styles.page}>
@@ -160,6 +164,7 @@ const HomePage = () => {
         {renderMiddleSection()}
         {renderBottomSection()}
       </View>
+      {renderModal()}
     </ScreenLayout>
   )
 }

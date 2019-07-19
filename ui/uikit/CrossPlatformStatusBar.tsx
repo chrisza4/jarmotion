@@ -1,6 +1,7 @@
 import React from 'react'
 import { StyleSheet, View, StatusBar, Platform } from 'react-native'
 import { isIphoneX } from '../../utils/platforms'
+import { StatusBarHeight } from '../styles/margins'
 
 const CrossPlatformStatusBar = ({ backgroundColor, ...props }) => (
   <View style={[styles.statusBar, { backgroundColor }]}>
@@ -8,12 +9,9 @@ const CrossPlatformStatusBar = ({ backgroundColor, ...props }) => (
   </View>
 )
 
-const STATUSBAR_HEIGHT =
-  Platform.OS === 'ios' ? (isIphoneX() ? 44 : 20) : StatusBar.currentHeight
-
 const styles = StyleSheet.create({
   statusBar: {
-    height: STATUSBAR_HEIGHT
+    height: StatusBarHeight
   }
 })
 
