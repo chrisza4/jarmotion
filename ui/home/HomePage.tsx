@@ -102,9 +102,9 @@ const styles = StyleSheet.create({
 
 const HomePage = () => {
   const [showAddEmotionModal, setShowAddEmotionModal] = useState(false)
-  const onAddEmotion = () => {
-    setShowAddEmotionModal(true)
-  }
+  const onAddEmotion = () => setShowAddEmotionModal(true)
+  const onCloseEmotionModal = () => setShowAddEmotionModal(false)
+
   const renderTopSection = () => (
     <ImageBackground
       style={styles.backgroundImage}
@@ -155,7 +155,9 @@ const HomePage = () => {
     </ImageBackground>
   )
 
-  const renderModal = () => <AddEmotionModal show={showAddEmotionModal} />
+  const renderModal = () => (
+    <AddEmotionModal show={showAddEmotionModal} onClose={onCloseEmotionModal} />
+  )
 
   return (
     <ScreenLayout>

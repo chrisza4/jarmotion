@@ -61,7 +61,7 @@ const TextButton = (props: TextButtonProps) => {
   }
   const buttonStyle = getStyle()
   return (
-    <TouchableOpacity>
+    <TouchableOpacity onPress={props.onPress}>
       <View style={buttonStyle.buttonStyle}>
         <Text style={buttonStyle.textStyle}>{props.text}</Text>
       </View>
