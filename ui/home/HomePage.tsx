@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, View, ImageBackground, Text } from 'react-native'
+import { StyleSheet, View, ImageBackground, Text, Alert } from 'react-native'
 import { offWhite, greenish, brownishGrey } from '../styles/colors'
 import ScreenLayout from '../layouts/ScreenLayout'
 import IconPeople from '../uikit/images/IconPeople'
@@ -9,6 +9,7 @@ import IconChatNoti from '../uikit/images/IconChatNoti'
 import Jar from '../uikit/Jar'
 import Circle from '../uikit/Circle'
 import NameTag from '../uikit/NameTag'
+import AddEmotionButton from '../uikit/buttons/AddEmotionButton'
 
 const styles = StyleSheet.create({
   page: {
@@ -60,11 +61,17 @@ const styles = StyleSheet.create({
     right: 10
   },
   greetingHolder: { marginTop: 2 },
-  middleSection: {
+  jarSection: {
     justifyContent: 'center',
     flexDirection: 'row',
     width: '100%',
     marginTop: 31
+  },
+  addButtonHolder: {
+    justifyContent: 'center',
+    flexDirection: 'row',
+    width: '100%',
+    marginTop: 10
   },
   bottomSection: {
     flexDirection: 'row',
@@ -93,6 +100,9 @@ const styles = StyleSheet.create({
 })
 
 const HomePage = () => {
+  const onAddEmotion = () => {
+    Alert.alert('Jarmotion', 'Implementing')
+  }
   const renderTopSection = () => (
     <ImageBackground
       style={styles.backgroundImage}
@@ -120,9 +130,12 @@ const HomePage = () => {
   )
 
   const renderMiddleSection = () => (
-    <View style={styles.middleSection}>
-      <View>
+    <View>
+      <View style={styles.jarSection}>
         <Jar />
+      </View>
+      <View style={styles.addButtonHolder}>
+        <AddEmotionButton onPress={onAddEmotion} />
       </View>
     </View>
   )
