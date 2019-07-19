@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, ViewStyle, Text, TextStyle } from 'react-native'
+import { Text, TextStyle, View, ViewStyle } from 'react-native'
 import { purple } from '../styles/colors'
 
 export type NameTagProps = {

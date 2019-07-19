@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, StyleSheet, Text, StatusBar } from 'react-native'
+import { View } from 'react-native'
 import { SafeAreaView } from 'react-navigation'
 import { sicklyYellow } from '../styles/colors'
 import CrossPlatformStatusBar from '../uikit/CrossPlatformStatusBar'

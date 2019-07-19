@@ -1,9 +1,7 @@
 import React from 'react'
-import { View, StyleSheet, Text } from 'react-native'
-import Modal from '../uikit/Modal'
-import { StatusBarHeight } from '../styles/margins'
-import { sicklyYellow } from '../styles/colors'
+import { StyleSheet, Text, View } from 'react-native'
 import TextButton, { TextButtonStyle } from '../uikit/buttons/TextButton'
+import Modal from '../uikit/Modal'
 
 type AddEmotionModalProps = {
   show: boolean
@@ -36,7 +34,7 @@ const styles = StyleSheet.create({
 const AddEmotionModal = (props: AddEmotionModalProps) => {
   const footer = (
     <View style={styles.footerHolder}>
-      <TextButton text='CANCEL' />
+      <TextButton text='CANCEL' style={TextButtonStyle.PlainText} />
       <TextButton text='ADD' style={TextButtonStyle.BlackButton} />
     </View>
   )

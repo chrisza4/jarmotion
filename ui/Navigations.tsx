@@ -1,6 +1,6 @@
 import React from 'react'
 import { Image, StyleProp, ViewStyle } from 'react-native'
-import { createAppContainer, BottomTabNavigatorConfig } from 'react-navigation' // 1.0.0-beta.27
+import { BottomTabNavigatorConfig, createAppContainer } from 'react-navigation' // 1.0.0-beta.27
 import { createBottomTabNavigator } from 'react-navigation-tabs'
 import HomePage from './home/HomePage'
 import { greenish } from './styles/colors'
@@ -23,7 +23,7 @@ const TabbarIcon = ({ source }) => (
 
 const createTabbarOption: (
   width: number
-) => JarmotionBottomTabNavigatorConfig = width => {
+) => JarmotionBottomTabNavigatorConfig = (width) => {
   return {
     tabBarOptions: {
       showLabel: false,

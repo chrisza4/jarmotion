@@ -1,9 +1,9 @@
 import React from 'react'
 import {
-  View,
+  StyleSheet,
   Text,
   TouchableOpacity,
-  StyleSheet,
+  View,
   ViewStyle
 } from 'react-native'
 import { blackButton } from '../../styles/colors'

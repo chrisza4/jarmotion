@@ -1,6 +1,5 @@
 import React from 'react'
-import { StyleSheet, View, StatusBar, Platform } from 'react-native'
-import { isIphoneX } from '../../utils/platforms'
+import { StatusBar, StyleSheet, View } from 'react-native'
 import { StatusBarHeight } from '../styles/margins'
 
 const CrossPlatformStatusBar = ({ backgroundColor, ...props }) => (

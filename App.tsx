@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react'
 import * as Font from 'expo-font'
-import Fonts from './ui/styles/fonts'
+import React, { useEffect, useState } from 'react'
 import Navigations from './ui/Navigations'
+import Fonts from './ui/styles/fonts'
 
 export default function App() {
   const [loaded, setLoaded] = useState(false)

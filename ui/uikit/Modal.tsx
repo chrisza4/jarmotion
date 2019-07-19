@@ -1,12 +1,12 @@
 import React, { ReactNode } from 'react'
 import {
   Modal as ReactNativeModal,
-  View,
   StyleSheet,
+  View,
   ViewStyle
 } from 'react-native'
-import { StatusBarHeight } from '../styles/margins'
 import { grayBorder, sicklyYellow } from '../styles/colors'
+import { StatusBarHeight } from '../styles/margins'
 
 type ModalProps = {
   children: React.ReactNode
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
 
 const Modal = (props: ModalProps) => {
   const renderFooter = () => {
-    if (!props.showFooter) return null
+    if (!props.showFooter) { return null }
     const footerStyle = {
       ...styles.footer,
       ...(props.footerStyle || {})
