@@ -5,6 +5,7 @@ import { brownishGrey, greenish, offWhite } from '../styles/colors'
 import AddEmotionButton from '../uikit/buttons/AddEmotionButton'
 import NotificationButton from '../uikit/buttons/NotificationButton'
 import Circle from '../uikit/Circle'
+import Heart from '../uikit/emoji/Heart'
 import IconChatNoti from '../uikit/images/IconChatNoti'
 import IconPeople from '../uikit/images/IconPeople'
 import MainLogo from '../uikit/images/MainLogo'
@@ -135,6 +136,7 @@ const HomePage = () => {
     <View>
       <View style={styles.jarSection}>
         <Jar />
+        <Heart />
       </View>
       <View style={styles.addButtonHolder}>
         <AddEmotionButton onPress={onAddEmotion} />
