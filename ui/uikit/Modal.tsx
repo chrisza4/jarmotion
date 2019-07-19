@@ -1,13 +1,23 @@
-import React from 'react'
-import { Modal as ReactNativeModal, View, StyleSheet } from 'react-native'
+import React, { ReactNode } from 'react'
+import {
+  Modal as ReactNativeModal,
+  View,
+  StyleSheet,
+  ViewStyle
+} from 'react-native'
 import { StatusBarHeight } from '../styles/margins'
-import { grayBorder } from '../styles/colors'
+import { grayBorder, sicklyYellow } from '../styles/colors'
 
 type ModalProps = {
   children: React.ReactNode
   show: boolean
   onClose?: () => void
+  showFooter?: boolean
+  footerStyle?: ViewStyle
+  footer?: ReactNode
 }
+
+const ModalBorderRadius = 15
 
 const styles = StyleSheet.create({
   modalBackground: {
@@ -19,7 +29,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'black',
     opacity: 0.5
   },
-  modalContent: {
+  modalStyle: {
     top: 21 + StatusBarHeight,
     left: 15,
     right: 15,
@@ -28,12 +38,31 @@ const styles = StyleSheet.create({
     opacity: 1,
     position: 'absolute',
     borderColor: grayBorder,
-    borderRadius: 15,
+    borderRadius: ModalBorderRadius
+  },
+  modalContent: {
     padding: 10
+  },
+  footer: {
+    position: 'absolute',
+    bottom: 0,
+    height: 50,
+    width: '100%',
+    backgroundColor: sicklyYellow,
+    borderBottomLeftRadius: ModalBorderRadius,
+    borderBottomRightRadius: ModalBorderRadius
   }
 })
 
 const Modal = (props: ModalProps) => {
+  const renderFooter = () => {
+    if (!props.showFooter) return null
+    const footerStyle = {
+      ...styles.footer,
+      ...(props.footerStyle || {})
+    }
+    return <View style={footerStyle}>{props.footer}</View>
+  }
   return (
     <ReactNativeModal
       animationType='fade'
@@ -42,7 +71,10 @@ const Modal = (props: ModalProps) => {
       onRequestClose={props.onClose}
     >
       <View style={styles.modalBackground} />
-      <View style={styles.modalContent}>{props.children}</View>
+      <View style={styles.modalStyle}>
+        <View style={styles.modalContent}>{props.children}</View>
+        {renderFooter()}
+      </View>
     </ReactNativeModal>
   )
 }

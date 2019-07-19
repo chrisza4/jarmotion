@@ -1,37 +1,45 @@
 import React from 'react'
-import { Text, StyleSheet } from 'react-native'
+import { View, StyleSheet, Text } from 'react-native'
 import Modal from '../uikit/Modal'
 import { StatusBarHeight } from '../styles/margins'
+import { sicklyYellow } from '../styles/colors'
 
 type AddEmotionModalProps = {
   show: boolean
 }
 
 const styles = StyleSheet.create({
-  modalBackground: {
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    position: 'absolute',
-    backgroundColor: 'black',
-    opacity: 0.5
+  title: {
+    marginTop: 5
   },
-  modalContent: {
-    top: 21 + StatusBarHeight,
-    left: 15,
-    right: 15,
-    bottom: 21,
-    backgroundColor: 'white',
-    opacity: 1,
-    position: 'absolute'
+  textCenterHolder: {
+    flexDirection: 'row',
+    width: '100%',
+    justifyContent: 'center'
+  },
+  textHeader: {
+    fontFamily: 'poppins-semibold',
+    fontSize: 21
+  },
+  textHeaderDescription: {
+    fontFamily: 'poppins-light'
   }
 })
 
 const AddEmotionModal = (props: AddEmotionModalProps) => {
+  const footer = <Text>Footer</Text>
   return (
-    <Modal show={props.show}>
-      <Text>Modal</Text>
+    <Modal show={props.show} showFooter footer={footer}>
+      <View style={styles.title}>
+        <View style={styles.textCenterHolder}>
+          <Text style={styles.textHeader}>Tell me how you feel?</Text>
+        </View>
+        <View style={styles.textCenterHolder}>
+          <Text style={styles.textHeaderDescription}>
+            You can select your mood more one.
+          </Text>
+        </View>
+      </View>
     </Modal>
   )
 }
