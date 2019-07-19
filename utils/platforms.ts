@@ -11,10 +11,14 @@ export function isIphoneX() {
   )
 }
 
-export function isIPhoneXSize(dim) {
+type Dimension = {
+  height: number
+  width: number
+}
+export function isIPhoneXSize(dim: Dimension) {
   return dim.height === 812 || dim.width === 812
 }
 
-export function isIPhoneXrSize(dim) {
+export function isIPhoneXrSize(dim: Dimension) {
   return dim.height === 896 || dim.width === 896
 }
