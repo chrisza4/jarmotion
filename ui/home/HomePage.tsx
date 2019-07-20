@@ -8,7 +8,7 @@ import Circle from '../uikit/Circle'
 import IconChatNoti from '../uikit/images/IconChatNoti'
 import IconPeople from '../uikit/images/IconPeople'
 import MainLogo from '../uikit/images/MainLogo'
-import JarContainer from '../uikit/JarContainer'
+import JarContainer from '../uikit/Jar/JarContainer'
 import NameTag from '../uikit/NameTag'
 import AddEmotionModal from './AddEmotionModal'
 
@@ -132,7 +132,7 @@ const HomePage = () => {
 
   const renderMiddleSection = () => (
     <View>
-      <JarContainer style={styles.jarSection} />
+      <JarContainer emojis={[]} />
       <View style={styles.addButtonHolder}>
         <AddEmotionButton onPress={onAddEmotion} />
       </View>

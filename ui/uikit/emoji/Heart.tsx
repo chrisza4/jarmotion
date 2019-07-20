@@ -1,13 +1,9 @@
 import React from 'react'
 import { Animated, Easing } from 'react-native'
 
-type HeartProps = {
-  body: Matter.Body
-}
-
-class Heart extends React.Component<HeartProps> {
+class Heart extends React.Component {
   private RotateValueHolder: Animated.Value
-  constructor(props: HeartProps) {
+  constructor(props: any) {
     super(props)
     this.RotateValueHolder = new Animated.Value(0)
   }
@@ -21,7 +17,7 @@ class Heart extends React.Component<HeartProps> {
     Animated.timing(this.RotateValueHolder, {
       toValue: 1,
       duration: 4000,
-      easing: Easing.bounce,
+      easing: Easing.linear,
       useNativeDriver: true
     }).start(() => this.StartImageRotateFunction())
   }
@@ -34,13 +30,10 @@ class Heart extends React.Component<HeartProps> {
     return (
       <Animated.Image
         style={{
-          position: 'absolute',
-          top: this.props.body.position.y,
-          left: this.props.body.position.x,
           width: 30,
           height: 30,
-          resizeMode: 'contain'
-          // transform: [{ rotate: RotateData }]
+          resizeMode: 'contain',
+          transform: [{ rotate: RotateData }]
         }}
         source={require('../../../assets/emoji_heart.png')}
       />
