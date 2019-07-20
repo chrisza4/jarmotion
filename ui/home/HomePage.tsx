@@ -65,8 +65,7 @@ const styles = StyleSheet.create({
   jarSection: {
     justifyContent: 'center',
     flexDirection: 'row',
-    width: '100%',
-    marginTop: 31
+    width: '100%'
   },
   addButtonHolder: {
     justifyContent: 'center',
@@ -133,9 +132,7 @@ const HomePage = () => {
 
   const renderMiddleSection = () => (
     <View>
-      <View style={styles.jarSection}>
-        <JarContainer />
-      </View>
+      <JarContainer style={styles.jarSection} />
       <View style={styles.addButtonHolder}>
         <AddEmotionButton onPress={onAddEmotion} />
       </View>

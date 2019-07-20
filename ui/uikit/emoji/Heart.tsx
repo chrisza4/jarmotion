@@ -39,8 +39,8 @@ class Heart extends React.Component<HeartProps> {
           left: this.props.body.position.x,
           width: 30,
           height: 30,
-          resizeMode: 'contain',
-          transform: [{ rotate: RotateData }]
+          resizeMode: 'contain'
+          // transform: [{ rotate: RotateData }]
         }}
         source={require('../../../assets/emoji_heart.png')}
       />
