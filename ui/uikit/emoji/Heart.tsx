@@ -1,9 +1,13 @@
 import React from 'react'
 import { Animated, Easing } from 'react-native'
 
-class Heart extends React.Component {
+type HeartProps = {
+  body: Matter.Body
+}
+
+class Heart extends React.Component<HeartProps> {
   private RotateValueHolder: Animated.Value
-  constructor(props: {}) {
+  constructor(props: HeartProps) {
     super(props)
     this.RotateValueHolder = new Animated.Value(0)
   }
@@ -30,6 +34,9 @@ class Heart extends React.Component {
     return (
       <Animated.Image
         style={{
+          position: 'absolute',
+          top: this.props.body.position.y,
+          left: this.props.body.position.x,
           width: 30,
           height: 30,
           resizeMode: 'contain',
