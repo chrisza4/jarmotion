@@ -62,11 +62,6 @@ const styles = StyleSheet.create({
     right: 10
   },
   greetingHolder: { marginTop: 2 },
-  jarSection: {
-    justifyContent: 'center',
-    flexDirection: 'row',
-    width: '100%'
-  },
   addButtonHolder: {
     justifyContent: 'center',
     flexDirection: 'row',

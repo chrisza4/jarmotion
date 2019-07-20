@@ -1,24 +1,12 @@
 import React from 'react'
-import { View } from 'react-native'
+import { Dimensions, View } from 'react-native'
 import { GameEngine } from 'react-native-game-engine'
 import Heart from '../emoji/Heart'
 import Jar from './Jar'
+import { JarHeight, JarWidth } from './JarConstants'
 import { getEngine } from './JarEngine'
 import PhysicalEmojiWrapper from './PhyscialEmojiWrapper'
 
-const Overlay = () => (
-  <View
-    style={{
-      position: 'absolute',
-      top: 0,
-      bottom: 0,
-      left: 0,
-      right: 0,
-      backgroundColor: 'gray',
-      opacity: 0.2
-    }}
-  />
-)
 const {
   Physics,
   engine,
@@ -27,7 +15,7 @@ const {
   circles,
   wallLeft,
   wallRight
-} = getEngine(130, 222)
+} = getEngine(JarWidth, JarHeight)
 
 interface IEmoji {
   a?: any
@@ -42,28 +30,38 @@ interface IJarContainerProps {
 const JarContainer = (props: IJarContainerProps) => {
   const top = props.top || 0
   const left = props.left || 0
+  const jarLeftCenter = (Dimensions.get('screen').width - JarWidth) / 2
   return (
-    <GameEngine
-      systems={[Physics]} // Array of Systems
-      entities={{
-        physics: { engine, world },
-        ground: { ...ground, renderer: Box },
-        ...circles.map(c => ({ ...c, renderer: PhysicalEmojiWrapper(Heart) })),
-        wallLeft: { ...wallLeft, renderer: Box },
-        wallRight: { ...wallRight, renderer: Box }
-      }}
+    <View
       style={{
-        position: 'absolute',
-        width: '100%',
-        top,
-        left
+        height: JarHeight,
+        left: jarLeftCenter
       }}
     >
-      <Overlay />
-      <View style={{ position: 'absolute', left: 0 }}>
-        <Jar />
-      </View>
-    </GameEngine>
+      <GameEngine
+        systems={[Physics]} // Array of Systems
+        entities={{
+          physics: { engine, world },
+          ground: { ...ground, renderer: Box },
+          ...circles.map(c => ({
+            ...c,
+            renderer: PhysicalEmojiWrapper(Heart)
+          })),
+          wallLeft: { ...wallLeft, renderer: Box },
+          wallRight: { ...wallRight, renderer: Box }
+        }}
+        style={{
+          position: 'absolute',
+          width: '100%',
+          top,
+          left
+        }}
+      >
+        <View style={{ position: 'absolute', left: 0 }}>
+          <Jar />
+        </View>
+      </GameEngine>
+    </View>
   )
 }
 
