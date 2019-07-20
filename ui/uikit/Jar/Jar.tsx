@@ -1,15 +1,16 @@
 import React from 'react'
 import { Image } from 'react-native'
+import { JarHeight, JarWidth } from './JarConstants'
 
 const Jar = () => {
   return (
     <Image
       style={{
-        width: 130,
-        height: 222,
+        width: JarWidth,
+        height: JarHeight,
         resizeMode: 'contain'
       }}
-      source={require('../../assets/jar.png')}
+      source={require('../../../assets/jar.png')}
     />
   )
 }

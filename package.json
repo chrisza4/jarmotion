@@ -13,14 +13,17 @@
     "expo": "^33.0.0",
     "expo-font": "^5.0.1",
     "lodash": "^4.17.15",
+    "matter-js": "^0.14.2",
     "react": "16.8.3",
     "react-dom": "^16.8.6",
     "react-native": "https://github.com/expo/react-native/archive/sdk-33.0.0.tar.gz",
+    "react-native-game-engine": "^0.11.5",
     "react-native-web": "^0.11.4",
     "react-navigation": "^3.11.1",
     "react-navigation-tabs": "git+https://github.com/chrisza4/tabs.git"
   },
   "devDependencies": {
+    "@types/matter-js": "^0.10.2",
     "@types/react": "^16.8.19",
     "@types/react-native": "^0.57.60",
     "babel-preset-expo": "^5.1.1",

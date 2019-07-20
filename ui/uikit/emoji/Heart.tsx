@@ -3,7 +3,7 @@ import { Animated, Easing } from 'react-native'
 
 class Heart extends React.Component {
   private RotateValueHolder: Animated.Value
-  constructor(props: {}) {
+  constructor(props: any) {
     super(props)
     this.RotateValueHolder = new Animated.Value(0)
   }
@@ -17,7 +17,7 @@ class Heart extends React.Component {
     Animated.timing(this.RotateValueHolder, {
       toValue: 1,
       duration: 4000,
-      easing: Easing.bounce,
+      easing: Easing.linear,
       useNativeDriver: true
     }).start(() => this.StartImageRotateFunction())
   }
