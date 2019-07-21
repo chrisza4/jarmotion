@@ -6,31 +6,33 @@ import Jar from './Jar'
 import { JarHeight, JarWidth } from './JarConstants'
 import { getEngine } from './JarEngine'
 import PhysicalEmojiWrapper from './PhyscialEmojiWrapper'
+import { IEmoji, IJarEngine } from './Types'
 
-const {
-  Physics,
-  engine,
-  world,
-  ground,
-  circles,
-  wallLeft,
-  wallRight
-} = getEngine(JarWidth, JarHeight)
-
-interface IEmoji {
-  a?: any
-}
+let engineInstance: IJarEngine | null = null
 
 interface IJarContainerProps {
   emojis: IEmoji[]
   top?: number
   left?: number
+  init?: boolean
 }
 
 const JarContainer = (props: IJarContainerProps) => {
   const top = props.top || 0
   const left = props.left || 0
   const jarLeftCenter = (Dimensions.get('screen').width - JarWidth) / 2
+  if (!engineInstance) {
+    engineInstance = getEngine(JarWidth, JarHeight, props.emojis)
+  }
+  const {
+    Physics,
+    engine,
+    world,
+    ground,
+    emojis,
+    wallLeft,
+    wallRight
+  } = engineInstance
   return (
     <View
       style={{
@@ -43,7 +45,7 @@ const JarContainer = (props: IJarContainerProps) => {
         entities={{
           physics: { engine, world },
           ground: { ...ground, renderer: Box },
-          ...circles.map(c => ({
+          ...emojis.map(c => ({
             ...c,
             renderer: PhysicalEmojiWrapper(Heart)
           })),

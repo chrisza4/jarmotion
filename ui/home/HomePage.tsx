@@ -9,6 +9,8 @@ import IconChatNoti from '../uikit/images/IconChatNoti'
 import IconPeople from '../uikit/images/IconPeople'
 import MainLogo from '../uikit/images/MainLogo'
 import JarContainer from '../uikit/Jar/JarContainer'
+import { EmojiType } from '../uikit/Jar/Types'
+import { IEmoji } from '../uikit/Jar/Types'
 import NameTag from '../uikit/NameTag'
 import AddEmotionModal from './AddEmotionModal'
 
@@ -125,14 +127,22 @@ const HomePage = () => {
     </ImageBackground>
   )
 
-  const renderMiddleSection = () => (
-    <View>
-      <JarContainer emojis={[]} />
-      <View style={styles.addButtonHolder}>
-        <AddEmotionButton onPress={onAddEmotion} />
+  const renderMiddleSection = () => {
+    const emojis: IEmoji[] = [
+      { emojiType: EmojiType.Heart },
+      { emojiType: EmojiType.Heart },
+      { emojiType: EmojiType.Heart },
+      { emojiType: EmojiType.Heart }
+    ]
+    return (
+      <View>
+        <JarContainer emojis={emojis} />
+        <View style={styles.addButtonHolder}>
+          <AddEmotionButton onPress={onAddEmotion} />
+        </View>
       </View>
-    </View>
-  )
+    )
+  }
 
   const renderBottomSection = () => (
     <ImageBackground

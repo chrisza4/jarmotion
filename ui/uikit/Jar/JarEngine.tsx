@@ -1,9 +1,18 @@
 import Matter from 'matter-js'
+import { IEmoji } from './Types'
+import {
+  EmojiType,
+  IGameEngineEmoji,
+  IJarEngine,
+  PhysicsEngineFunc
+} from './Types'
 
-type PhyisicsEngineFunc = (entities: any, time: any) => any
-
-export function getEngine(jarWidth: number, jarHeight: number) {
-  const Physics: PhyisicsEngineFunc = (entities, { time }) => {
+export function getEngine(
+  jarWidth: number,
+  jarHeight: number,
+  emojis: IEmoji[]
+): IJarEngine {
+  const Physics: PhysicsEngineFunc = (entities, { time }) => {
     Matter.Engine.update(entities.physics.engine, time.delta)
     return entities
   }
@@ -50,7 +59,7 @@ export function getEngine(jarWidth: number, jarHeight: number) {
     }
   }
 
-  const getCircle = () => ({
+  const getCircle = (emojiType: EmojiType): IGameEngineEmoji => ({
     body: Matter.Bodies.circle(
       jarWidth / 2,
       100,
@@ -62,30 +71,17 @@ export function getEngine(jarWidth: number, jarHeight: number) {
       },
       6
     ),
-    radius: 15
+    radius: 15,
+    emojiType
   })
 
-  const circles = [
-    getCircle(),
-    getCircle(),
-    getCircle(),
-    getCircle(),
-    getCircle(),
-    getCircle(),
-    getCircle(),
-    getCircle(),
-    getCircle(),
-    getCircle(),
-    getCircle(),
-    getCircle(),
-    getCircle()
-  ]
+  const emojiBodies = emojis.map(emoji => getCircle(emoji.emojiType))
 
   // ============================================================
 
   Matter.World.add(world, [
     ground.body,
-    ...circles.map(c => c.body),
+    ...emojiBodies.map(c => c.body),
     wallLeft.body,
     wallRight.body
   ])
@@ -95,7 +91,7 @@ export function getEngine(jarWidth: number, jarHeight: number) {
     engine,
     world,
     ground,
-    circles,
+    emojis: emojiBodies,
     wallLeft,
     wallRight
   }
