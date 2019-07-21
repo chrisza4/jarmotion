@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Dimensions, View } from 'react-native'
 import { GameEngine } from 'react-native-game-engine'
 import Heart from '../emoji/Heart'
@@ -6,7 +6,13 @@ import Jar from './Jar'
 import { JarHeight, JarWidth } from './JarConstants'
 import { getEngine } from './JarEngine'
 import PhysicalEmojiWrapper from './PhyscialEmojiWrapper'
-import { IEmoji, IJarEngine } from './Types'
+import {
+  EmojiType,
+  IEmoji,
+  IGameEngineEmoji,
+  IJarEngine,
+  PhysicsEngineFunc
+} from './Types'
 
 let engineInstance: IJarEngine | null = null
 
@@ -17,6 +23,15 @@ interface IJarContainerProps {
   init?: boolean
 }
 
+let timeoutState = 'no'
+
+const withRenderer = (emoji: IGameEngineEmoji) => {
+  switch (emoji.emojiType) {
+    case EmojiType.Heart:
+    default:
+      return { ...emoji, renderer: PhysicalEmojiWrapper(Heart) }
+  }
+}
 const JarContainer = (props: IJarContainerProps) => {
   const top = props.top || 0
   const left = props.left || 0
@@ -33,6 +48,25 @@ const JarContainer = (props: IJarContainerProps) => {
     wallLeft,
     wallRight
   } = engineInstance
+
+  const emojisObj = emojis.map(c => withRenderer(c))
+
+  const updateEntities: PhysicsEngineFunc = entities => {
+    if (timeoutState === 'no') {
+      timeoutState = 'wait-for-kick-in'
+      setInterval(() => {
+        if (engineInstance) {
+          const gameEngineEmojis = engineInstance.addEmoji({
+            emojiType: EmojiType.Heart
+          })
+          entities.new = withRenderer(gameEngineEmojis)
+        }
+      }, 2000)
+    } else if (timeoutState === 'kick-in') {
+      timeoutState = 'done'
+    }
+    return entities
+  }
   return (
     <View
       style={{
@@ -41,14 +75,11 @@ const JarContainer = (props: IJarContainerProps) => {
       }}
     >
       <GameEngine
-        systems={[Physics]} // Array of Systems
+        systems={[Physics, updateEntities]} // Array of Systems
         entities={{
           physics: { engine, world },
           ground: { ...ground, renderer: Box },
-          ...emojis.map(c => ({
-            ...c,
-            renderer: PhysicalEmojiWrapper(Heart)
-          })),
+          ...emojisObj,
           wallLeft: { ...wallLeft, renderer: Box },
           wallRight: { ...wallRight, renderer: Box }
         }}

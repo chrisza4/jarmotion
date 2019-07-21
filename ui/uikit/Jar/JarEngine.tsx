@@ -59,7 +59,7 @@ export function getEngine(
     }
   }
 
-  const getCircle = (emojiType: EmojiType): IGameEngineEmoji => ({
+  const getEmojiBody = (emojiType: EmojiType): IGameEngineEmoji => ({
     body: Matter.Bodies.circle(
       jarWidth / 2,
       100,
@@ -75,7 +75,7 @@ export function getEngine(
     emojiType
   })
 
-  const emojiBodies = emojis.map(emoji => getCircle(emoji.emojiType))
+  const emojiBodies = emojis.map(emoji => getEmojiBody(emoji.emojiType))
 
   // ============================================================
 
@@ -93,6 +93,11 @@ export function getEngine(
     ground,
     emojis: emojiBodies,
     wallLeft,
-    wallRight
+    wallRight,
+    addEmoji: (emoji: IEmoji): IGameEngineEmoji => {
+      const emojiBody = getEmojiBody(emoji.emojiType)
+      Matter.World.add(world, emojiBody.body)
+      return emojiBody
+    }
   }
 }

@@ -30,4 +30,5 @@ export interface IJarEngine {
   wallLeft: IGameEngineWall
   wallRight: IGameEngineWall
   emojis: IGameEngineEmoji[]
+  addEmoji: (emoji: IEmoji) => IGameEngineEmoji
 }
