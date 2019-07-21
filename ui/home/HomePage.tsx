@@ -98,8 +98,17 @@ const styles = StyleSheet.create({
 
 const HomePage = () => {
   const [showAddEmotionModal, setShowAddEmotionModal] = useState(false)
-  const onAddEmotion = () => setShowAddEmotionModal(true)
-  const onCloseEmotionModal = () => setShowAddEmotionModal(false)
+  const [emojis, setEmojis] = useState([
+    { emojiType: EmojiType.Heart },
+    { emojiType: EmojiType.Heart },
+    { emojiType: EmojiType.Heart },
+    { emojiType: EmojiType.Heart }
+  ])
+
+  const onOpenEmojiModal = () => setShowAddEmotionModal(true)
+  const onAddEmoji = () =>
+    setEmojis([...emojis, { emojiType: EmojiType.Heart }])
+  const onCloseEmojiModal = () => setShowAddEmotionModal(false)
 
   const renderTopSection = () => (
     <ImageBackground
@@ -128,17 +137,11 @@ const HomePage = () => {
   )
 
   const renderMiddleSection = () => {
-    const emojis: IEmoji[] = [
-      { emojiType: EmojiType.Heart },
-      { emojiType: EmojiType.Heart },
-      { emojiType: EmojiType.Heart },
-      { emojiType: EmojiType.Heart }
-    ]
     return (
       <View>
         <JarContainer emojis={emojis} />
         <View style={styles.addButtonHolder}>
-          <AddEmotionButton onPress={onAddEmotion} />
+          <AddEmotionButton onPress={onAddEmoji} />
         </View>
       </View>
     )
@@ -158,7 +161,7 @@ const HomePage = () => {
   )
 
   const renderModal = () => (
-    <AddEmotionModal show={showAddEmotionModal} onClose={onCloseEmotionModal} />
+    <AddEmotionModal show={showAddEmotionModal} onClose={onCloseEmojiModal} />
   )
 
   return (
