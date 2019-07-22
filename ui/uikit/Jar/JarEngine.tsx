@@ -59,21 +59,24 @@ export function getEngine(
     }
   }
 
-  const getEmojiBody = (emojiType: EmojiType): IGameEngineEmoji => ({
-    body: Matter.Bodies.circle(
-      jarWidth / 2,
-      100,
-      10,
-      {
-        angle: 30,
-        frictionAir: 0,
-        restitution: 0.52
-      },
-      6
-    ),
-    radius: 15,
-    emojiType
-  })
+  const getEmojiBody = (emojiType: EmojiType): IGameEngineEmoji => {
+    const radius = 10
+    return {
+      body: Matter.Bodies.circle(
+        jarWidth / 2 - radius,
+        10,
+        radius,
+        {
+          angle: 30,
+          frictionAir: 0,
+          restitution: 0.52
+        },
+        6
+      ),
+      radius: 15,
+      emojiType
+    }
+  }
 
   const emojiBodies = emojis.map(emoji => getEmojiBody(emoji.emojiType))
 

@@ -948,6 +948,11 @@
   resolved "https://registry.yarnpkg.com/@types/matter-js/-/matter-js-0.10.2.tgz#49c20c23316637538c860f6d2e3d4d89b20a6551"
   integrity sha512-7zg46Fx+nPIZ+WlK0Xud8L2IKk9BsilA7hgw+60o75/hM0fnx5MgufCpNPQB+69N+0WFirX5fhoHdmYdzkwdGw==
 
+"@types/node@*":
+  version "12.6.8"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.6.8.tgz#e469b4bf9d1c9832aee4907ba8a051494357c12c"
+  integrity sha512-aX+gFgA5GHcDi89KG5keey2zf0WfZk/HAQotEamsK2kbey+8yGKcson0hbK8E+v0NArlCJQCqMP161YhV6ZXLg==
+
 "@types/prop-types@*":
   version "15.7.1"
   resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.1.tgz#f1a11e7babb0c3cad68100be381d1e064c68f1f6"
@@ -994,6 +999,13 @@
   version "0.7.2"
   resolved "https://registry.yarnpkg.com/@types/uuid-js/-/uuid-js-0.7.2.tgz#5b5552fcbaaf4acf026fb6dc66f7e5bd6b4be92f"
   integrity sha512-9R+mA6mMXkFVQnXEeX5fMQDR2SYND7cafJTqbeMpLhgsL7qr7MF4ZBxWpLexml3lZsBsyAmqVWbOiB0N10m15w==
+
+"@types/uuid@^3.4.5":
+  version "3.4.5"
+  resolved "https://registry.yarnpkg.com/@types/uuid/-/uuid-3.4.5.tgz#d4dc10785b497a1474eae0ba7f0cb09c0ddfd6eb"
+  integrity sha512-MNL15wC3EKyw1VLF+RoVO4hJJdk9t/Hlv3rt1OL65Qvuadm4BYo6g9ZJQqoq7X8NBFSsQXgAujWciovh2lpVjA==
+  dependencies:
+    "@types/node" "*"
 
 "@types/websql@^0.0.27":
   version "0.0.27"

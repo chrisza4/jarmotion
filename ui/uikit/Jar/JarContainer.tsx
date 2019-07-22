@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Dimensions, View } from 'react-native'
 import { GameEngine } from 'react-native-game-engine'
+import uuid from 'uuid'
 import Heart from '../emoji/Heart'
 import Jar from './Jar'
 import { JarHeight, JarWidth } from './JarConstants'
@@ -53,13 +54,13 @@ const JarContainer = (props: IJarContainerProps) => {
 
   const updateEntities: PhysicsEngineFunc = entities => {
     if (timeoutState === 'no') {
-      timeoutState = 'wait-for-kick-in'
+      timeoutState = 'setup'
       setInterval(() => {
-        if (engineInstance) {
+        if (engineInstance && Object.keys(entities).length < 40) {
           const gameEngineEmojis = engineInstance.addEmoji({
             emojiType: EmojiType.Heart
           })
-          entities.new = withRenderer(gameEngineEmojis)
+          entities[uuid.v4()] = withRenderer(gameEngineEmojis)
         }
       }, 2000)
     } else if (timeoutState === 'kick-in') {
