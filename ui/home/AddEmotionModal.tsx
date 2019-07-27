@@ -1,12 +1,14 @@
 import _ from 'lodash'
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
+import { EmojiType } from '../../domains/emojis/Types'
 import TextButton, { TextButtonStyle } from '../uikit/buttons/TextButton'
 import Modal from '../uikit/Modal'
 
 type AddEmotionModalProps = {
   show: boolean
   onClose?: () => void
+  onAddEmoji?: (emoji: EmojiType) => void
 }
 
 const styles = StyleSheet.create({
@@ -60,7 +62,13 @@ const AddEmotionModal = (props: AddEmotionModalProps) => {
         style={TextButtonStyle.PlainText}
         onPress={props.onClose || _.noop}
       />
-      <TextButton text='ADD' style={TextButtonStyle.BlackButton} />
+      <TextButton
+        text='ADD'
+        style={TextButtonStyle.BlackButton}
+        onPress={() =>
+          props.onAddEmoji ? props.onAddEmoji(EmojiType.Heart) : _.noop
+        }
+      />
     </View>
   )
 

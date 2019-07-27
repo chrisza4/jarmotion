@@ -1,9 +1,13 @@
 import Matter from 'matter-js'
+import { EmojiType, IEmoji } from '../../../domains/emojis/Types'
+import { IGameEngineEmoji, IJarEngine, PhysicsEngineFunc } from './Types'
 
-type PhyisicsEngineFunc = (entities: any, time: any) => any
-
-export function getEngine(jarWidth: number, jarHeight: number) {
-  const Physics: PhyisicsEngineFunc = (entities, { time }) => {
+export function getEngine(
+  jarWidth: number,
+  jarHeight: number,
+  emojis: IEmoji[]
+): IJarEngine {
+  const Physics: PhysicsEngineFunc = (entities, { time }) => {
     Matter.Engine.update(entities.physics.engine, time.delta)
     return entities
   }
@@ -12,7 +16,7 @@ export function getEngine(jarWidth: number, jarHeight: number) {
   const world = engine.world
 
   // ==================== Shapes ===============================
-  const groundHeight = 100
+  const groundHeight = 1000
   const wallWidth = 30
   const ground = {
     body: Matter.Bodies.rectangle(
@@ -29,11 +33,17 @@ export function getEngine(jarWidth: number, jarHeight: number) {
       height: groundHeight
     }
   }
-
+  const wallMargin = 10 // Margin between exact border of Jar and area that holding emojis
   const wallLeft = {
-    body: Matter.Bodies.rectangle(0, jarHeight, wallWidth, 1000, {
-      isStatic: true
-    }),
+    body: Matter.Bodies.rectangle(
+      0 - wallWidth + wallMargin,
+      jarHeight,
+      wallWidth,
+      1000,
+      {
+        isStatic: true
+      }
+    ),
     size: {
       width: wallWidth,
       height: 1000
@@ -41,51 +51,60 @@ export function getEngine(jarWidth: number, jarHeight: number) {
   }
 
   const wallRight = {
-    body: Matter.Bodies.rectangle(jarWidth - 10, jarHeight, wallWidth, 1000, {
-      isStatic: true
-    }),
+    body: Matter.Bodies.rectangle(
+      jarWidth - wallMargin,
+      jarHeight,
+      wallWidth,
+      1000,
+      {
+        isStatic: true
+      }
+    ),
     size: {
       width: wallWidth,
       height: 1000
     }
   }
 
-  const getCircle = () => ({
-    body: Matter.Bodies.circle(
-      jarWidth / 2,
-      100,
-      10,
-      {
-        angle: 30,
-        frictionAir: 0,
-        restitution: 0.52
-      },
-      6
-    ),
-    radius: 15
-  })
+  const getEmojiBody = (emojiType: EmojiType): IGameEngineEmoji => {
+    const radius = 11
+    const x = jarWidth / 2 - radius // Center of Jar
+    const y = 10 // Down a little bit
+    // return {
+    //   body: Matter.Bodies.rectangle(x, y, 22, 22, {
+    //     frictionAir: 0,
+    //     restitution: 0,
+    //     mass: 100
+    //   }),
+    //   radius,
+    //   emojiType
+    // }
+    return {
+      body: Matter.Bodies.circle(
+        jarWidth / 2 - radius,
+        10,
+        radius,
+        {
+          angle: 30,
+          frictionAir: 0,
+          restitution: 0,
+          mass: 0.0000000000000000000000001,
+          frictionStatic: 0.8
+        },
+        6
+      ),
+      radius,
+      emojiType
+    }
+  }
 
-  const circles = [
-    getCircle(),
-    getCircle(),
-    getCircle(),
-    getCircle(),
-    getCircle(),
-    getCircle(),
-    getCircle(),
-    getCircle(),
-    getCircle(),
-    getCircle(),
-    getCircle(),
-    getCircle(),
-    getCircle()
-  ]
+  const emojiBodies = emojis.map(emoji => getEmojiBody(emoji.emojiType))
 
   // ============================================================
 
   Matter.World.add(world, [
     ground.body,
-    ...circles.map(c => c.body),
+    ...emojiBodies.map(c => c.body),
     wallLeft.body,
     wallRight.body
   ])
@@ -95,8 +114,13 @@ export function getEngine(jarWidth: number, jarHeight: number) {
     engine,
     world,
     ground,
-    circles,
+    emojis: emojiBodies,
     wallLeft,
-    wallRight
+    wallRight,
+    addEmoji: (emojiType: EmojiType): IGameEngineEmoji => {
+      const emojiBody = getEmojiBody(emojiType)
+      Matter.World.add(world, emojiBody.body)
+      return emojiBody
+    }
   }
 }
