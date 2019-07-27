@@ -21,7 +21,7 @@ export function getEngine(
   const world = engine.world
 
   // ==================== Shapes ===============================
-  const groundHeight = 100
+  const groundHeight = 1000
   const wallWidth = 30
   const ground = {
     body: Matter.Bodies.rectangle(
@@ -60,7 +60,18 @@ export function getEngine(
   }
 
   const getEmojiBody = (emojiType: EmojiType): IGameEngineEmoji => {
-    const radius = 10
+    const radius = 11
+    const x = jarWidth / 2 - radius // Center of Jar
+    const y = 10 // Down a little bit
+    // return {
+    //   body: Matter.Bodies.rectangle(x, y, 22, 22, {
+    //     frictionAir: 0,
+    //     restitution: 0,
+    //     mass: 100
+    //   }),
+    //   radius,
+    //   emojiType
+    // }
     return {
       body: Matter.Bodies.circle(
         jarWidth / 2 - radius,
@@ -69,11 +80,13 @@ export function getEngine(
         {
           angle: 30,
           frictionAir: 0,
-          restitution: 0.52
+          restitution: 0,
+          mass: 0.0000000000000000000000001,
+          frictionStatic: 0.8
         },
         6
       ),
-      radius: 15,
+      radius,
       emojiType
     }
   }

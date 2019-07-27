@@ -56,7 +56,7 @@ const JarContainer = (props: IJarContainerProps) => {
     if (timeoutState === 'no') {
       timeoutState = 'setup'
       setInterval(() => {
-        if (engineInstance && Object.keys(entities).length < 40) {
+        if (engineInstance && Object.keys(entities).length < 20) {
           const gameEngineEmojis = engineInstance.addEmoji({
             emojiType: EmojiType.Heart
           })
