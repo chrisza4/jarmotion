@@ -4,4 +4,5 @@ export enum EmojiType {
 
 export interface IEmoji {
   emojiType: EmojiType
+  id: string
 }

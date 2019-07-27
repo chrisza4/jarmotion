@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { ImageBackground, StyleSheet, Text, View } from 'react-native'
-import { EmojiType } from '../../domains/emojis/Types'
+import uuid from 'uuid'
+import { EmojiType, IEmoji } from '../../domains/emojis/Types'
 import ScreenLayout from '../layouts/ScreenLayout'
 import { brownishGrey, greenish, offWhite } from '../styles/colors'
 import AddEmotionButton from '../uikit/buttons/AddEmotionButton'
@@ -98,14 +99,18 @@ const styles = StyleSheet.create({
 const HomePage = () => {
   const [showAddEmotionModal, setShowAddEmotionModal] = useState(false)
   const [emojis, setEmojis] = useState([
-    { emojiType: EmojiType.Heart },
-    { emojiType: EmojiType.Heart },
-    { emojiType: EmojiType.Heart },
-    { emojiType: EmojiType.Heart }
+    { id: uuid.v4(), emojiType: EmojiType.Heart },
+    { id: uuid.v4(), emojiType: EmojiType.Heart },
+    { id: uuid.v4(), emojiType: EmojiType.Heart },
+    { id: uuid.v4(), emojiType: EmojiType.Heart }
   ])
 
   const onOpenEmojiModal = () => setShowAddEmotionModal(true)
-  // const onAddEmoji = (emojiType: EmojiType) => {}
+  const onAddEmoji = (emojiType: EmojiType) => {
+    const newEmoji: IEmoji = { id: uuid.v4(), emojiType }
+    setEmojis([...emojis, newEmoji])
+    setShowAddEmotionModal(false)
+  }
   const onCloseEmojiModal = () => setShowAddEmotionModal(false)
 
   const renderTopSection = () => (
@@ -162,7 +167,7 @@ const HomePage = () => {
     <AddEmotionModal
       show={showAddEmotionModal}
       onClose={onCloseEmojiModal}
-      onAdd={onAddEmoji}
+      onAddEmoji={onAddEmoji}
     />
   )
 

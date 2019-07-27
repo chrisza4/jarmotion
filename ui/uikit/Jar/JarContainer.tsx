@@ -1,8 +1,9 @@
-import React from 'react'
+import _ from 'lodash'
+import React, { useEffect } from 'react'
 import { Dimensions, View } from 'react-native'
 import { GameEngine } from 'react-native-game-engine'
-import uuid from 'uuid'
 import { EmojiType, IEmoji } from '../../../domains/emojis/Types'
+import { usePrevious } from '../../../utils/reactHooks'
 import Heart from '../emoji/Heart'
 import Jar from './Jar'
 import { JarHeight, JarWidth } from './JarConstants'
@@ -18,8 +19,6 @@ interface IJarContainerProps {
   left?: number
   init?: boolean
 }
-
-let timeoutState = 'no'
 
 const withRenderer = (emoji: IGameEngineEmoji) => {
   switch (emoji.emojiType) {
@@ -48,22 +47,34 @@ const JarContainer = (props: IJarContainerProps) => {
 
   const emojisObj = emojis.map(c => withRenderer(c))
 
-  const updateEntities: PhysicsEngineFunc = entities => {
-    if (timeoutState === 'no') {
-      timeoutState = 'setup'
-      setInterval(() => {
-        if (engineInstance && Object.keys(entities).length < 20) {
-          const gameEngineEmojis = engineInstance.addEmoji({
-            emojiType: EmojiType.Heart
-          })
-          entities[uuid.v4()] = withRenderer(gameEngineEmojis)
-        }
-      }, 2000)
-    } else if (timeoutState === 'kick-in') {
-      timeoutState = 'done'
+  // Compare previous emojis and get to update queue
+  let emojiAddingQueue: IEmoji[] = []
+  const previousEmojis = usePrevious(props.emojis)
+  useEffect(() => {
+    if (!previousEmojis) {
+      return
     }
+    const prevEmojisByKey = _.keyBy(previousEmojis, emoji => emoji.id)
+    for (const emoji of props.emojis) {
+      if (!prevEmojisByKey[emoji.id]) {
+        emojiAddingQueue.push(emoji)
+      }
+    }
+  }, [props.emojis])
+
+  // Update if queue is exists
+  const updateEntities: PhysicsEngineFunc = entities => {
+    if (!engineInstance || emojiAddingQueue.length === 0) {
+      return entities
+    }
+    for (const emojiToAdd of emojiAddingQueue) {
+      const gameEngineEmojis = engineInstance.addEmoji(emojiToAdd.emojiType)
+      entities[emojiToAdd.id] = withRenderer(gameEngineEmojis)
+    }
+    emojiAddingQueue = []
     return entities
   }
+
   return (
     <View
       style={{

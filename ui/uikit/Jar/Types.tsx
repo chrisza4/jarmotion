@@ -1,4 +1,4 @@
-import { EmojiType, IEmoji } from '../../../domains/emojis/Types'
+import { EmojiType } from '../../../domains/emojis/Types'
 
 interface IGameEngineWall {
   body: Matter.Body
@@ -24,5 +24,5 @@ export interface IJarEngine {
   wallLeft: IGameEngineWall
   wallRight: IGameEngineWall
   emojis: IGameEngineEmoji[]
-  addEmoji: (emoji: IEmoji) => IGameEngineEmoji
+  addEmoji: (emojiType: EmojiType) => IGameEngineEmoji
 }

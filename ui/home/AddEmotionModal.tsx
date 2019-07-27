@@ -8,7 +8,7 @@ import Modal from '../uikit/Modal'
 type AddEmotionModalProps = {
   show: boolean
   onClose?: () => void
-  onAdd?: (emoji: EmojiType) => void
+  onAddEmoji?: (emoji: EmojiType) => void
 }
 
 const styles = StyleSheet.create({
@@ -65,7 +65,9 @@ const AddEmotionModal = (props: AddEmotionModalProps) => {
       <TextButton
         text='ADD'
         style={TextButtonStyle.BlackButton}
-        onPress={() => (props.onAdd ? props.onAdd(EmojiType.Heart) : _.noop)}
+        onPress={() =>
+          props.onAddEmoji ? props.onAddEmoji(EmojiType.Heart) : _.noop
+        }
       />
     </View>
   )

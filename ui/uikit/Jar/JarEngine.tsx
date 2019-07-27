@@ -117,8 +117,8 @@ export function getEngine(
     emojis: emojiBodies,
     wallLeft,
     wallRight,
-    addEmoji: (emoji: IEmoji): IGameEngineEmoji => {
-      const emojiBody = getEmojiBody(emoji.emojiType)
+    addEmoji: (emojiType: EmojiType): IGameEngineEmoji => {
+      const emojiBody = getEmojiBody(emojiType)
       Matter.World.add(world, emojiBody.body)
       return emojiBody
     }
