@@ -1,10 +1,4 @@
-export enum EmojiType {
-  Heart = 1
-}
-
-export interface IEmoji {
-  emojiType: EmojiType
-}
+import { EmojiType, IEmoji } from '../../../domains/emojis/Types'
 
 interface IGameEngineWall {
   body: Matter.Body

@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { ImageBackground, StyleSheet, Text, View } from 'react-native'
+import { EmojiType } from '../../domains/emojis/Types'
 import ScreenLayout from '../layouts/ScreenLayout'
 import { brownishGrey, greenish, offWhite } from '../styles/colors'
 import AddEmotionButton from '../uikit/buttons/AddEmotionButton'
@@ -9,8 +10,6 @@ import IconChatNoti from '../uikit/images/IconChatNoti'
 import IconPeople from '../uikit/images/IconPeople'
 import MainLogo from '../uikit/images/MainLogo'
 import JarContainer from '../uikit/Jar/JarContainer'
-import { EmojiType } from '../uikit/Jar/Types'
-import { IEmoji } from '../uikit/Jar/Types'
 import NameTag from '../uikit/NameTag'
 import AddEmotionModal from './AddEmotionModal'
 
@@ -106,8 +105,7 @@ const HomePage = () => {
   ])
 
   const onOpenEmojiModal = () => setShowAddEmotionModal(true)
-  const onAddEmoji = () =>
-    setEmojis([...emojis, { emojiType: EmojiType.Heart }])
+  // const onAddEmoji = (emojiType: EmojiType) => {}
   const onCloseEmojiModal = () => setShowAddEmotionModal(false)
 
   const renderTopSection = () => (
@@ -141,7 +139,7 @@ const HomePage = () => {
       <View>
         <JarContainer emojis={emojis} />
         <View style={styles.addButtonHolder}>
-          <AddEmotionButton onPress={onAddEmoji} />
+          <AddEmotionButton onPress={onOpenEmojiModal} />
         </View>
       </View>
     )
@@ -161,7 +159,11 @@ const HomePage = () => {
   )
 
   const renderModal = () => (
-    <AddEmotionModal show={showAddEmotionModal} onClose={onCloseEmojiModal} />
+    <AddEmotionModal
+      show={showAddEmotionModal}
+      onClose={onCloseEmojiModal}
+      onAdd={onAddEmoji}
+    />
   )
 
   return (

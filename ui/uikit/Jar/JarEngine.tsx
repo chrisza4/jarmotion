@@ -1,11 +1,6 @@
 import Matter from 'matter-js'
-import { IEmoji } from './Types'
-import {
-  EmojiType,
-  IGameEngineEmoji,
-  IJarEngine,
-  PhysicsEngineFunc
-} from './Types'
+import { EmojiType, IEmoji } from '../../../domains/emojis/Types'
+import { IGameEngineEmoji, IJarEngine, PhysicsEngineFunc } from './Types'
 
 export function getEngine(
   jarWidth: number,
@@ -38,11 +33,17 @@ export function getEngine(
       height: groundHeight
     }
   }
-
+  const wallMargin = 10 // Margin between exact border of Jar and area that holding emojis
   const wallLeft = {
-    body: Matter.Bodies.rectangle(0, jarHeight, wallWidth, 1000, {
-      isStatic: true
-    }),
+    body: Matter.Bodies.rectangle(
+      0 - wallWidth + wallMargin,
+      jarHeight,
+      wallWidth,
+      1000,
+      {
+        isStatic: true
+      }
+    ),
     size: {
       width: wallWidth,
       height: 1000
@@ -50,9 +51,15 @@ export function getEngine(
   }
 
   const wallRight = {
-    body: Matter.Bodies.rectangle(jarWidth - 10, jarHeight, wallWidth, 1000, {
-      isStatic: true
-    }),
+    body: Matter.Bodies.rectangle(
+      jarWidth - wallMargin,
+      jarHeight,
+      wallWidth,
+      1000,
+      {
+        isStatic: true
+      }
+    ),
     size: {
       width: wallWidth,
       height: 1000

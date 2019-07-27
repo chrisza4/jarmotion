@@ -2,18 +2,13 @@ import React from 'react'
 import { Dimensions, View } from 'react-native'
 import { GameEngine } from 'react-native-game-engine'
 import uuid from 'uuid'
+import { EmojiType, IEmoji } from '../../../domains/emojis/Types'
 import Heart from '../emoji/Heart'
 import Jar from './Jar'
 import { JarHeight, JarWidth } from './JarConstants'
 import { getEngine } from './JarEngine'
 import PhysicalEmojiWrapper from './PhyscialEmojiWrapper'
-import {
-  EmojiType,
-  IEmoji,
-  IGameEngineEmoji,
-  IJarEngine,
-  PhysicsEngineFunc
-} from './Types'
+import { IGameEngineEmoji, IJarEngine, PhysicsEngineFunc } from './Types'
 
 let engineInstance: IJarEngine | null = null
 
@@ -33,6 +28,7 @@ const withRenderer = (emoji: IGameEngineEmoji) => {
       return { ...emoji, renderer: PhysicalEmojiWrapper(Heart) }
   }
 }
+
 const JarContainer = (props: IJarContainerProps) => {
   const top = props.top || 0
   const left = props.left || 0
