@@ -1,7 +1,9 @@
+import { observer } from 'mobx-react'
 import React, { useState } from 'react'
 import { ImageBackground, StyleSheet, Text, View } from 'react-native'
 import uuid from 'uuid'
 import { EmojiType, IEmoji } from '../../domains/emojis/Types'
+import EmojiStore, { EmojiStoreClass } from '../../stores/EmojiStore'
 import ScreenLayout from '../layouts/ScreenLayout'
 import { brownishGrey, greenish, offWhite } from '../styles/colors'
 import AddEmotionButton from '../uikit/buttons/AddEmotionButton'
@@ -96,18 +98,22 @@ const styles = StyleSheet.create({
   }
 })
 
-const HomePage = () => {
+type HomePageProps = {
+  emojis: IEmoji[]
+  setEmojis: (emojis: IEmoji[]) => void
+}
+
+const HomePage = (props: HomePageProps) => {
   const [showAddEmotionModal, setShowAddEmotionModal] = useState(false)
-  const [emojis, setEmojis] = useState([
-    { id: uuid.v4(), emojiType: EmojiType.Heart },
-    { id: uuid.v4(), emojiType: EmojiType.Heart },
-    { id: uuid.v4(), emojiType: EmojiType.Heart },
-    { id: uuid.v4(), emojiType: EmojiType.Heart }
-  ])
+  const { emojis, setEmojis } = props
 
   const onOpenEmojiModal = () => setShowAddEmotionModal(true)
   const onAddEmoji = (emojiType: EmojiType) => {
-    const newEmoji: IEmoji = { id: uuid.v4(), emojiType }
+    const newEmoji: IEmoji = {
+      id: uuid.v4(),
+      emojiType,
+      inserted_at: new Date()
+    }
     setEmojis([...emojis, newEmoji])
     setShowAddEmotionModal(false)
   }
@@ -183,4 +189,6 @@ const HomePage = () => {
   )
 }
 
-export default HomePage
+export default observer(() => (
+  <HomePage emojis={EmojiStore.emojis} setEmojis={EmojiStore.setEmojis} />
+))
