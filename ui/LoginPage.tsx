@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Text, View, Button } from 'react-native'
+import { Button } from 'react-native'
 import PageCenterLayout from './layouts/PageCenterLayout'
 import FormTextInput from './uikit/FormTextInput'
 type LoginPageProps = {
