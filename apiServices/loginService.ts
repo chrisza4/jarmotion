@@ -12,7 +12,6 @@ export async function login(
     password
   })
   if (res.status !== 200) {
-    // Do something
     return {
       jwt: undefined
     }
