@@ -13,8 +13,8 @@ export class EmojiStoreClass {
   ]
 
   @action.bound
-  public setEmojis(emojis: IEmoji[]) {
-    this.emojis = emojis
+  public addEmojis(emojis: IEmoji[]) {
+    this.emojis = [...this.emojis, ...emojis]
   }
 }
 

@@ -100,12 +100,12 @@ const styles = StyleSheet.create({
 
 type HomePageProps = {
   emojis: IEmoji[]
-  setEmojis: (emojis: IEmoji[]) => void
+  addEmojis: (emojis: IEmoji[]) => void
 }
 
 const HomePage = (props: HomePageProps) => {
   const [showAddEmotionModal, setShowAddEmotionModal] = useState(false)
-  const { emojis, setEmojis } = props
+  const { emojis, addEmojis } = props
 
   const onOpenEmojiModal = () => setShowAddEmotionModal(true)
   const onAddEmoji = (emojiType: EmojiType) => {
@@ -114,7 +114,7 @@ const HomePage = (props: HomePageProps) => {
       emojiType,
       inserted_at: new Date()
     }
-    setEmojis([...emojis, newEmoji])
+    addEmojis([newEmoji])
     setShowAddEmotionModal(false)
   }
   const onCloseEmojiModal = () => setShowAddEmotionModal(false)
@@ -190,5 +190,5 @@ const HomePage = (props: HomePageProps) => {
 }
 
 export default observer(() => (
-  <HomePage emojis={EmojiStore.emojis} setEmojis={EmojiStore.setEmojis} />
+  <HomePage emojis={EmojiStore.emojis} addEmojis={EmojiStore.addEmojis} />
 ))
