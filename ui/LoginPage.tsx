@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Button } from 'react-native'
 import PageCenterLayout from './layouts/PageCenterLayout'
 import FormTextInput from './uikit/FormTextInput'
+
 type LoginPageProps = {
   login: (username: string, password: string) => void
 }
