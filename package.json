@@ -11,8 +11,10 @@
   "dependencies": {
     "@react-native-community/async-storage": "^1.6.1",
     "@types/react-navigation": "^3.0.7",
+    "@types/recompose": "^0.30.6",
     "expo": "^33.0.0",
     "expo-font": "^5.0.1",
+    "expo-secure-store": "~5.0.1",
     "lodash": "^4.17.15",
     "matter-js": "^0.14.2",
     "react": "16.8.3",
@@ -22,6 +24,7 @@
     "react-native-web": "^0.11.4",
     "react-navigation": "^3.11.1",
     "react-navigation-tabs": "git+https://github.com/chrisza4/tabs.git",
+    "recompose": "^0.30.0",
     "uuid": "^3.3.2"
   },
   "devDependencies": {

@@ -1,4 +1,4 @@
-import AsyncStorage from '@react-native-community/async-storage'
+import * as SecureStore from 'expo-secure-store'
 
 type AuthStatusNotUnauthorized = {
   auth: false
@@ -15,7 +15,7 @@ const AUTH_TOKEN_KEY = 'auth_token'
 
 export async function getAuthStatus(): Promise<AuthStatus> {
   try {
-    const token = await AsyncStorage.getItem(AUTH_TOKEN_KEY)
+    const token = await SecureStore.getItemAsync(AUTH_TOKEN_KEY)
     return token ? { auth: true, token } : { auth: false }
   } catch (err) {
     return { auth: false }
@@ -23,5 +23,5 @@ export async function getAuthStatus(): Promise<AuthStatus> {
 }
 
 export async function setAuthToken(token: string) {
-  await AsyncStorage.setItem(AUTH_TOKEN_KEY, token)
+  await SecureStore.setItemAsync(AUTH_TOKEN_KEY, token)
 }

@@ -1,11 +1,30 @@
 import React, { useState } from 'react'
-import { ImageBackground, StyleSheet, Text, View } from 'react-native'
+import { Text, View, Button } from 'react-native'
+import PageCenterLayout from './layouts/PageCenterLayout'
+import FormTextInput from './uikit/FormTextInput'
+type LoginPageProps = {
+  login: (username: string, password: string) => void
+}
 
-const LoginPage = () => {
+const LoginPage = (props: LoginPageProps) => {
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+
   return (
-    <View>
-      <Text>This is login page</Text>
-    </View>
+    <PageCenterLayout>
+      <FormTextInput
+        placeholder='Email'
+        value={username}
+        onChangeText={text => setUsername(text)}
+      />
+      <FormTextInput
+        placeholder='Password'
+        secureTextEntry
+        value={password}
+        onChangeText={text => setPassword(text)}
+      />
+      <Button title='login' onPress={() => props.login(username, password)} />
+    </PageCenterLayout>
   )
 }
 
