@@ -1,8 +1,10 @@
 export enum EmojiType {
-  Heart = 1
+  Heart = 'heart'
 }
 
 export interface IEmoji {
-  emojiType: EmojiType
+  type: EmojiType
   id: string
+  inserted_at: Date
+  owner_id: string
 }

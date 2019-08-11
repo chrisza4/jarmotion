@@ -1,6 +1,6 @@
 import * as Font from 'expo-font'
 import React, { useEffect, useState } from 'react'
-import Navigations from './ui/Navigations'
+import AppLayout from './ui/AppLayout'
 import Fonts from './ui/styles/fonts'
 
 export default function App() {
@@ -12,5 +12,5 @@ export default function App() {
   if (!loaded) {
     return null
   }
-  return <Navigations />
+  return <AppLayout />
 }

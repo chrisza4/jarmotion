@@ -1,7 +1,9 @@
-import React, { useState } from 'react'
+import { observer } from 'mobx-react'
+import React, { useState, useEffect } from 'react'
 import { ImageBackground, StyleSheet, Text, View } from 'react-native'
 import uuid from 'uuid'
 import { EmojiType, IEmoji } from '../../domains/emojis/Types'
+import EmojiStore from '../../stores/EmojiStore'
 import ScreenLayout from '../layouts/ScreenLayout'
 import { brownishGrey, greenish, offWhite } from '../styles/colors'
 import AddEmotionButton from '../uikit/buttons/AddEmotionButton'
@@ -42,7 +44,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     alignSelf: 'center',
     borderRadius: 50,
-    marginTop: 35,
+    marginTop: 15,
     paddingHorizontal: 10,
     paddingVertical: 7.5,
     flexDirection: 'row',
@@ -75,7 +77,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   bottomBackgroundImage: {
-    bottom: -20
+    bottom: 0
   },
   leftCircle: {
     top: 50,
@@ -96,22 +98,32 @@ const styles = StyleSheet.create({
   }
 })
 
-const HomePage = () => {
+type HomePageProps = {
+  emojis: IEmoji[]
+  addEmojis: (emojis: IEmoji[]) => void
+  loadEmoji: () => void
+}
+
+const HomePage = (props: HomePageProps) => {
   const [showAddEmotionModal, setShowAddEmotionModal] = useState(false)
-  const [emojis, setEmojis] = useState([
-    { id: uuid.v4(), emojiType: EmojiType.Heart },
-    { id: uuid.v4(), emojiType: EmojiType.Heart },
-    { id: uuid.v4(), emojiType: EmojiType.Heart },
-    { id: uuid.v4(), emojiType: EmojiType.Heart }
-  ])
+  const { emojis, addEmojis } = props
 
   const onOpenEmojiModal = () => setShowAddEmotionModal(true)
   const onAddEmoji = (emojiType: EmojiType) => {
-    const newEmoji: IEmoji = { id: uuid.v4(), emojiType }
-    setEmojis([...emojis, newEmoji])
+    const newEmoji: IEmoji = {
+      id: uuid.v4(),
+      type: emojiType,
+      inserted_at: new Date(),
+      owner_id: ''
+    }
+    addEmojis([newEmoji])
     setShowAddEmotionModal(false)
   }
   const onCloseEmojiModal = () => setShowAddEmotionModal(false)
+
+  useEffect(() => {
+    props.loadEmoji()
+  }, [])
 
   const renderTopSection = () => (
     <ImageBackground
@@ -183,4 +195,10 @@ const HomePage = () => {
   )
 }
 
-export default HomePage
+export default observer(() => (
+  <HomePage
+    loadEmoji={EmojiStore.loadEmoji}
+    emojis={EmojiStore.emojis}
+    addEmojis={EmojiStore.addEmojis}
+  />
+))
