@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { ImageBackground, StyleSheet, Text, View } from 'react-native'
 import uuid from 'uuid'
 import { EmojiType, IEmoji } from '../../domains/emojis/Types'
@@ -101,6 +101,7 @@ const styles = StyleSheet.create({
 type HomePageProps = {
   emojis: IEmoji[]
   addEmojis: (emojis: IEmoji[]) => void
+  loadEmoji: () => void
 }
 
 const HomePage = (props: HomePageProps) => {
@@ -112,12 +113,17 @@ const HomePage = (props: HomePageProps) => {
     const newEmoji: IEmoji = {
       id: uuid.v4(),
       emojiType,
-      inserted_at: new Date()
+      inserted_at: new Date(),
+      owner_id: ''
     }
     addEmojis([newEmoji])
     setShowAddEmotionModal(false)
   }
   const onCloseEmojiModal = () => setShowAddEmotionModal(false)
+
+  useEffect(() => {
+    props.loadEmoji()
+  }, [])
 
   const renderTopSection = () => (
     <ImageBackground
@@ -190,5 +196,9 @@ const HomePage = (props: HomePageProps) => {
 }
 
 export default observer(() => (
-  <HomePage emojis={EmojiStore.emojis} addEmojis={EmojiStore.addEmojis} />
+  <HomePage
+    loadEmoji={EmojiStore.loadEmoji}
+    emojis={EmojiStore.emojis}
+    addEmojis={EmojiStore.addEmojis}
+  />
 ))

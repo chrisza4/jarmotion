@@ -1,7 +1,7 @@
 import { getAuthStatus } from '../localServices/AuthServices'
 type HttpMethod = 'GET' | 'POST' | 'PATCH' | 'PUT' | 'DELETE' | 'OPTIONS'
 
-const BASE_URL = 'http://30cf85e7.ngrok.io'
+const BASE_URL = 'https://b9488faa.ngrok.io/'
 
 type ApiResult<T> = {
   status: number
@@ -31,7 +31,7 @@ export async function unauthFetch<T>(
 export async function authFetch<T>(
   method: HttpMethod,
   url: string,
-  body: object
+  body?: object
 ): Promise<ApiResult<T>> {
   const authStatus = await getAuthStatus()
   if (!authStatus.auth) {
