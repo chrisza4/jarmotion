@@ -112,7 +112,7 @@ const HomePage = (props: HomePageProps) => {
   const onAddEmoji = (emojiType: EmojiType) => {
     const newEmoji: IEmoji = {
       id: uuid.v4(),
-      emojiType,
+      type: emojiType,
       inserted_at: new Date(),
       owner_id: ''
     }

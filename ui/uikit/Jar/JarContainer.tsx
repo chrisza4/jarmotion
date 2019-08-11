@@ -68,7 +68,7 @@ const JarContainer = (props: IJarContainerProps) => {
       return entities
     }
     for (const emojiToAdd of emojiAddingQueue) {
-      const gameEngineEmojis = engineInstance.addEmoji(emojiToAdd.emojiType)
+      const gameEngineEmojis = engineInstance.addEmoji(emojiToAdd.type)
       entities[emojiToAdd.id] = withRenderer(gameEngineEmojis)
     }
     emojiAddingQueue = []

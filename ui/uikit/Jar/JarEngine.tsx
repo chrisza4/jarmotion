@@ -98,7 +98,7 @@ export function getEngine(
     }
   }
 
-  const emojiBodies = emojis.map(emoji => getEmojiBody(emoji.emojiType))
+  const emojiBodies = emojis.map(emoji => getEmojiBody(emoji.type))
 
   // ============================================================
 
