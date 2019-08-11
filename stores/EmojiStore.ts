@@ -23,7 +23,6 @@ export class EmojiStoreClass {
     try {
       const res = await getTodayEmojis()
       this.loadState = LoadingState.Loaded
-      console.log('===RES:', res)
       this.emojis = res
     } catch (err) {
       this.loadState = LoadingState.Error

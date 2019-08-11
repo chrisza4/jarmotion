@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     alignSelf: 'center',
     borderRadius: 50,
-    marginTop: 35,
+    marginTop: 15,
     paddingHorizontal: 10,
     paddingVertical: 7.5,
     flexDirection: 'row',
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   bottomBackgroundImage: {
-    bottom: -20
+    bottom: 0
   },
   leftCircle: {
     top: 50,
