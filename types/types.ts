@@ -1,8 +1,8 @@
 export enum LoadingStateStatus {
-  Initial,
-  Loading,
-  Loaded,
-  Error
+  Initial = 'initial',
+  Loading = 'loading',
+  Loaded = 'loaded',
+  Error = 'error'
 }
 
 type LoadingStateNormal = {
@@ -13,7 +13,7 @@ type LoadingStateNormal = {
 }
 
 type LoadingStateError = {
-  status: LoadingStateError
+  status: LoadingStateStatus.Error
   errorMessage: string
 }
 

@@ -1,9 +1,10 @@
 import { observer } from 'mobx-react'
-import React, { useState, useEffect } from 'react'
-import { ImageBackground, StyleSheet, Text, View } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { Alert, ImageBackground, StyleSheet, Text, View } from 'react-native'
 import uuid from 'uuid'
 import { EmojiType, IEmoji } from '../../domains/emojis/Types'
 import EmojiStore from '../../stores/EmojiStore'
+import { LoadingState, LoadingStateStatus } from '../../types/types'
 import ScreenLayout from '../layouts/ScreenLayout'
 import { brownishGrey, greenish, offWhite } from '../styles/colors'
 import AddEmotionButton from '../uikit/buttons/AddEmotionButton'
@@ -99,6 +100,7 @@ const styles = StyleSheet.create({
 })
 
 type HomePageProps = {
+  loadState: LoadingState
   emojis: IEmoji[]
   addEmojis: (emojis: IEmoji[]) => void
   loadEmoji: () => void
@@ -108,7 +110,9 @@ const HomePage = (props: HomePageProps) => {
   const [showAddEmotionModal, setShowAddEmotionModal] = useState(false)
   const { emojis, addEmojis } = props
 
-  const onOpenEmojiModal = () => setShowAddEmotionModal(true)
+  const onOpenEmojiModal = () => {
+    setShowAddEmotionModal(true)
+  }
   const onAddEmoji = (emojiType: EmojiType) => {
     const newEmoji: IEmoji = {
       id: uuid.v4(),
@@ -124,6 +128,20 @@ const HomePage = (props: HomePageProps) => {
   useEffect(() => {
     props.loadEmoji()
   }, [])
+
+  useEffect(() => {
+    if (props.loadState.status === LoadingStateStatus.Error) {
+      const errMessage = props.loadState.errorMessage
+      // Alert immediately will conflict with fadeout modal
+      setTimeout(
+        () =>
+          Alert.alert('Error', errMessage, undefined, {
+            cancelable: false
+          }),
+        500
+      )
+    }
+  }, [props.loadState])
 
   const renderTopSection = () => (
     <ImageBackground
@@ -156,7 +174,10 @@ const HomePage = (props: HomePageProps) => {
       <View>
         <JarContainer emojis={emojis} />
         <View style={styles.addButtonHolder}>
-          <AddEmotionButton onPress={onOpenEmojiModal} />
+          <AddEmotionButton
+            onPress={onOpenEmojiModal}
+            loading={props.loadState.status === LoadingStateStatus.Loading}
+          />
         </View>
       </View>
     )
@@ -200,5 +221,6 @@ export default observer(() => (
     loadEmoji={EmojiStore.loadEmoji}
     emojis={EmojiStore.emojis}
     addEmojis={EmojiStore.addEmojis}
+    loadState={EmojiStore.loadState}
   />
 ))

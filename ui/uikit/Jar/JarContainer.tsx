@@ -28,6 +28,8 @@ const withRenderer = (emoji: IGameEngineEmoji) => {
   }
 }
 
+let emojiAddingQueue: IEmoji[] = []
+
 const JarContainer = (props: IJarContainerProps) => {
   const top = props.top || 0
   const left = props.left || 0
@@ -48,7 +50,6 @@ const JarContainer = (props: IJarContainerProps) => {
   const emojisObj = emojis.map(c => withRenderer(c))
 
   // Compare previous emojis and get to update queue
-  let emojiAddingQueue: IEmoji[] = []
   const previousEmojis = usePrevious(props.emojis)
   useEffect(() => {
     if (!previousEmojis) {
