@@ -2,6 +2,7 @@ import { action, observable } from 'mobx'
 import { addEmoji, getTodayEmojis } from '../apiServices/emojiServices'
 import { IEmoji } from '../domains/emojis/EmojiTypes'
 import { LoadingState, LoadingStateStatus } from '../types/types'
+import { executeAsyncWithLoadState } from './StoreHelper'
 
 export class EmojiStoreClass {
   @observable public loadState: LoadingState = {
@@ -11,40 +12,17 @@ export class EmojiStoreClass {
 
   @action.bound
   public async addEmojis(emojis: IEmoji[]) {
-    this.loadState = {
-      status: LoadingStateStatus.Loading
-    }
-    try {
+    await executeAsyncWithLoadState(async () => {
       const res = await Promise.all(emojis.map(emoji => addEmoji(emoji)))
       this.emojis = [...this.emojis, ...res]
-      this.loadState = {
-        status: LoadingStateStatus.Loaded
-      }
-    } catch (err) {
-      this.loadState = {
-        status: LoadingStateStatus.Error,
-        errorMessage: err.message
-      }
-    }
+    }, this)
   }
 
   @action.bound
   public async loadEmoji() {
-    this.loadState = {
-      status: LoadingStateStatus.Loading
-    }
-    try {
-      const res = await getTodayEmojis()
-      this.loadState = {
-        status: LoadingStateStatus.Loaded
-      }
-      this.emojis = res
-    } catch (err) {
-      this.loadState = {
-        status: LoadingStateStatus.Error,
-        errorMessage: err.message
-      }
-    }
+    await executeAsyncWithLoadState(async () => {
+      this.emojis = await getTodayEmojis()
+    }, this)
   }
 }
 

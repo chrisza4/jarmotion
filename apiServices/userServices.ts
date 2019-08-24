@@ -10,7 +10,7 @@ export async function getMyself() {
 }
 
 export async function getUsersInRelationship() {
-  const res = await authFetch<IUser>('GET', 'api/users/relationships')
+  const res = await authFetch<IUser>('GET', 'api/users/relationship')
   if (res.status !== 200) {
     throw Error('Cannot fetch myself')
   }
