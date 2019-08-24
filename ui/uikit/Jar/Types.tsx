@@ -1,4 +1,4 @@
-import { EmojiType } from '../../../domains/emojis/Types'
+import { EmojiType } from '../../../domains/emojis/EmojiTypes'
 
 interface IGameEngineWall {
   body: Matter.Body

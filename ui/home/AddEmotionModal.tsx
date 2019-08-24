@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-import { EmojiType } from '../../domains/emojis/Types'
+import { EmojiType } from '../../domains/emojis/EmojiTypes'
 import TextButton, { TextButtonStyle } from '../uikit/buttons/TextButton'
 import Modal from '../uikit/Modal'
 

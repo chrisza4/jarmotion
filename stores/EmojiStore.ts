@@ -1,6 +1,6 @@
 import { action, observable } from 'mobx'
 import { addEmoji, getTodayEmojis } from '../apiServices/emojiServices'
-import { IEmoji } from '../domains/emojis/Types'
+import { IEmoji } from '../domains/emojis/EmojiTypes'
 import { LoadingState, LoadingStateStatus } from '../types/types'
 
 export class EmojiStoreClass {

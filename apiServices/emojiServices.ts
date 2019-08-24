@@ -1,4 +1,4 @@
-import { IEmoji } from '../domains/emojis/Types'
+import { IEmoji } from '../domains/emojis/EmojiTypes'
 import { authFetch } from './apiConnector'
 
 export async function getTodayEmojis(): Promise<IEmoji[]> {
