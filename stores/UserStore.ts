@@ -24,7 +24,7 @@ export class UserStoreClass {
     if (this.myself) {
       return this.myself
     }
-    return { email: '', name: '' }
+    return { id: '', email: '', name: '' }
   }
   @computed
   public get couple(): IUser {
