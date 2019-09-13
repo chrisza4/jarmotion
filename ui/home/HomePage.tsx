@@ -3,7 +3,9 @@ import React, { useEffect, useState } from 'react'
 import { Alert, ImageBackground, StyleSheet, Text, View } from 'react-native'
 import uuid from 'uuid'
 import { EmojiType, IEmoji } from '../../domains/emojis/EmojiTypes'
+import { UserType, IUser } from '../../domains/users/UserTypes'
 import EmojiStore from '../../stores/EmojiStore'
+import UserStore from '../../stores/UserStore'
 import { LoadingState, LoadingStateStatus } from '../../types/types'
 import ScreenLayout from '../layouts/ScreenLayout'
 import { brownishGrey, greenish, offWhite } from '../styles/colors'
@@ -104,11 +106,17 @@ type HomePageProps = {
   emojis: IEmoji[]
   addEmojis: (emojis: IEmoji[]) => void
   loadEmoji: () => void
+  me: IUser
+  couple: IUser
 }
 
 const HomePage = (props: HomePageProps) => {
+  const [currentUserType, setCurrentUserType] = useState(UserType.Me)
   const [showAddEmotionModal, setShowAddEmotionModal] = useState(false)
+
   const { emojis, addEmojis } = props
+
+  const currentUser = currentUserType === UserType.Me ? props.me : props.couple
 
   const onOpenEmojiModal = () => {
     setShowAddEmotionModal(true)
@@ -191,7 +199,7 @@ const HomePage = (props: HomePageProps) => {
       <View style={styles.bottomSection}>
         <Circle radius={22} style={styles.leftCircle} />
         <Circle radius={15} style={styles.rightCircle} />
-        <NameTag style={styles.nameTag} name='AWA' />
+        <NameTag style={styles.nameTag} name={currentUser.name} />
       </View>
     </ImageBackground>
   )
@@ -222,5 +230,7 @@ export default observer(() => (
     emojis={EmojiStore.emojis}
     addEmojis={EmojiStore.addEmojis}
     loadState={EmojiStore.loadState}
+    me={UserStore.me}
+    couple={UserStore.couple}
   />
 ))

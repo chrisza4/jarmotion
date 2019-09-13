@@ -1,5 +1,5 @@
 import React from 'react'
-import { Image, StyleProp, ViewStyle } from 'react-native'
+import { Image, ImageSourcePropType, StyleProp, ViewStyle } from 'react-native'
 import { BottomTabNavigatorConfig, createAppContainer } from 'react-navigation' // 1.0.0-beta.27
 import { createBottomTabNavigator } from 'react-navigation-tabs'
 import HomePage from './home/HomePage'
@@ -14,7 +14,7 @@ type JarmotionBottomTabNavigatorConfig = BottomTabNavigatorConfig & {
   }
 }
 
-const TabbarIcon = ({ source }) => (
+const TabbarIcon = ({ source }: { source: ImageSourcePropType }) => (
   <Image
     style={{ height: 19, width: 22, resizeMode: 'contain' }}
     source={source}
@@ -23,7 +23,7 @@ const TabbarIcon = ({ source }) => (
 
 const createTabbarOption: (
   width: number
-) => JarmotionBottomTabNavigatorConfig = (width) => {
+) => JarmotionBottomTabNavigatorConfig = width => {
   return {
     tabBarOptions: {
       showLabel: false,

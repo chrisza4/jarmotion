@@ -4,7 +4,7 @@ import { IUser } from '../domains/users/UserTypes'
 
 export class UserStoreClass {
   @observable
-  private others: IUser[] = []
+  private others: IUser[] | null = null
 
   @observable
   private myself: IUser | null = null
@@ -26,8 +26,12 @@ export class UserStoreClass {
     }
     return { id: '', email: '', name: '' }
   }
+
   @computed
   public get couple(): IUser {
+    if (!this.others) {
+      return { id: '', email: '', name: '' }
+    }
     return this.others[0]
   }
 }
