@@ -30,6 +30,12 @@ export class AuthStoreClass {
   }
 
   @action
+  public async destroyAuthToken(): Promise<void> {
+    await AuthServices.setAuthToken('')
+    this.authToken = ''
+  }
+
+  @action
   public async initFromStorage() {
     const status = await AuthServices.getAuthStatus()
     this.authToken = status.auth ? status.token : ''

@@ -1,10 +1,10 @@
+import { observer } from 'mobx-react'
 import React, { useEffect } from 'react'
 import * as LoginService from '../apiServices/loginService'
 import AuthStore, { AuthStoreStatus } from '../stores/AuthStore'
 import LoginPage from './LoginPage'
 import Navigations from './Navigations'
 import LoadingState from './uikit/LoadingState'
-import { observer } from 'mobx-react'
 
 type AppLayoutProps = {
   authStatus: AuthStoreStatus
@@ -39,7 +39,7 @@ function AppLayout(props: AppLayoutProps) {
 export default observer(() => (
   <AppLayout
     init={() => AuthStore.initFromStorage()}
-    setAuthToken={AuthStore.setAuthToken}
+    setAuthToken={(token: string) => AuthStore.setAuthToken(token)}
     authStatus={AuthStore.getAuthStatus}
   />
 ))

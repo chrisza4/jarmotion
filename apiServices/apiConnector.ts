@@ -1,5 +1,6 @@
 import { getAuthStatus } from '../localServices/AuthServices'
 import { sanitizeBaseUrl } from '../utils/utils'
+import AuthStore from '../stores/AuthStore'
 
 type HttpMethod = 'GET' | 'POST' | 'PATCH' | 'PUT' | 'DELETE' | 'OPTIONS'
 
@@ -49,6 +50,9 @@ export async function authFetch<T>(
     body: JSON.stringify(body)
   })
   const responseBody = (await response.json()) as T
+  if (response.status === 403) {
+    AuthStore.destroyAuthToken()
+  }
   return {
     status: response.status,
     body: responseBody
