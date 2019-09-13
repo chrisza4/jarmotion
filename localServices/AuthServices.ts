@@ -1,15 +1,5 @@
 import * as SecureStore from 'expo-secure-store'
-
-type AuthStatusNotUnauthorized = {
-  auth: false
-}
-
-type AuthStatusAuthorized = {
-  auth: true
-  token: string
-}
-
-type AuthStatus = AuthStatusAuthorized | AuthStatusNotUnauthorized
+import { AuthStatus } from '../domains/auth/AuthTypes'
 
 const AUTH_TOKEN_KEY = 'auth_token'
 

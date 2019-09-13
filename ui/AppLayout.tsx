@@ -1,26 +1,20 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import * as LoginService from '../apiServices/loginService'
-import { getAuthStatus, setAuthToken } from '../localServices/AuthServices'
+import AuthStore, { AuthStoreStatus } from '../stores/AuthStore'
 import LoginPage from './LoginPage'
 import Navigations from './Navigations'
 import LoadingState from './uikit/LoadingState'
+import { observer } from 'mobx-react'
 
-enum AuthState {
-  Loading,
-  Authorized,
-  Unauthorized
+type AppLayoutProps = {
+  authStatus: AuthStoreStatus
+  setAuthToken: (token: string) => Promise<void>
+  init: () => Promise<void>
 }
 
-function AppLayout() {
-  const [authState, setAuthState] = useState<AuthState>(AuthState.Loading)
+function AppLayout(props: AppLayoutProps) {
   useEffect(() => {
-    const run = async () => {
-      const authStatus = await getAuthStatus()
-      setAuthState(
-        authStatus.auth ? AuthState.Authorized : AuthState.Unauthorized
-      )
-    }
-    run()
+    props.init()
   })
 
   const login = async (username: string, password: string) => {
@@ -29,18 +23,23 @@ function AppLayout() {
       alert('Incorrect username or password')
       return
     }
-    await setAuthToken(res.jwt)
-    setAuthState(AuthState.Authorized)
+    await props.setAuthToken(res.jwt)
   }
 
-  switch (authState) {
-    case AuthState.Loading:
+  switch (props.authStatus.auth) {
+    case 'loading':
       return <LoadingState />
-    case AuthState.Unauthorized:
+    case false:
       return <LoginPage login={login} />
-    case AuthState.Authorized:
+    case true:
       return <Navigations />
   }
 }
 
-export default AppLayout
+export default observer(() => (
+  <AppLayout
+    init={() => AuthStore.initFromStorage()}
+    setAuthToken={AuthStore.setAuthToken}
+    authStatus={AuthStore.getAuthStatus}
+  />
+))

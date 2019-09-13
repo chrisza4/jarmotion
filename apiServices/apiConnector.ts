@@ -1,7 +1,9 @@
 import { getAuthStatus } from '../localServices/AuthServices'
+import { sanitizeBaseUrl } from '../utils/utils'
+
 type HttpMethod = 'GET' | 'POST' | 'PATCH' | 'PUT' | 'DELETE' | 'OPTIONS'
 
-const BASE_URL = 'https://a8c01c10.ngrok.io/'
+const BASE_URL = sanitizeBaseUrl('https://a5578c7f.ngrok.io')
 
 type ApiResult<T> = {
   status: number
