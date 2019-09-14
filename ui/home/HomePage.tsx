@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { Alert, ImageBackground, StyleSheet, Text, View } from 'react-native'
 import uuid from 'uuid'
 import { EmojiType, IEmoji } from '../../domains/emojis/EmojiTypes'
-import { UserType, IUser } from '../../domains/users/UserTypes'
+import { IUser, UserType } from '../../domains/users/UserTypes'
 import EmojiStore from '../../stores/EmojiStore'
 import UserStore from '../../stores/UserStore'
 import { LoadingState, LoadingStateStatus } from '../../types/types'
@@ -108,6 +108,7 @@ type HomePageProps = {
   loadEmoji: () => void
   me: IUser
   couple: IUser
+  onNavigateToCouple: () => void
 }
 
 const HomePage = (props: HomePageProps) => {
@@ -224,13 +225,16 @@ const HomePage = (props: HomePageProps) => {
   )
 }
 
-export default observer(() => (
-  <HomePage
-    loadEmoji={EmojiStore.loadEmoji}
-    emojis={EmojiStore.emojis}
-    addEmojis={EmojiStore.addEmojis}
-    loadState={EmojiStore.loadState}
-    me={UserStore.me}
-    couple={UserStore.couple}
-  />
-))
+export default observer(props => {
+  return (
+    <HomePage
+      loadEmoji={EmojiStore.loadEmoji}
+      emojis={EmojiStore.emojis}
+      addEmojis={EmojiStore.addEmojis}
+      loadState={EmojiStore.loadState}
+      me={UserStore.me}
+      couple={UserStore.couple}
+      onNavigateToCouple={() => props.navigation.navigate('Couple')}
+    />
+  )
+})

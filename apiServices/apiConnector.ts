@@ -1,10 +1,9 @@
-import { getAuthStatus } from '../localServices/AuthServices'
-import { sanitizeBaseUrl } from '../utils/utils'
 import AuthStore from '../stores/AuthStore'
+import { sanitizeBaseUrl } from '../utils/utils'
 
 type HttpMethod = 'GET' | 'POST' | 'PATCH' | 'PUT' | 'DELETE' | 'OPTIONS'
 
-const BASE_URL = sanitizeBaseUrl('https://a5578c7f.ngrok.io')
+const BASE_URL = sanitizeBaseUrl('https://e035cf13.ngrok.io')
 
 type ApiResult<T> = {
   status: number
@@ -36,8 +35,8 @@ export async function authFetch<T>(
   url: string,
   body?: object
 ): Promise<ApiResult<T>> {
-  const authStatus = await getAuthStatus()
-  if (!authStatus.auth) {
+  const authStatus = AuthStore.getAuthStatus
+  if (!authStatus.auth || authStatus.auth === 'loading') {
     throw Error('Not authorized')
   }
   const response = await fetch(BASE_URL + url, {
