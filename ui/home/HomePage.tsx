@@ -1,12 +1,10 @@
-import { observer } from 'mobx-react'
 import React, { useEffect, useState } from 'react'
 import { Alert, ImageBackground, StyleSheet, Text, View } from 'react-native'
+
 import uuid from 'uuid'
 import { EmojiType, IEmoji } from '../../domains/emojis/EmojiTypes'
-import { IUser, UserType } from '../../domains/users/UserTypes'
-import EmojiStore from '../../stores/EmojiStore'
-import UserStore from '../../stores/UserStore'
-import { LoadingState, LoadingStateStatus } from '../../types/types'
+import { IUser } from '../../domains/users/UserTypes'
+import { LoadingState, LoadingStateStatus } from '../../types/LoadingState'
 import ScreenLayout from '../layouts/ScreenLayout'
 import { brownishGrey, greenish, offWhite } from '../styles/colors'
 import AddEmotionButton from '../uikit/buttons/AddEmotionButton'
@@ -104,20 +102,14 @@ const styles = StyleSheet.create({
 type HomePageProps = {
   loadState: LoadingState
   emojis: IEmoji[]
-  addEmojis: (emojis: IEmoji[]) => void
-  loadEmoji: () => void
-  me: IUser
-  couple: IUser
-  onNavigateToCouple: () => void
+  addEmojis: (emojis: IEmoji[], userId: string) => void
+  currentUser: IUser
+  canAddEmoji: boolean
 }
 
 const HomePage = (props: HomePageProps) => {
-  const [currentUserType, setCurrentUserType] = useState(UserType.Me)
   const [showAddEmotionModal, setShowAddEmotionModal] = useState(false)
-
-  const { emojis, addEmojis } = props
-
-  const currentUser = currentUserType === UserType.Me ? props.me : props.couple
+  const { emojis, addEmojis, currentUser, canAddEmoji } = props
 
   const onOpenEmojiModal = () => {
     setShowAddEmotionModal(true)
@@ -129,14 +121,10 @@ const HomePage = (props: HomePageProps) => {
       inserted_at: new Date(),
       owner_id: ''
     }
-    addEmojis([newEmoji])
+    addEmojis([newEmoji], props.currentUser.id)
     setShowAddEmotionModal(false)
   }
   const onCloseEmojiModal = () => setShowAddEmotionModal(false)
-
-  useEffect(() => {
-    props.loadEmoji()
-  }, [])
 
   useEffect(() => {
     if (props.loadState.status === LoadingStateStatus.Error) {
@@ -183,10 +171,12 @@ const HomePage = (props: HomePageProps) => {
       <View>
         <JarContainer emojis={emojis} />
         <View style={styles.addButtonHolder}>
-          <AddEmotionButton
-            onPress={onOpenEmojiModal}
-            loading={props.loadState.status === LoadingStateStatus.Loading}
-          />
+          {canAddEmoji && (
+            <AddEmotionButton
+              onPress={onOpenEmojiModal}
+              loading={props.loadState.status === LoadingStateStatus.Loading}
+            />
+          )}
         </View>
       </View>
     )
@@ -225,16 +215,4 @@ const HomePage = (props: HomePageProps) => {
   )
 }
 
-export default observer(props => {
-  return (
-    <HomePage
-      loadEmoji={EmojiStore.loadEmoji}
-      emojis={EmojiStore.emojis}
-      addEmojis={EmojiStore.addEmojis}
-      loadState={EmojiStore.loadState}
-      me={UserStore.me}
-      couple={UserStore.couple}
-      onNavigateToCouple={() => props.navigation.navigate('Couple')}
-    />
-  )
-})
+export default HomePage

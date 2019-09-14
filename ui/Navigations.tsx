@@ -2,7 +2,7 @@ import React from 'react'
 import { Image, ImageSourcePropType, StyleProp, ViewStyle } from 'react-native'
 import { BottomTabNavigatorConfig, createAppContainer } from 'react-navigation' // 1.0.0-beta.27
 import { createBottomTabNavigator } from 'react-navigation-tabs'
-import HomePage from './home/HomePageContainer'
+import HomePage from './home/HomePageNavigator'
 import { greenish } from './styles/colors'
 import UnderConstructionPage from './UnderConstructionPage'
 
@@ -40,7 +40,7 @@ const createTabbarOption: (
 }
 
 const bottomTabNavigatorConfig: JarmotionBottomTabNavigatorConfig = {
-  defaultNavigationOptions: ({ navigation }) => ({
+  defaultNavigationOptions: ({ navigation }: { navigation: any }) => ({
     tabBarIcon: () => {
       switch (navigation.state.routeName) {
         case 'Home':

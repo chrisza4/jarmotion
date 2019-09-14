@@ -18,3 +18,6 @@ type LoadingStateError = {
 }
 
 export type LoadingState = LoadingStateError | LoadingStateNormal
+export const defaultLoadingState = {
+  status: LoadingStateStatus.Initial
+}
