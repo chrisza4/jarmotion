@@ -1245,6 +1245,14 @@
   resolved "https://registry.yarnpkg.com/@types/qs/-/qs-6.5.3.tgz#1c3b71b091eaeaf5924538006b7f70603ce63d38"
   integrity sha512-Jugo5V/1bS0fRhy2z8+cUAHEyWOATaz4rbyLVvcFs7+dXp5HfwpEwzF1Q11bB10ApUqHf+yTauxI0UXQDwGrbA==
 
+"@types/react-native-swipe-gestures@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@types/react-native-swipe-gestures/-/react-native-swipe-gestures-1.0.0.tgz#17b992c0ea38fd16768e6cbe82c170111bd29677"
+  integrity sha512-oV+Giz45L1v8fJ909ZMIpY8lbQw/pO8r/H/dlSS93hScc7qW8P9ORCB+6VKWYoEHJtTb54drRV1C4sakO0vrLA==
+  dependencies:
+    "@types/react" "*"
+    "@types/react-native" "*"
+
 "@types/react-native@*":
   version "0.60.14"
   resolved "https://registry.yarnpkg.com/@types/react-native/-/react-native-0.60.14.tgz#76b07b97127a563ec0c996848925f81fcee1320b"
@@ -6137,6 +6145,11 @@ react-native-svg@9.4.0:
   version "9.4.0"
   resolved "https://registry.yarnpkg.com/react-native-svg/-/react-native-svg-9.4.0.tgz#e428e0eae55aebd2355f1ff4f22675dad4611960"
   integrity sha512-IVJlVbS2dAPerPr927fEi4uXzrPXzlra5ddgyJXZZ2IKA2ZygyYWFZDM+vsQs+Vj20CfL8nOWszQQV57vdQgFg==
+
+react-native-swipe-gestures@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/react-native-swipe-gestures/-/react-native-swipe-gestures-1.0.3.tgz#4160f8d459627323f3a3d2770af4bcd82fd054f5"
+  integrity sha512-KOouRzPB2fHFjVombsSdRfYo8SFeNVa4Ho4B5il87DuuF26sPNOtb3je+qaT/xVptedOsCzRPJGbWFMsaBApgg==
 
 react-native-tab-view@^2.6.2:
   version "2.9.0"
