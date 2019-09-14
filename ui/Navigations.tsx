@@ -5,6 +5,7 @@ import { createBottomTabNavigator } from 'react-navigation-tabs'
 import HomePage from './home/HomePageNavigator'
 import { greenish } from './styles/colors'
 import UnderConstructionPage from './UnderConstructionPage'
+import LogoutPage from './LogoutPage'
 
 // Custom Type until PR get merged and add @types definition
 // https://github.com/react-navigation/tabs/pull/147/files
@@ -73,7 +74,7 @@ const TabNavigator = createBottomTabNavigator(
     },
     Calendar: UnderConstructionPage,
     Diary: UnderConstructionPage,
-    Settings: UnderConstructionPage
+    Settings: LogoutPage
   },
   bottomTabNavigatorConfig
 )
