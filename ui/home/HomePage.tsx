@@ -1,9 +1,10 @@
-import { observer } from 'mobx-react'
-import React, { useState, useEffect } from 'react'
-import { ImageBackground, StyleSheet, Text, View } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { Alert, ImageBackground, StyleSheet, Text, View } from 'react-native'
+
 import uuid from 'uuid'
-import { EmojiType, IEmoji } from '../../domains/emojis/Types'
-import EmojiStore from '../../stores/EmojiStore'
+import { EmojiType, IEmoji } from '../../domains/emojis/EmojiTypes'
+import { IUser } from '../../domains/users/UserTypes'
+import { LoadingState, LoadingStateStatus } from '../../types/LoadingState'
 import ScreenLayout from '../layouts/ScreenLayout'
 import { brownishGrey, greenish, offWhite } from '../styles/colors'
 import AddEmotionButton from '../uikit/buttons/AddEmotionButton'
@@ -99,16 +100,20 @@ const styles = StyleSheet.create({
 })
 
 type HomePageProps = {
+  loadState: LoadingState
   emojis: IEmoji[]
-  addEmojis: (emojis: IEmoji[]) => void
-  loadEmoji: () => void
+  addEmojis: (emojis: IEmoji[], userId: string) => void
+  currentUser: IUser
+  isMyself: boolean
 }
 
 const HomePage = (props: HomePageProps) => {
   const [showAddEmotionModal, setShowAddEmotionModal] = useState(false)
-  const { emojis, addEmojis } = props
+  const { emojis, addEmojis, currentUser, isMyself } = props
 
-  const onOpenEmojiModal = () => setShowAddEmotionModal(true)
+  const onOpenEmojiModal = () => {
+    setShowAddEmotionModal(true)
+  }
   const onAddEmoji = (emojiType: EmojiType) => {
     const newEmoji: IEmoji = {
       id: uuid.v4(),
@@ -116,26 +121,27 @@ const HomePage = (props: HomePageProps) => {
       inserted_at: new Date(),
       owner_id: ''
     }
-    addEmojis([newEmoji])
+    addEmojis([newEmoji], props.currentUser.id)
     setShowAddEmotionModal(false)
   }
   const onCloseEmojiModal = () => setShowAddEmotionModal(false)
 
   useEffect(() => {
-    props.loadEmoji()
-  }, [])
+    if (props.loadState.status === LoadingStateStatus.Error) {
+      const errMessage = props.loadState.errorMessage
+      // Alert immediately will conflict with fadeout modal
+      setTimeout(
+        () =>
+          Alert.alert('Error', errMessage, undefined, {
+            cancelable: false
+          }),
+        500
+      )
+    }
+  }, [props.loadState])
 
-  const renderTopSection = () => (
-    <ImageBackground
-      style={styles.backgroundImage}
-      source={require('../../assets/curvy_top_bg.png')}
-    >
-      <View style={styles.notificationButtonHolder}>
-        <NotificationButton />
-      </View>
-      <View style={styles.logoHolder}>
-        <MainLogo />
-      </View>
+  const renderChatSection = () =>
+    isMyself && (
       <View style={styles.chatSection}>
         <IconPeople />
         <View style={styles.greetingHolder}>
@@ -148,6 +154,24 @@ const HomePage = (props: HomePageProps) => {
           <IconChatNoti />
         </View>
       </View>
+    )
+  const renderNotificationButton = () =>
+    isMyself && (
+      <View style={styles.notificationButtonHolder}>
+        <NotificationButton />
+      </View>
+    )
+
+  const renderTopSection = () => (
+    <ImageBackground
+      style={styles.backgroundImage}
+      source={require('../../assets/curvy_top_bg.png')}
+    >
+      {renderNotificationButton()}
+      <View style={styles.logoHolder}>
+        <MainLogo />
+      </View>
+      {renderChatSection()}
     </ImageBackground>
   )
 
@@ -156,7 +180,12 @@ const HomePage = (props: HomePageProps) => {
       <View>
         <JarContainer emojis={emojis} />
         <View style={styles.addButtonHolder}>
-          <AddEmotionButton onPress={onOpenEmojiModal} />
+          {isMyself && (
+            <AddEmotionButton
+              onPress={onOpenEmojiModal}
+              loading={props.loadState.status === LoadingStateStatus.Loading}
+            />
+          )}
         </View>
       </View>
     )
@@ -170,7 +199,7 @@ const HomePage = (props: HomePageProps) => {
       <View style={styles.bottomSection}>
         <Circle radius={22} style={styles.leftCircle} />
         <Circle radius={15} style={styles.rightCircle} />
-        <NameTag style={styles.nameTag} name='AWA' />
+        <NameTag style={styles.nameTag} name={currentUser.name} />
       </View>
     </ImageBackground>
   )
@@ -195,10 +224,4 @@ const HomePage = (props: HomePageProps) => {
   )
 }
 
-export default observer(() => (
-  <HomePage
-    loadEmoji={EmojiStore.loadEmoji}
-    emojis={EmojiStore.emojis}
-    addEmojis={EmojiStore.addEmojis}
-  />
-))
+export default HomePage

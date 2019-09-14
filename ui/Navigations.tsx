@@ -1,10 +1,11 @@
 import React from 'react'
-import { Image, StyleProp, ViewStyle } from 'react-native'
+import { Image, ImageSourcePropType, StyleProp, ViewStyle } from 'react-native'
 import { BottomTabNavigatorConfig, createAppContainer } from 'react-navigation' // 1.0.0-beta.27
 import { createBottomTabNavigator } from 'react-navigation-tabs'
-import HomePage from './home/HomePage'
+import HomePage from './home/HomePageNavigator'
 import { greenish } from './styles/colors'
 import UnderConstructionPage from './UnderConstructionPage'
+import LogoutPage from './LogoutPage'
 
 // Custom Type until PR get merged and add @types definition
 // https://github.com/react-navigation/tabs/pull/147/files
@@ -14,7 +15,7 @@ type JarmotionBottomTabNavigatorConfig = BottomTabNavigatorConfig & {
   }
 }
 
-const TabbarIcon = ({ source }) => (
+const TabbarIcon = ({ source }: { source: ImageSourcePropType }) => (
   <Image
     style={{ height: 19, width: 22, resizeMode: 'contain' }}
     source={source}
@@ -23,7 +24,7 @@ const TabbarIcon = ({ source }) => (
 
 const createTabbarOption: (
   width: number
-) => JarmotionBottomTabNavigatorConfig = (width) => {
+) => JarmotionBottomTabNavigatorConfig = width => {
   return {
     tabBarOptions: {
       showLabel: false,
@@ -40,7 +41,7 @@ const createTabbarOption: (
 }
 
 const bottomTabNavigatorConfig: JarmotionBottomTabNavigatorConfig = {
-  defaultNavigationOptions: ({ navigation }) => ({
+  defaultNavigationOptions: ({ navigation }: { navigation: any }) => ({
     tabBarIcon: () => {
       switch (navigation.state.routeName) {
         case 'Home':
@@ -73,7 +74,7 @@ const TabNavigator = createBottomTabNavigator(
     },
     Calendar: UnderConstructionPage,
     Diary: UnderConstructionPage,
-    Settings: UnderConstructionPage
+    Settings: LogoutPage
   },
   bottomTabNavigatorConfig
 )
