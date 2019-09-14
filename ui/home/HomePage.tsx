@@ -104,12 +104,12 @@ type HomePageProps = {
   emojis: IEmoji[]
   addEmojis: (emojis: IEmoji[], userId: string) => void
   currentUser: IUser
-  canAddEmoji: boolean
+  isMyself: boolean
 }
 
 const HomePage = (props: HomePageProps) => {
   const [showAddEmotionModal, setShowAddEmotionModal] = useState(false)
-  const { emojis, addEmojis, currentUser, canAddEmoji } = props
+  const { emojis, addEmojis, currentUser, isMyself } = props
 
   const onOpenEmojiModal = () => {
     setShowAddEmotionModal(true)
@@ -140,17 +140,8 @@ const HomePage = (props: HomePageProps) => {
     }
   }, [props.loadState])
 
-  const renderTopSection = () => (
-    <ImageBackground
-      style={styles.backgroundImage}
-      source={require('../../assets/curvy_top_bg.png')}
-    >
-      <View style={styles.notificationButtonHolder}>
-        <NotificationButton />
-      </View>
-      <View style={styles.logoHolder}>
-        <MainLogo />
-      </View>
+  const renderChatSection = () =>
+    isMyself && (
       <View style={styles.chatSection}>
         <IconPeople />
         <View style={styles.greetingHolder}>
@@ -163,6 +154,24 @@ const HomePage = (props: HomePageProps) => {
           <IconChatNoti />
         </View>
       </View>
+    )
+  const renderNotificationButton = () =>
+    isMyself && (
+      <View style={styles.notificationButtonHolder}>
+        <NotificationButton />
+      </View>
+    )
+
+  const renderTopSection = () => (
+    <ImageBackground
+      style={styles.backgroundImage}
+      source={require('../../assets/curvy_top_bg.png')}
+    >
+      {renderNotificationButton()}
+      <View style={styles.logoHolder}>
+        <MainLogo />
+      </View>
+      {renderChatSection()}
     </ImageBackground>
   )
 
@@ -171,7 +180,7 @@ const HomePage = (props: HomePageProps) => {
       <View>
         <JarContainer emojis={emojis} />
         <View style={styles.addButtonHolder}>
-          {canAddEmoji && (
+          {isMyself && (
             <AddEmotionButton
               onPress={onOpenEmojiModal}
               loading={props.loadState.status === LoadingStateStatus.Loading}

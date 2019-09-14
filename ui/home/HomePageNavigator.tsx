@@ -16,7 +16,7 @@ const HomePageMe = observer((props: any) => {
 
   return (
     <GestureRecognizer onSwipeLeft={() => props.navigation.navigate('Couple')}>
-      <HomePageContainer currentUser={me} canAddEmoji />
+      <HomePageContainer currentUser={me} isMyself />
     </GestureRecognizer>
   )
 })
@@ -29,7 +29,7 @@ const HomePageCouple = observer((props: any) => {
 
   return (
     <GestureRecognizer onSwipeRight={() => props.navigation.navigate('Me')}>
-      <HomePageContainer currentUser={couple} canAddEmoji={false} />
+      <HomePageContainer currentUser={couple} isMyself={false} />
     </GestureRecognizer>
   )
 })

@@ -7,7 +7,7 @@ import HomePage from './HomePage'
 
 type HomePageContainerProps = {
   currentUser?: IUser
-  canAddEmoji: boolean
+  isMyself: boolean
 }
 
 const HomePageContainer = observer(
@@ -29,7 +29,7 @@ const HomePageContainer = observer(
         addEmojis={EmojiStore.addEmojis}
         loadState={EmojiStore.getLoadStateByUserId(currentUser.id)}
         currentUser={currentUser}
-        canAddEmoji={props.canAddEmoji}
+        isMyself={props.isMyself}
       />
     )
   }
