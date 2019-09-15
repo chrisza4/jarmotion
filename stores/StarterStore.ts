@@ -1,5 +1,5 @@
 import { action } from 'mobx'
-import { connect, listen } from '../socket/socketConnection'
+import { establishedSocket } from '../socket/socketConnection'
 import AuthStore, { AuthStoreClass } from './AuthStore'
 import UserStore, { UserStoreClass } from './UserStore'
 
@@ -19,14 +19,13 @@ export class StarterStoreClass {
       return
     }
     await this.userStore.init()
-    const socket = await connect(
+    await establishedSocket(
       this.authStore.getAuthStatus.token,
+      [this.userStore.me.id, this.userStore.couple.id],
       () => {
-        console.log('Error, retrying')
+        console.error('Socket error, retrying')
       }
     )
-    const channel1 = await listen(socket, this.userStore.me.id)
-    const channel2 = await listen(socket, this.userStore.couple.id)
   }
 }
 
