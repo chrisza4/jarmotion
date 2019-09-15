@@ -17,6 +17,7 @@
     "mobx": "^5.13.0",
     "mobx-react": "^6.1.1",
     "mobx-utils": "^5.4.1",
+    "phoenix": "^1.4.10",
     "react": "16.8.3",
     "react-dom": "^16.8.6",
     "react-native": "https://github.com/expo/react-native/archive/sdk-33.0.0.tar.gz",
@@ -31,6 +32,7 @@
   "devDependencies": {
     "@types/jest": "^24.0.18",
     "@types/matter-js": "^0.10.2",
+    "@types/phoenix": "^1.4.3",
     "@types/react": "^16.8.19",
     "@types/react-native": "^0.57.60",
     "@types/react-native-swipe-gestures": "^1.0.0",
