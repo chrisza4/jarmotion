@@ -1,6 +1,8 @@
+import { IJarmotionEntity } from 'domains/general/GeneralTypes'
 import { action } from 'mobx'
 import { establishedSocket } from '../socket/socketConnection'
 import AuthStore, { AuthStoreClass } from './AuthStore'
+import EmojiStore from './EmojiStore'
 import UserStore, { UserStoreClass } from './UserStore'
 
 export class StarterStoreClass {
@@ -19,14 +21,16 @@ export class StarterStoreClass {
       return
     }
     await this.userStore.init()
-    const x = await establishedSocket(
+    const socket = await establishedSocket(
       this.authStore.getAuthStatus.token,
       [this.userStore.me.id, this.userStore.couple.id],
       () => {
         console.error('Socket error, retrying')
       }
     )
-    x.on('emoji:add', message => console.log('MESSAGE:', message))
+    socket.on('emoji:add', (entity: IJarmotionEntity) => {
+      EmojiStore.fetchEmojiById(entity.id)
+    })
   }
 }
 

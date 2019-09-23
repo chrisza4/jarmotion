@@ -1,11 +1,11 @@
 import { addEmoji, fetchEmojiById } from '../apiServices/emojiServices'
 import { getMockEmoji } from '../domains/emojis/EmojiMocks'
-import EmojiStore, { EmojiStoreClass } from './EmojiStore'
+import { EmojiStoreClass } from './EmojiStore'
 jest.mock('../apiServices/emojiServices.ts')
 
 describe('EmojiStore', () => {
   describe('update emoji', () => {
-    let emojiStore
+    let emojiStore: EmojiStoreClass
 
     beforeEach(async () => {
       emojiStore = new EmojiStoreClass()

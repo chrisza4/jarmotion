@@ -42,7 +42,8 @@ export class EmojiStoreClass {
     this.loadState[userId] = {
       status: LoadingStateStatus.Loading
     }
-    this.emojis = await fetchEmojis(userId)
+    const newEmojis = await fetchEmojis(userId)
+    this.emojis = [...this.emojis, ...newEmojis]
     this.loadState[userId] = {
       status: LoadingStateStatus.Loaded
     }

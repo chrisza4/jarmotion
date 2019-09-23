@@ -22,10 +22,10 @@ const HomePageContainer = observer(
         EmojiStore.loadEmoji(props.currentUser.id)
       }
     }, [])
-
+    const emojis = EmojiStore.getEmojisByUserId(currentUser.id)
     return (
       <HomePage
-        emojis={EmojiStore.getEmojisByUserId(currentUser.id)}
+        emojis={emojis}
         addEmojis={EmojiStore.addEmojis}
         loadState={EmojiStore.getLoadStateByUserId(currentUser.id)}
         currentUser={currentUser}
