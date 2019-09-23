@@ -1,4 +1,4 @@
-import { action, observable } from 'mobx'
+import { action, computed, observable } from 'mobx'
 import { computedFn } from 'mobx-utils'
 import {
   addEmoji,
@@ -15,7 +15,10 @@ import {
 export class EmojiStoreClass {
   @observable public loadState: { [userId: string]: LoadingState } = {}
 
-  @observable public emojis: IEmoji[] = []
+  @computed
+  public get emojis() {
+    return Object.values(this.emojisMap)
+  }
 
   public getEmojisByUserId = computedFn((userId: string) => {
     return this.emojis.filter(emoji => emoji.owner_id === userId)
@@ -25,13 +28,17 @@ export class EmojiStoreClass {
     return this.loadState[userId] || defaultLoadingState
   })
 
+  @observable private emojisMap: { [id: string]: IEmoji } = {}
+
   @action.bound
   public async addEmojis(emojis: IEmoji[], userId: string) {
     this.loadState[userId] = {
       status: LoadingStateStatus.Loading
     }
     const res = await Promise.all(emojis.map(emoji => addEmoji(emoji)))
-    this.emojis = [...this.emojis, ...res]
+    for (const emoji of res) {
+      this.emojisMap[emoji.id] = emoji
+    }
     this.loadState[userId] = {
       status: LoadingStateStatus.Loaded
     }
@@ -43,7 +50,9 @@ export class EmojiStoreClass {
       status: LoadingStateStatus.Loading
     }
     const newEmojis = await fetchEmojis(userId)
-    this.emojis = [...this.emojis, ...newEmojis]
+    for (const emoji of newEmojis) {
+      this.emojisMap[emoji.id] = emoji
+    }
     this.loadState[userId] = {
       status: LoadingStateStatus.Loaded
     }
@@ -55,7 +64,7 @@ export class EmojiStoreClass {
       return
     }
     const emoji = await fetchEmojiById(id)
-    this.emojis = [...this.emojis, emoji]
+    this.emojisMap[emoji.id] = emoji
   }
 
   private getEmojiById = (id: string) =>
