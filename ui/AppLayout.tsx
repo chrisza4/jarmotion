@@ -16,7 +16,7 @@ type AppLayoutProps = {
 function AppLayout(props: AppLayoutProps) {
   useEffect(() => {
     props.init()
-  })
+  }, [])
 
   const login = async (username: string, password: string) => {
     const res = await LoginService.login(username, password)
