@@ -26,11 +26,9 @@ const withRenderer = (emoji: IGameEngineEmoji) => {
   }
 }
 
-let emojiAddingQueue: IEmoji[] = []
-
 const JarContainer = (props: IJarContainerProps) => {
   const [engineInstance, setEngineInstance] = useState<IJarEngine | null>(null)
-
+  const [emojiAddingQueue, setEmojiAddingQueue] = useState<IEmoji[]>([])
   // Compare previous emojis and get to update queue
   const previousEmojis = usePrevious(props.emojis)
   useEffect(() => {
@@ -40,7 +38,7 @@ const JarContainer = (props: IJarContainerProps) => {
     const prevEmojisByKey = _.keyBy(previousEmojis, emoji => emoji.id)
     for (const emoji of props.emojis) {
       if (!prevEmojisByKey[emoji.id]) {
-        emojiAddingQueue.push(emoji)
+        setEmojiAddingQueue([...emojiAddingQueue, emoji])
       }
     }
   }, [props.emojis])
@@ -76,7 +74,7 @@ const JarContainer = (props: IJarContainerProps) => {
       const gameEngineEmojis = engineInstance.addEmoji(emojiToAdd.type)
       entities[emojiToAdd.id] = withRenderer(gameEngineEmojis)
     }
-    emojiAddingQueue = []
+    setEmojiAddingQueue([])
     return entities
   }
 
