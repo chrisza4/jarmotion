@@ -16,3 +16,11 @@ export async function addEmoji(emoji: IEmoji): Promise<IEmoji> {
   }
   return res.body
 }
+
+export async function fetchEmojiById(id: string): Promise<IEmoji> {
+  const res = await authFetch<IEmoji>('GET', `api/emoji/${id}`)
+  if (res.status !== 200) {
+    throw Error('Cannot fetch emoji')
+  }
+  return res.body
+}

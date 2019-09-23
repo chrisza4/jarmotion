@@ -19,13 +19,14 @@ export class StarterStoreClass {
       return
     }
     await this.userStore.init()
-    await establishedSocket(
+    const x = await establishedSocket(
       this.authStore.getAuthStatus.token,
       [this.userStore.me.id, this.userStore.couple.id],
       () => {
         console.error('Socket error, retrying')
       }
     )
+    x.on('emoji:add', message => console.log('MESSAGE:', message))
   }
 }
 

@@ -1,6 +1,10 @@
 import { action, observable } from 'mobx'
 import { computedFn } from 'mobx-utils'
-import { addEmoji, fetchEmojis } from '../apiServices/emojiServices'
+import {
+  addEmoji,
+  fetchEmojiById,
+  fetchEmojis
+} from '../apiServices/emojiServices'
 import { IEmoji } from '../domains/emojis/EmojiTypes'
 import {
   defaultLoadingState,
@@ -43,6 +47,18 @@ export class EmojiStoreClass {
       status: LoadingStateStatus.Loaded
     }
   }
+
+  @action.bound
+  public async fetchEmojiById(id: string) {
+    if (this.getEmojiById(id)) {
+      return
+    }
+    const emoji = await fetchEmojiById(id)
+    this.emojis = [...this.emojis, emoji]
+  }
+
+  private getEmojiById = (id: string) =>
+    this.emojis.find(emoji => emoji.id === id)
 }
 
 export default new EmojiStoreClass()
