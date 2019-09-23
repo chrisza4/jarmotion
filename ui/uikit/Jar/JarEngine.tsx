@@ -2,7 +2,7 @@ import Matter from 'matter-js'
 import { EmojiType, IEmoji } from '../../../domains/emojis/EmojiTypes'
 import { IGameEngineEmoji, IJarEngine, PhysicsEngineFunc } from './Types'
 
-export function getEngine(
+export function createEngine(
   jarWidth: number,
   jarHeight: number,
   emojis: IEmoji[]
@@ -68,17 +68,6 @@ export function getEngine(
 
   const getEmojiBody = (emojiType: EmojiType): IGameEngineEmoji => {
     const radius = 11
-    const x = jarWidth / 2 - radius // Center of Jar
-    const y = 10 // Down a little bit
-    // return {
-    //   body: Matter.Bodies.rectangle(x, y, 22, 22, {
-    //     frictionAir: 0,
-    //     restitution: 0,
-    //     mass: 100
-    //   }),
-    //   radius,
-    //   emojiType
-    // }
     return {
       body: Matter.Bodies.circle(
         jarWidth / 2 - radius,

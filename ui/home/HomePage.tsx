@@ -174,6 +174,7 @@ const HomePage = (props: HomePageProps) => {
       {renderChatSection()}
     </ImageBackground>
   )
+
   const renderMiddleSection = () => {
     return (
       <View>

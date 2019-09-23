@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Dimensions, View } from 'react-native'
 import { GameEngine } from 'react-native-game-engine'
 import { EmojiType, IEmoji } from '../../../domains/emojis/EmojiTypes'
@@ -7,11 +7,9 @@ import { usePrevious } from '../../../utils/reactHooks'
 import Heart from '../emoji/Heart'
 import Jar from './Jar'
 import { JarHeight, JarWidth } from './JarConstants'
-import { getEngine } from './JarEngine'
+import { createEngine } from './JarEngine'
 import PhysicalEmojiWrapper from './PhyscialEmojiWrapper'
 import { IGameEngineEmoji, IJarEngine, PhysicsEngineFunc } from './Types'
-
-let engineInstance: IJarEngine | null = null
 
 interface IJarContainerProps {
   emojis: IEmoji[]
@@ -31,23 +29,7 @@ const withRenderer = (emoji: IGameEngineEmoji) => {
 let emojiAddingQueue: IEmoji[] = []
 
 const JarContainer = (props: IJarContainerProps) => {
-  const top = props.top || 0
-  const left = props.left || 0
-  const jarLeftCenter = (Dimensions.get('screen').width - JarWidth) / 2
-  if (!engineInstance) {
-    engineInstance = getEngine(JarWidth, JarHeight, props.emojis)
-  }
-  const {
-    Physics,
-    engine,
-    world,
-    ground,
-    emojis,
-    wallLeft,
-    wallRight
-  } = engineInstance
-
-  const emojisObj = emojis.map(c => withRenderer(c))
+  const [engineInstance, setEngineInstance] = useState<IJarEngine | null>(null)
 
   // Compare previous emojis and get to update queue
   const previousEmojis = usePrevious(props.emojis)
@@ -62,6 +44,28 @@ const JarContainer = (props: IJarContainerProps) => {
       }
     }
   }, [props.emojis])
+  useEffect(() => {
+    setEngineInstance(createEngine(JarWidth, JarHeight, props.emojis))
+  }, [])
+
+  if (!engineInstance) {
+    return null
+  }
+  const top = props.top || 0
+  const left = props.left || 0
+  const jarLeftCenter = (Dimensions.get('screen').width - JarWidth) / 2
+
+  const {
+    Physics,
+    engine,
+    world,
+    ground,
+    emojis,
+    wallLeft,
+    wallRight
+  } = engineInstance
+
+  const emojisObj = emojis.map(c => withRenderer(c))
 
   // Update if queue is exists
   const updateEntities: PhysicsEngineFunc = entities => {
