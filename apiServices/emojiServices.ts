@@ -1,14 +1,6 @@
 import { IEmoji } from '../domains/emojis/EmojiTypes'
 import { authFetch } from './apiConnector'
 
-export async function getTodayEmojis(): Promise<IEmoji[]> {
-  const res = await authFetch<IEmoji[]>('GET', 'api/emoji/user')
-  if (res.status !== 200) {
-    throw Error('Cannot fetch today emoji')
-  }
-  return res.body
-}
-
 export async function fetchEmojis(userId: string): Promise<IEmoji[]> {
   const res = await authFetch<IEmoji[]>('GET', `api/emoji/user/${userId}`)
   if (res.status !== 200) {
