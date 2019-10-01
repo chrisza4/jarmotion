@@ -8,7 +8,7 @@ import createEmojiComponent from '../emoji/createEmojiComponent'
 import Heart from '../emoji/Heart'
 import Jar from './Jar'
 import { JarHeight, JarWidth } from './JarConstants'
-import { createEngine } from './JarEngine'
+import { createJarboxMatter } from './JarEngine'
 import PhysicalEmojiWrapper from './PhyscialEmojiWrapper'
 import { IGameEngineEmoji, IJarEngine, PhysicsEngineFunc } from './Types'
 
@@ -47,13 +47,15 @@ const JarContainer = (props: IJarContainerProps) => {
       }
     }
   }, [props.emojis])
+
   useEffect(() => {
-    setEngineInstance(createEngine(JarWidth, JarHeight, props.emojis))
+    setEngineInstance(createJarboxMatter(JarWidth, JarHeight, props.emojis))
   }, [])
 
   if (!engineInstance) {
     return null
   }
+
   const top = props.top || 0
   const left = props.left || 0
   const jarLeftCenter = (Dimensions.get('screen').width - JarWidth) / 2
@@ -71,7 +73,7 @@ const JarContainer = (props: IJarContainerProps) => {
   const emojisObj = emojis.map(c => withRenderer(c))
 
   // Update if queue is exists
-  const updateEntities: PhysicsEngineFunc = entities => {
+  const updateEntitiesEveryGameLoop: PhysicsEngineFunc = entities => {
     if (!engineInstance || emojiAddingQueue.length === 0) {
       return entities
     }
@@ -91,13 +93,13 @@ const JarContainer = (props: IJarContainerProps) => {
       }}
     >
       <GameEngine
-        systems={[Physics, updateEntities]} // Array of Systems
+        systems={[Physics, updateEntitiesEveryGameLoop]} // Array of Systems
         entities={{
           physics: { engine, world },
-          ground: { ...ground, renderer: Box },
+          ground: { ...ground, renderer: SolidDenseBox },
           ...emojisObj,
-          wallLeft: { ...wallLeft, renderer: Box },
-          wallRight: { ...wallRight, renderer: Box }
+          wallLeft: { ...wallLeft, renderer: SolidDenseBox },
+          wallRight: { ...wallRight, renderer: SolidDenseBox }
         }}
         style={{
           position: 'absolute',
@@ -114,7 +116,7 @@ const JarContainer = (props: IJarContainerProps) => {
   )
 }
 
-const Box = (props: any) => {
+const SolidDenseBox = (props: any) => {
   const width = props.size.width
   const height = props.size.height
   const x = props.body.position.x

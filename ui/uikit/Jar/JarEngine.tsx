@@ -2,7 +2,7 @@ import Matter from 'matter-js'
 import { EmojiType, IEmoji } from '../../../domains/emojis/EmojiTypes'
 import { IGameEngineEmoji, IJarEngine, PhysicsEngineFunc } from './Types'
 
-export function createEngine(
+export function createJarboxMatter(
   jarWidth: number,
   jarHeight: number,
   emojis: IEmoji[]
