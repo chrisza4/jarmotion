@@ -67,7 +67,7 @@ export function createEngine(
   }
 
   const getEmojiBody = (emojiType: EmojiType): IGameEngineEmoji => {
-    const radius = 11
+    const radius = 14
     return {
       body: Matter.Bodies.circle(
         jarWidth / 2 - radius,

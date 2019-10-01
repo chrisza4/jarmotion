@@ -66,7 +66,7 @@ const AddEmotionModal = (props: AddEmotionModalProps) => {
         text='ADD'
         style={TextButtonStyle.BlackButton}
         onPress={() =>
-          props.onAddEmoji ? props.onAddEmoji(EmojiType.Heart) : _.noop
+          props.onAddEmoji ? props.onAddEmoji(EmojiType.Happy) : _.noop
         }
       />
     </View>

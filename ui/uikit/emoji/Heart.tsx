@@ -1,5 +1,5 @@
 import React from 'react'
-import { Animated, Easing, View } from 'react-native'
+import { Animated, Easing, Image, View } from 'react-native'
 
 class Heart extends React.Component {
   private RotateValueHolder: Animated.Value
@@ -28,12 +28,11 @@ class Heart extends React.Component {
     //   outputRange: ['0deg', '360deg']
     // })
     return (
-      <Animated.Image
+      <Image
         style={{
           width: 30,
           height: 30,
           resizeMode: 'contain'
-          // transform: [{ rotate: RotateData }]
         }}
         source={require('../../../assets/emoji_heart.png')}
       />
