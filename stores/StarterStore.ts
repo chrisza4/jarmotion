@@ -1,5 +1,5 @@
-import { IJarmotionEntity } from 'domains/general/GeneralTypes'
 import { action } from 'mobx'
+import { IJarmotionEntity } from '../domains/general/GeneralTypes'
 import { establishedSocket } from '../socket/socketConnection'
 import AuthStore, { AuthStoreClass } from './AuthStore'
 import EmojiStore from './EmojiStore'
@@ -25,6 +25,7 @@ export class StarterStoreClass {
       this.authStore.getAuthStatus.token,
       [this.userStore.me.id, this.userStore.couple.id],
       () => {
+        // tslint:disable-next-line: no-console
         console.error('Socket error, retrying')
       }
     )
