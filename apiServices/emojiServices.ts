@@ -12,7 +12,10 @@ export async function fetchEmojis(userId: string): Promise<IEmoji[]> {
 export async function addEmoji(emoji: IEmoji): Promise<IEmoji> {
   const res = await authFetch<IEmoji>('POST', 'api/emoji/', emoji)
   if (res.status !== 200) {
-    throw Error('Cannot save emoji')
+    if (res.status === 422) {
+      throw Error('Cannot save emoji: data error')
+    }
+    throw Error('Cannot save emoji: Unknown error')
   }
   return res.body
 }

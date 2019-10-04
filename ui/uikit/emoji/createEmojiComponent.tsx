@@ -4,6 +4,7 @@ import { EmojiType } from '../../../domains/emojis/EmojiTypes'
 
 interface IEmojiProps {
   type: EmojiType
+  key?: string
 }
 const emojiImageMap = {
   [EmojiType.Heart]: require(`../../../assets/emoji_heart.png`),

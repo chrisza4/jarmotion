@@ -1,8 +1,9 @@
 import _ from 'lodash'
-import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import React, { useState } from 'react'
+import { StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native'
 import { EmojiType } from '../../domains/emojis/EmojiTypes'
 import TextButton, { TextButtonStyle } from '../uikit/buttons/TextButton'
+import createEmojiComponent from '../uikit/emoji/createEmojiComponent'
 import Modal from '../uikit/Modal'
 
 type AddEmotionModalProps = {
@@ -38,23 +39,71 @@ const styles = StyleSheet.create({
 
 const addEmotionModalSectionStyle = StyleSheet.create({
   holder: {
-    marginTop: 12
+    marginTop: 12,
+    display: 'flex',
+    flexDirection: 'row',
+    width: 300,
+    flexWrap: 'wrap'
   },
-  title: {
-    fontFamily: 'poppins',
-    fontSize: 23
+  emoji: {
+    width: 40,
+    height: 40,
+    paddingLeft: 5,
+    paddingTop: 5,
+    paddingRight: 5,
+    paddingBottom: 5
+  },
+  emojiSelected: {
+    borderColor: 'silver',
+    borderWidth: 1
   }
 })
 
-const AddEmotionModalSection = () => {
+type EmojiWrapperProps = {
+  children: React.ReactNode
+  selected: boolean
+  onPress: () => void
+}
+const EmojiWrapper = ({ children, selected, onPress }: EmojiWrapperProps) => {
+  const s = [
+    addEmotionModalSectionStyle.emoji,
+    selected ? addEmotionModalSectionStyle.emojiSelected : {}
+  ]
   return (
-    <View style={addEmotionModalSectionStyle.holder}>
-      <Text style={addEmotionModalSectionStyle.title}>Happy</Text>
-    </View>
+    <TouchableWithoutFeedback onPress={onPress}>
+      <View style={s}>{children}</View>
+    </TouchableWithoutFeedback>
   )
 }
 
+type AddEmotionModalSectionProps = {
+  selectedEmojiType: EmojiType
+  setSelectedEmojiType: (type: EmojiType) => void
+}
+const AddEmotionModalSection = ({
+  selectedEmojiType,
+  setSelectedEmojiType
+}: AddEmotionModalSectionProps) => {
+  const emojiList = Object.values(EmojiType)
+  const emojis = emojiList.map(emojiName => {
+    const Emoji = createEmojiComponent({ type: emojiName })
+    return (
+      <EmojiWrapper
+        selected={selectedEmojiType === emojiName}
+        onPress={() => setSelectedEmojiType(emojiName)}
+        key={emojiName}
+      >
+        <Emoji />
+      </EmojiWrapper>
+    )
+  })
+  return <View style={addEmotionModalSectionStyle.holder}>{emojis}</View>
+}
+
 const AddEmotionModal = (props: AddEmotionModalProps) => {
+  const [selectedEmojiType, setSelectedEmojiType] = useState<EmojiType>(
+    EmojiType.Heart
+  )
   const footer = (
     <View style={styles.footerHolder}>
       <TextButton
@@ -66,7 +115,7 @@ const AddEmotionModal = (props: AddEmotionModalProps) => {
         text='ADD'
         style={TextButtonStyle.BlackButton}
         onPress={() =>
-          props.onAddEmoji ? props.onAddEmoji(EmojiType.Happy) : _.noop
+          props.onAddEmoji ? props.onAddEmoji(selectedEmojiType) : _.noop
         }
       />
     </View>
@@ -84,7 +133,10 @@ const AddEmotionModal = (props: AddEmotionModalProps) => {
           </Text>
         </View>
         <View style={styles.content}>
-          <AddEmotionModalSection />
+          <AddEmotionModalSection
+            selectedEmojiType={selectedEmojiType}
+            setSelectedEmojiType={setSelectedEmojiType}
+          />
         </View>
       </View>
     </Modal>

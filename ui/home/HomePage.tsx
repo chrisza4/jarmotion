@@ -114,15 +114,19 @@ const HomePage = (props: HomePageProps) => {
   const onOpenEmojiModal = () => {
     setShowAddEmotionModal(true)
   }
-  const onAddEmoji = (emojiType: EmojiType) => {
+  const onAddEmoji = async (emojiType: EmojiType) => {
     const newEmoji: IEmoji = {
       id: uuid.v4(),
       type: emojiType,
       inserted_at: new Date(),
       owner_id: ''
     }
-    addEmojis([newEmoji], props.currentUser.id)
-    setShowAddEmotionModal(false)
+    try {
+      await addEmojis([newEmoji], props.currentUser.id)
+      setShowAddEmotionModal(false)
+    } catch (err) {
+      Alert.alert(err.message)
+    }
   }
   const onCloseEmojiModal = () => setShowAddEmotionModal(false)
 
