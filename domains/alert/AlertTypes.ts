@@ -12,3 +12,10 @@ export enum AlertStatus {
   Pending = 'pending',
   Acknowledged = 'acknowledged'
 }
+
+export interface IDisplayAlertItem {
+  alertId: string
+  message: string
+  sentAt: Date
+  status: AlertStatus
+}
