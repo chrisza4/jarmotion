@@ -1,10 +1,11 @@
 import uuid from 'uuid'
 import { IUser } from './UserTypes'
 
-export function getMockUser(email: string, name: string, id?: string): IUser {
+export function getMockUser(props: Partial<IUser>): IUser {
   return {
-    id: id || uuid.v4(),
-    email,
-    name
+    id: uuid.v4(),
+    email: 'test@test.com',
+    name: 'tester',
+    ...props
   }
 }
