@@ -13,9 +13,15 @@ export enum AlertStatus {
   Acknowledged = 'acknowledged'
 }
 
+export enum AlertSource {
+  MeSent = 'me_sent',
+  MeReceived = 'me_received'
+}
+
 export interface IDisplayAlertItem {
   alertId: string
   message: string
   sentAt: Date
   status: AlertStatus
+  side: AlertSource
 }

@@ -2,7 +2,7 @@ import _ from 'lodash'
 import moment from 'moment'
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-import { getDisplayAlertMocks } from '../../domains/alert/AlertMocks'
+import { getMockDisplayAlert } from '../../domains/alert/AlertMocks'
 import { IAlert, IDisplayAlertItem } from '../../domains/alert/AlertTypes'
 import TextButton, { TextButtonStyle } from '../uikit/buttons/TextButton'
 import Modal from '../uikit/Modal'
@@ -51,10 +51,10 @@ const AlertModal = (props: IAlertModalProps) => {
           <Text style={styles.textHeader}>Recent Alerts</Text>
         </View>
         <View style={{ top: 20 }}>
-          <AlertItem displayAlert={getDisplayAlertMocks()}></AlertItem>
-          <AlertItem displayAlert={getDisplayAlertMocks()}></AlertItem>
-          <AlertItem displayAlert={getDisplayAlertMocks()}></AlertItem>
-          <AlertItem displayAlert={getDisplayAlertMocks()}></AlertItem>
+          <AlertItem displayAlert={getMockDisplayAlert()}></AlertItem>
+          <AlertItem displayAlert={getMockDisplayAlert()}></AlertItem>
+          <AlertItem displayAlert={getMockDisplayAlert()}></AlertItem>
+          <AlertItem displayAlert={getMockDisplayAlert()}></AlertItem>
         </View>
       </View>
     </Modal>
