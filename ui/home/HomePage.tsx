@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Alert, ImageBackground, StyleSheet, Text, View } from 'react-native'
 
 import uuid from 'uuid'
+import { IAlert } from '../../domains/alert/AlertTypes'
 import { EmojiType, IEmoji } from '../../domains/emojis/EmojiTypes'
 import { IUser } from '../../domains/users/UserTypes'
 import { LoadingState, LoadingStateStatus } from '../../types/LoadingState'
@@ -16,6 +17,7 @@ import MainLogo from '../uikit/images/MainLogo'
 import JarContainer from '../uikit/Jar/JarContainer'
 import NameTag from '../uikit/NameTag'
 import AddEmotionModal from './AddEmotionModal'
+import AlertModal from './AlertModal'
 
 const styles = StyleSheet.create({
   page: {
@@ -105,30 +107,17 @@ type HomePageProps = {
   addEmojis: (emojis: IEmoji[], userId: string) => void
   currentUser: IUser
   isMyself: boolean
+  recentAlerts: IAlert[]
 }
 
 const HomePage = (props: HomePageProps) => {
   const [showAddEmotionModal, setShowAddEmotionModal] = useState(false)
+  const [showAlertModal, setShowAlertModal] = useState(false)
   const { emojis, addEmojis, currentUser, isMyself } = props
 
-  const onOpenEmojiModal = () => {
+  const onOpenAddEmotionModal = () => {
     setShowAddEmotionModal(true)
   }
-  const onAddEmoji = async (emojiType: EmojiType) => {
-    const newEmoji: IEmoji = {
-      id: uuid.v4(),
-      type: emojiType,
-      inserted_at: new Date(),
-      owner_id: ''
-    }
-    try {
-      await addEmojis([newEmoji], props.currentUser.id)
-      setShowAddEmotionModal(false)
-    } catch (err) {
-      Alert.alert(err.message)
-    }
-  }
-  const onCloseEmojiModal = () => setShowAddEmotionModal(false)
 
   useEffect(() => {
     if (props.loadState.status === LoadingStateStatus.Error) {
@@ -159,12 +148,11 @@ const HomePage = (props: HomePageProps) => {
         </View>
       </View>
     )
-  const renderAlertButton = () =>
-    isMyself && (
-      <View style={styles.notificationButtonHolder}>
-        <AlertButton />
-      </View>
-    )
+  const renderAlertButton = () => (
+    <View style={styles.notificationButtonHolder}>
+      <AlertButton alerting={false} onPress={() => setShowAlertModal(true)} />
+    </View>
+  )
 
   const renderTopSection = () => (
     <ImageBackground
@@ -186,7 +174,7 @@ const HomePage = (props: HomePageProps) => {
         <View style={styles.addButtonHolder}>
           {isMyself && (
             <AddEmotionButton
-              onPress={onOpenEmojiModal}
+              onPress={onOpenAddEmotionModal}
               loading={props.loadState.status === LoadingStateStatus.Loading}
             />
           )}
@@ -208,13 +196,40 @@ const HomePage = (props: HomePageProps) => {
     </ImageBackground>
   )
 
-  const renderModal = () => (
-    <AddEmotionModal
-      show={showAddEmotionModal}
-      onClose={onCloseEmojiModal}
-      onAddEmoji={onAddEmoji}
-    />
-  )
+  const renderAddEmotionModal = () => {
+    const onAddEmoji = async (emojiType: EmojiType) => {
+      const newEmoji: IEmoji = {
+        id: uuid.v4(),
+        type: emojiType,
+        inserted_at: new Date(),
+        owner_id: ''
+      }
+      try {
+        await addEmojis([newEmoji], props.currentUser.id)
+        setShowAddEmotionModal(false)
+      } catch (err) {
+        Alert.alert(err.message)
+      }
+    }
+    const onCloseEmojiModal = () => setShowAddEmotionModal(false)
+    return (
+      <AddEmotionModal
+        show={showAddEmotionModal}
+        onClose={onCloseEmojiModal}
+        onAddEmoji={onAddEmoji}
+      />
+    )
+  }
+
+  const renderAlertModal = () => {
+    return (
+      <AlertModal
+        show={showAlertModal}
+        onClose={() => setShowAlertModal(false)}
+        alerts={props.recentAlerts}
+      />
+    )
+  }
 
   return (
     <ScreenLayout>
@@ -223,7 +238,8 @@ const HomePage = (props: HomePageProps) => {
         {renderMiddleSection()}
         {renderBottomSection()}
       </View>
-      {renderModal()}
+      {renderAddEmotionModal()}
+      {renderAlertModal()}
     </ScreenLayout>
   )
 }

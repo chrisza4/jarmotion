@@ -12,6 +12,7 @@ type AddEmotionModalProps = {
   onAddEmoji?: (emoji: EmojiType) => void
 }
 
+// Prepare to Refactor.... Nearly same style as AlertModal
 const styles = StyleSheet.create({
   title: {
     marginTop: 5

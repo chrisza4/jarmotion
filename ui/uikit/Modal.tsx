@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     opacity: 0.5
   },
   modalStyle: {
-    top: 21 + StatusBarHeight,
+    top: 21 + (StatusBarHeight || 0),
     left: 15,
     right: 15,
     bottom: 21,
@@ -57,7 +57,9 @@ const styles = StyleSheet.create({
 
 const Modal = (props: ModalProps) => {
   const renderFooter = () => {
-    if (!props.showFooter) { return null }
+    if (!props.showFooter) {
+      return null
+    }
     const footerStyle = {
       ...styles.footer,
       ...(props.footerStyle || {})

@@ -30,6 +30,7 @@ const HomePageContainer = observer(
         loadState={EmojiStore.getLoadStateByUserId(currentUser.id)}
         currentUser={currentUser}
         isMyself={props.isMyself}
+        recentAlerts={[]}
       />
     )
   }
