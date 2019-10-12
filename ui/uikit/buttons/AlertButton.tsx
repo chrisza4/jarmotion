@@ -1,7 +1,7 @@
 import React from 'react'
 import { Image, TouchableOpacity } from 'react-native'
 
-const NotificationButton = () => {
+const AlertButton = () => {
   return (
     <TouchableOpacity>
       <Image
@@ -12,4 +12,4 @@ const NotificationButton = () => {
   )
 }
 
-export default NotificationButton
+export default AlertButton

@@ -8,7 +8,7 @@ import { LoadingState, LoadingStateStatus } from '../../types/LoadingState'
 import ScreenLayout from '../layouts/ScreenLayout'
 import { brownishGrey, greenish, offWhite } from '../styles/colors'
 import AddEmotionButton from '../uikit/buttons/AddEmotionButton'
-import NotificationButton from '../uikit/buttons/NotificationButton'
+import AlertButton from '../uikit/buttons/AlertButton'
 import Circle from '../uikit/Circle'
 import IconChatNoti from '../uikit/images/IconChatNoti'
 import IconPeople from '../uikit/images/IconPeople'
@@ -159,10 +159,10 @@ const HomePage = (props: HomePageProps) => {
         </View>
       </View>
     )
-  const renderNotificationButton = () =>
+  const renderAlertButton = () =>
     isMyself && (
       <View style={styles.notificationButtonHolder}>
-        <NotificationButton />
+        <AlertButton />
       </View>
     )
 
@@ -171,7 +171,7 @@ const HomePage = (props: HomePageProps) => {
       style={styles.backgroundImage}
       source={require('../../assets/curvy_top_bg.png')}
     >
-      {renderNotificationButton()}
+      {renderAlertButton()}
       <View style={styles.logoHolder}>
         <MainLogo />
       </View>
