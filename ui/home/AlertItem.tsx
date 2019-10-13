@@ -1,8 +1,10 @@
 import moment from 'moment'
 import React from 'react'
+import { TouchableOpacity, TouchableWithoutFeedback } from 'react-native'
 import styled from 'styled-components/native'
 import { isUnacknowledge } from '../../domains/alert/AlertFunc'
 import { IDisplayAlertItem } from '../../domains/alert/AlertTypes'
+import TextButton, { TextButtonStyle } from '../uikit/buttons/TextButton'
 
 interface IAlertItemProps {
   displayAlert: IDisplayAlertItem
@@ -33,6 +35,7 @@ const AlertItemTimeText = styled.Text<IAlertStatus>`
 
 const AlertMessageTextWrapper = styled.View`
   margin-top: 10px;
+  flex-direction: row;
 `
 const AlertMessageText = styled.Text<IAlertStatus>`
   font-family: poppins-bold;
@@ -42,18 +45,23 @@ const AlertMessageText = styled.Text<IAlertStatus>`
 const AlertItem = (props: IAlertItemProps) => {
   const unack = isUnacknowledge(props.displayAlert)
   return (
-    <AlertItemWrapper unack={unack}>
-      <AlertItemTimeWrapper>
-        <AlertItemTimeText unack={unack}>
-          {moment(props.displayAlert.sentAt).fromNow()}
-        </AlertItemTimeText>
-      </AlertItemTimeWrapper>
-      <AlertMessageTextWrapper>
-        <AlertMessageText unack={unack}>
-          {props.displayAlert.message}
-        </AlertMessageText>
-      </AlertMessageTextWrapper>
-    </AlertItemWrapper>
+    <TouchableOpacity
+      disabled={!unack}
+      onPress={() => alert('Acknowledgement sent')}
+    >
+      <AlertItemWrapper unack={unack}>
+        <AlertItemTimeWrapper>
+          <AlertItemTimeText unack={unack}>
+            {moment(props.displayAlert.sentAt).fromNow()}
+          </AlertItemTimeText>
+        </AlertItemTimeWrapper>
+        <AlertMessageTextWrapper>
+          <AlertMessageText unack={unack}>
+            {props.displayAlert.message}
+          </AlertMessageText>
+        </AlertMessageTextWrapper>
+      </AlertItemWrapper>
+    </TouchableOpacity>
   )
 }
 
