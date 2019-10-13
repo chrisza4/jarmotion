@@ -2,7 +2,7 @@ import _ from 'lodash'
 import moment from 'moment'
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-import { IAlert, IDisplayAlertItem } from '../../domains/alert/AlertTypes'
+import { AlertStatus, IDisplayAlertItem } from '../../domains/alert/AlertTypes'
 import TextButton, { TextButtonStyle } from '../uikit/buttons/TextButton'
 import Modal from '../uikit/Modal'
 
@@ -53,10 +53,6 @@ const AlertModal = (props: IAlertModalProps) => {
           {props.alerts.map(alert => (
             <AlertItem key={alert.alertId} displayAlert={alert} />
           ))}
-          {/* <AlertItem displayAlert={getMockDisplayAlert()}></AlertItem>
-          <AlertItem displayAlert={getMockDisplayAlert()}></AlertItem>
-          <AlertItem displayAlert={getMockDisplayAlert()}></AlertItem>
-          <AlertItem displayAlert={getMockDisplayAlert()}></AlertItem> */}
         </View>
       </View>
     </Modal>
@@ -77,26 +73,49 @@ const alertItemStyles = StyleSheet.create({
     marginTop: 10,
     padding: 9
   },
+  alertItemWaitAcknowledge: {
+    borderColor: 'red',
+    borderWidth: 1
+  },
   timeText: {
     fontFamily: 'poppins-light'
   },
   messageText: {
     fontFamily: 'poppins-bold'
+  },
+  textWaitAcknowledge: {
+    color: 'red'
   }
 })
 
 const AlertItem = (props: IAlertItemProps) => {
+  const alertItemStyle = {
+    ...alertItemStyles.alertItem,
+    ...(props.displayAlert.status === AlertStatus.Acknowledged
+      ? {}
+      : alertItemStyles.alertItemWaitAcknowledge)
+  }
+  const messageTextStyle = {
+    ...alertItemStyles.messageText,
+    ...(props.displayAlert.status === AlertStatus.Acknowledged
+      ? {}
+      : alertItemStyles.textWaitAcknowledge)
+  }
+  const timeTextStyle = {
+    ...alertItemStyles.timeText,
+    ...(props.displayAlert.status === AlertStatus.Acknowledged
+      ? {}
+      : alertItemStyles.textWaitAcknowledge)
+  }
   return (
-    <View style={alertItemStyles.alertItem}>
+    <View style={alertItemStyle}>
       <View style={{ flexDirection: 'row' }}>
-        <Text style={alertItemStyles.timeText}>
+        <Text style={timeTextStyle}>
           {moment(props.displayAlert.sentAt).fromNow()}
         </Text>
       </View>
       <View style={{ marginTop: 10 }}>
-        <Text style={alertItemStyles.messageText}>
-          {props.displayAlert.message}
-        </Text>
+        <Text style={messageTextStyle}>{props.displayAlert.message}</Text>
       </View>
     </View>
   )
