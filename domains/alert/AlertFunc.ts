@@ -1,5 +1,10 @@
 import { IUser } from '../users/UserTypes'
-import { AlertSource, IAlert, IDisplayAlertItem } from './AlertTypes'
+import {
+  AlertSource,
+  AlertStatus,
+  IAlert,
+  IDisplayAlertItem
+} from './AlertTypes'
 
 export function getDisplayableAlert(
   alert: IAlert,
@@ -35,4 +40,11 @@ function alertFromMeReceived(alert: IAlert, others: IUser[]) {
     message: `You received an alert from ${relatedName}!!!!`,
     side: AlertSource.MeReceived
   }
+}
+
+interface IWithAlertStatus {
+  status: AlertStatus
+}
+export function isUnacknowledge(alert: IWithAlertStatus) {
+  return alert.status !== AlertStatus.Acknowledged
 }
