@@ -4,11 +4,13 @@ import { establishedSocket } from '../socket/socketConnection'
 import AuthStore, { AuthStoreClass } from './AuthStore'
 import EmojiStore from './EmojiStore'
 import UserStore, { UserStoreClass } from './UserStore'
+import AlertStore, { AlertStoreClass } from './AlertStore'
 
 export class StarterStoreClass {
   constructor(
     readonly userStore: UserStoreClass,
-    readonly authStore: AuthStoreClass
+    readonly authStore: AuthStoreClass,
+    readonly alertStore: AlertStoreClass
   ) {}
 
   @action
@@ -20,7 +22,7 @@ export class StarterStoreClass {
     ) {
       return
     }
-    await this.userStore.init()
+    await Promise.all([this.userStore.init(), this.alertStore.init()])
     const socket = await establishedSocket(
       this.authStore.getAuthStatus.token,
       [this.userStore.me.id, this.userStore.couple.id],
@@ -35,4 +37,4 @@ export class StarterStoreClass {
   }
 }
 
-export default new StarterStoreClass(UserStore, AuthStore)
+export default new StarterStoreClass(UserStore, AuthStore, AlertStore)

@@ -54,6 +54,12 @@ export default class AlertButton extends React.Component<IAlertButtonProps> {
     }
   }
 
+  public componentDidMount() {
+    if (this.props.alerting) {
+      this.handleAnimation()
+    }
+  }
+
   public render() {
     return (
       <TouchableOpacity onPress={this.props.onPress}>
