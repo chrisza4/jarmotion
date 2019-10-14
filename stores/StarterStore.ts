@@ -32,10 +32,10 @@ export class StarterStoreClass {
       }
     )
     socket.on('emoji:add', (entity: IJarmotionEntity) => {
-      EmojiStore.fetchEmojiById(entity.id)
+      EmojiStore.fetchEmoji(entity.id)
     })
     socket.on('alert:add', (entity: IJarmotionEntity) => {
-      AlertStore.fetchAlertById(entity.id)
+      AlertStore.fetchAlert(entity.id)
     })
   }
 }

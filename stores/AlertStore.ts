@@ -19,12 +19,23 @@ export class AlertStoreClass {
   })
 
   @action
-  public async fetchAlertById(id: string) {
+  public async fetchAlert(id: string) {
     if (this.alerts.some(a => a.id === id)) {
       return
     }
     const newAlert = await AlertServices.fetchAlertById(id)
     this.alerts = [newAlert, ...this.alerts]
+  }
+
+  @action
+  public async ackAlert(id: string) {
+    if (!this.alerts.some(alert => alert.id === id)) {
+      return
+    }
+    const newAlert = await AlertServices.ackAlert(id)
+    this.alerts = this.alerts.map(alert =>
+      alert.id === newAlert.id ? newAlert : alert
+    )
   }
 
   @action
