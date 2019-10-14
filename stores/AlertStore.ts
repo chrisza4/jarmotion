@@ -1,4 +1,4 @@
-import { action, computed, observable } from 'mobx'
+import { action, observable } from 'mobx'
 import { computedFn } from 'mobx-utils'
 import * as AlertServices from '../apiServices/alertServices'
 import { AlertStatus, IAlert } from '../domains/alert/AlertTypes'
@@ -17,6 +17,15 @@ export class AlertStoreClass {
         alert.status !== AlertStatus.Acknowledged
     )
   })
+
+  @action
+  public async fetchAlertById(id: string) {
+    if (this.alerts.some(a => a.id === id)) {
+      return
+    }
+    const newAlert = await AlertServices.fetchAlertById(id)
+    this.alerts = [newAlert, ...this.alerts]
+  }
 
   @action
   public async init() {

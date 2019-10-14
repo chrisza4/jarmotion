@@ -230,7 +230,7 @@ const HomePage = (props: HomePageProps) => {
   }
 
   const displayAlerts = props.recentAlerts.map(alert =>
-    getDisplayableAlert(alert, props.currentUser, props.others)
+    getDisplayableAlert(alert, props.me, props.others)
   )
   const renderAlertModal = () => {
     return (

@@ -1,10 +1,10 @@
 import { action } from 'mobx'
 import { IJarmotionEntity } from '../domains/general/GeneralTypes'
 import { establishedSocket } from '../socket/socketConnection'
+import AlertStore, { AlertStoreClass } from './AlertStore'
 import AuthStore, { AuthStoreClass } from './AuthStore'
 import EmojiStore from './EmojiStore'
 import UserStore, { UserStoreClass } from './UserStore'
-import AlertStore, { AlertStoreClass } from './AlertStore'
 
 export class StarterStoreClass {
   constructor(
@@ -33,6 +33,9 @@ export class StarterStoreClass {
     )
     socket.on('emoji:add', (entity: IJarmotionEntity) => {
       EmojiStore.fetchEmojiById(entity.id)
+    })
+    socket.on('alert:add', (entity: IJarmotionEntity) => {
+      AlertStore.fetchAlertById(entity.id)
     })
   }
 }

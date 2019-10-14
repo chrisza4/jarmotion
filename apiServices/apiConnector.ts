@@ -3,7 +3,7 @@ import { sanitizeBaseUrl } from '../utils/utils'
 
 type HttpMethod = 'GET' | 'POST' | 'PATCH' | 'PUT' | 'DELETE' | 'OPTIONS'
 
-export const BASE_URL = sanitizeBaseUrl('https://36740710.ngrok.io')
+export const BASE_URL = sanitizeBaseUrl('https://01e9fa9e.ngrok.io')
 
 type ApiResult<T> = {
   status: number
