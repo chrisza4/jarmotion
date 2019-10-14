@@ -1,13 +1,13 @@
 import moment from 'moment'
 import React from 'react'
-import { TouchableOpacity, TouchableWithoutFeedback } from 'react-native'
+import { TouchableOpacity } from 'react-native'
 import styled from 'styled-components/native'
-import { isUnacknowledge } from '../../domains/alert/AlertFunc'
-import { IDisplayAlertItem } from '../../domains/alert/AlertTypes'
-import TextButton, { TextButtonStyle } from '../uikit/buttons/TextButton'
+import { isUnacknowledge } from '../../../domains/alert/AlertFunc'
+import { IDisplayAlertItem } from '../../../domains/alert/AlertTypes'
 
 interface IAlertItemProps {
   displayAlert: IDisplayAlertItem
+  onAckAlert: (alertId: string) => Promise<void>
 }
 
 interface IAlertStatus {
@@ -47,7 +47,7 @@ const AlertItem = (props: IAlertItemProps) => {
   return (
     <TouchableOpacity
       disabled={!unack}
-      onPress={() => alert('Acknowledgement sent')}
+      onPress={() => props.onAckAlert(props.displayAlert.alertId)}
     >
       <AlertItemWrapper unack={unack}>
         <AlertItemTimeWrapper>

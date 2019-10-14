@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Alert, ImageBackground, StyleSheet, Text, View } from 'react-native'
 
-import { getDisplayableAlert } from '../../domains/alert/AlertFunc'
 import uuid from 'uuid'
-import { IAlert } from '../../domains/alert/AlertTypes'
 import { EmojiType, IEmoji } from '../../domains/emojis/EmojiTypes'
 import { IUser } from '../../domains/users/UserTypes'
 import { LoadingState, LoadingStateStatus } from '../../types/LoadingState'
@@ -18,7 +16,7 @@ import MainLogo from '../uikit/images/MainLogo'
 import JarContainer from '../uikit/Jar/JarContainer'
 import NameTag from '../uikit/NameTag'
 import AddEmotionModal from './AddEmotionModal'
-import AlertModal from './AlertModal'
+import AlertModalContainer from './alert-modal/AlertModalContainer'
 
 const styles = StyleSheet.create({
   page: {
@@ -107,10 +105,7 @@ type HomePageProps = {
   emojis: IEmoji[]
   addEmojis: (emojis: IEmoji[], userId: string) => void
   currentUser: IUser
-  me: IUser
-  others: IUser[]
   isMyself: boolean
-  recentAlerts: IAlert[]
   alerting: boolean
 }
 
@@ -229,15 +224,11 @@ const HomePage = (props: HomePageProps) => {
     )
   }
 
-  const displayAlerts = props.recentAlerts.map(alert =>
-    getDisplayableAlert(alert, props.me, props.others)
-  )
   const renderAlertModal = () => {
     return (
-      <AlertModal
+      <AlertModalContainer
         show={showAlertModal}
         onClose={() => setShowAlertModal(false)}
-        alerts={displayAlerts}
       />
     )
   }

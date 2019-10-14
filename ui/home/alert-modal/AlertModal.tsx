@@ -2,15 +2,16 @@ import _ from 'lodash'
 import React from 'react'
 import { View } from 'react-native'
 import styled from 'styled-components/native'
-import { IDisplayAlertItem } from '../../domains/alert/AlertTypes'
-import TextButton, { TextButtonStyle } from '../uikit/buttons/TextButton'
-import Modal from '../uikit/Modal'
+import { IDisplayAlertItem } from '../../../domains/alert/AlertTypes'
+import TextButton, { TextButtonStyle } from '../../uikit/buttons/TextButton'
+import Modal from '../../uikit/Modal'
 import AlertItem from './AlertItem'
 
 interface IAlertModalProps {
   alerts: IDisplayAlertItem[]
   show?: boolean
   onClose: () => void
+  onAckAlert: (alertId: string) => Promise<void>
 }
 
 const CloseButtonWrapper = styled.View`
@@ -52,7 +53,11 @@ const AlertModal = (props: IAlertModalProps) => {
         </TitleView>
         <ModalBody>
           {props.alerts.map(alert => (
-            <AlertItem key={alert.alertId} displayAlert={alert} />
+            <AlertItem
+              key={alert.alertId}
+              displayAlert={alert}
+              onAckAlert={props.onAckAlert}
+            />
           ))}
         </ModalBody>
       </ModalContent>

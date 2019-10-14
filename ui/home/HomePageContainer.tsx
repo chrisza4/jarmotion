@@ -2,10 +2,9 @@ import { observer } from 'mobx-react'
 import React, { useEffect } from 'react'
 import { View } from 'react-native'
 import { IUser } from '../../domains/users/UserTypes'
-import EmojiStore from '../../stores/EmojiStore'
 import AlertStore from '../../stores/AlertStore'
+import EmojiStore from '../../stores/EmojiStore'
 import HomePage from './HomePage'
-import UserStore from '../../stores/UserStore'
 
 type HomePageContainerProps = {
   currentUser?: IUser
@@ -31,10 +30,7 @@ const HomePageContainer = observer(
         addEmojis={EmojiStore.addEmojis}
         loadState={EmojiStore.getLoadStateByUserId(currentUser.id)}
         currentUser={currentUser}
-        me={UserStore.me}
-        others={[UserStore.couple]}
         isMyself={props.isMyself}
-        recentAlerts={AlertStore.alerts}
         alerting={AlertStore.isAlerting(currentUser.id)}
       />
     )
