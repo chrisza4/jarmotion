@@ -1,14 +1,10 @@
 import AuthStore from '../stores/AuthStore'
 import { sanitizeBaseUrl } from '../utils/utils'
+import { ApiResult } from './apiTypes'
 
 type HttpMethod = 'GET' | 'POST' | 'PATCH' | 'PUT' | 'DELETE' | 'OPTIONS'
 
-export const BASE_URL = sanitizeBaseUrl('https://572a87d2.ngrok.io')
-
-type ApiResult<T> = {
-  status: number
-  body: T
-}
+export const BASE_URL = sanitizeBaseUrl('https://b76aa95e.ngrok.io')
 
 export async function unauthFetch<T>(
   method: HttpMethod,

@@ -1,6 +1,8 @@
 import { action } from 'mobx'
+import * as DeviceServices from '../apiServices/deviceServices'
 import { IJarmotionEntity } from '../domains/general/GeneralTypes'
 import { establishedSocket } from '../socket/socketConnection'
+import AlertStore, { AlertStoreClass } from './AlertStore'
 import AuthStore, { AuthStoreClass } from './AuthStore'
 import EmojiStore from './EmojiStore'
 import UserStore, { UserStoreClass } from './UserStore'
@@ -8,7 +10,8 @@ import UserStore, { UserStoreClass } from './UserStore'
 export class StarterStoreClass {
   constructor(
     readonly userStore: UserStoreClass,
-    readonly authStore: AuthStoreClass
+    readonly authStore: AuthStoreClass,
+    readonly alertStore: AlertStoreClass
   ) {}
 
   @action
@@ -20,7 +23,11 @@ export class StarterStoreClass {
     ) {
       return
     }
-    await this.userStore.init()
+    DeviceServices.regisDevice().catch(error =>
+      // tslint:disable-next-line: no-console
+      console.error('Register device error:', error)
+    )
+    await Promise.all([this.userStore.init(), this.alertStore.init()])
     const socket = await establishedSocket(
       this.authStore.getAuthStatus.token,
       [this.userStore.me.id, this.userStore.couple.id],
@@ -30,9 +37,12 @@ export class StarterStoreClass {
       }
     )
     socket.on('emoji:add', (entity: IJarmotionEntity) => {
-      EmojiStore.fetchEmojiById(entity.id)
+      EmojiStore.fetchEmoji(entity.id)
+    })
+    socket.on('alert:add', (entity: IJarmotionEntity) => {
+      AlertStore.fetchAlert(entity.id)
     })
   }
 }
 
-export default new StarterStoreClass(UserStore, AuthStore)
+export default new StarterStoreClass(UserStore, AuthStore, AlertStore)

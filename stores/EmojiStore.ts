@@ -59,7 +59,7 @@ export class EmojiStoreClass {
   }
 
   @action.bound
-  public async fetchEmojiById(id: string) {
+  public async fetchEmoji(id: string) {
     if (this.getEmojiById(id)) {
       return
     }

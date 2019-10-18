@@ -15,7 +15,7 @@ const HomePageMe = observer((props: any) => {
   }
 
   return (
-    <GestureRecognizer onSwipeLeft={() => props.navigation.navigate('Couple')}>
+    <GestureRecognizer onSwipeRight={() => props.navigation.navigate('Couple')}>
       <HomePageContainer currentUser={me} isMyself />
     </GestureRecognizer>
   )
@@ -28,7 +28,7 @@ const HomePageCouple = observer((props: any) => {
   }
 
   return (
-    <GestureRecognizer onSwipeRight={() => props.navigation.navigate('Me')}>
+    <GestureRecognizer onSwipeLeft={() => props.navigation.navigate('Me')}>
       <HomePageContainer currentUser={couple} isMyself={false} />
     </GestureRecognizer>
   )
@@ -36,17 +36,17 @@ const HomePageCouple = observer((props: any) => {
 
 export default createStackNavigator(
   {
-    Me: {
-      screen: HomePageMe,
-      path: 'me'
-    },
     Couple: {
       screen: HomePageCouple,
       path: 'couple'
+    },
+    Me: {
+      screen: HomePageMe,
+      path: 'me'
     }
   },
   {
-    initialRouteName: 'Me',
+    initialRouteName: 'Couple',
     headerMode: 'none'
   }
 )

@@ -8,10 +8,10 @@ describe('Init', () => {
     const mockedGetMyself = UserServices.getMyself as jest.Mock
     const mockGetUsersInRelationship = UserServices.getUsersInRelationship as jest.Mock
     mockedGetMyself.mockResolvedValue(
-      getMockUser('chakrit.lj@gmail.com', 'chris')
+      getMockUser({ email: 'chakrit.lj@gmail.com', name: 'chris' })
     )
     mockGetUsersInRelationship.mockResolvedValue([
-      getMockUser('awa@gmail.com', 'awa')
+      getMockUser({ email: 'awa@gmail.com', name: 'awa' })
     ])
 
     await UserStore.init()

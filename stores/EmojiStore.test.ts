@@ -18,14 +18,14 @@ describe('EmojiStore', () => {
     })
 
     it('Refetch emoji if not exists in store', async () => {
-      await emojiStore.fetchEmojiById('emoji2')
+      await emojiStore.fetchEmoji('emoji2')
       expect(emojiStore.emojis.length).toEqual(2)
       expect(emojiStore.emojis.find(e => e.id === 'emoji1')).toBeTruthy()
       expect(emojiStore.emojis.find(e => e.id === 'emoji2')).toBeTruthy()
     })
 
     it('Do not refetch emoji if already exists in store', async () => {
-      await emojiStore.fetchEmojiById('emoji1')
+      await emojiStore.fetchEmoji('emoji1')
       expect(emojiStore.emojis.length).toEqual(1)
       expect(emojiStore.emojis.find(e => e.id === 'emoji1')).toBeTruthy()
     })

@@ -2,6 +2,7 @@ import { observer } from 'mobx-react'
 import React, { useEffect } from 'react'
 import { View } from 'react-native'
 import { IUser } from '../../domains/users/UserTypes'
+import AlertStore from '../../stores/AlertStore'
 import EmojiStore from '../../stores/EmojiStore'
 import HomePage from './HomePage'
 
@@ -30,6 +31,9 @@ const HomePageContainer = observer(
         loadState={EmojiStore.getLoadStateByUserId(currentUser.id)}
         currentUser={currentUser}
         isMyself={props.isMyself}
+        alerting={AlertStore.isAlerting(currentUser.id)}
+        showAlertModal={AlertStore.showAlertModal}
+        setShowAlertModal={t => AlertStore.setShowAlertModal(t)}
       />
     )
   }

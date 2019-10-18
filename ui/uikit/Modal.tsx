@@ -1,6 +1,7 @@
 import React, { ReactNode } from 'react'
 import {
   Modal as ReactNativeModal,
+  ScrollView,
   StyleSheet,
   View,
   ViewStyle
@@ -30,7 +31,7 @@ const styles = StyleSheet.create({
     opacity: 0.5
   },
   modalStyle: {
-    top: 21 + StatusBarHeight,
+    top: 21 + (StatusBarHeight || 0),
     left: 15,
     right: 15,
     bottom: 21,
@@ -41,10 +42,10 @@ const styles = StyleSheet.create({
     borderRadius: ModalBorderRadius
   },
   modalContent: {
-    padding: 10
+    padding: 10,
+    marginBottom: 5
   },
   footer: {
-    position: 'absolute',
     bottom: 0,
     height: 50,
     width: '100%',
@@ -57,7 +58,9 @@ const styles = StyleSheet.create({
 
 const Modal = (props: ModalProps) => {
   const renderFooter = () => {
-    if (!props.showFooter) { return null }
+    if (!props.showFooter) {
+      return null
+    }
     const footerStyle = {
       ...styles.footer,
       ...(props.footerStyle || {})
@@ -73,7 +76,7 @@ const Modal = (props: ModalProps) => {
     >
       <View style={styles.modalBackground} />
       <View style={styles.modalStyle}>
-        <View style={styles.modalContent}>{props.children}</View>
+        <ScrollView style={styles.modalContent}>{props.children}</ScrollView>
         {renderFooter()}
       </View>
     </ReactNativeModal>
