@@ -1,7 +1,13 @@
+import { Notifications } from 'expo'
 import { action, observable } from 'mobx'
 import { computedFn } from 'mobx-utils'
 import * as AlertServices from '../apiServices/alertServices'
 import { AlertStatus, IAlert } from '../domains/alert/AlertTypes'
+import {
+  PushNotifiactionOrigin,
+  PushNotification,
+  PushNotificationEntityType
+} from '../domains/general/PushNotificationTypes'
 import { LoadingState, LoadingStateStatus } from '../types/LoadingState'
 
 export class AlertStoreClass {
@@ -20,7 +26,7 @@ export class AlertStoreClass {
 
   @action
   public async fetchAlert(id: string) {
-    if (this.alerts.some(a => a.id === id)) {
+    if (this.isExists(id)) {
       return
     }
     const newAlert = await AlertServices.fetchAlertById(id)
@@ -28,8 +34,20 @@ export class AlertStoreClass {
   }
 
   @action
+  public async handleNotification(notification: PushNotification) {
+    if (notification.data.type !== PushNotificationEntityType.Alert) {
+      return
+    }
+    const alertId = notification.data.id
+    await this.fetchAlert(alertId)
+    if (notification.origin === PushNotifiactionOrigin.Selected) {
+      await this.ackAlert(alertId)
+    }
+  }
+
+  @action
   public async ackAlert(id: string) {
-    if (!this.alerts.some(alert => alert.id === id)) {
+    if (!this.isExists(id)) {
       return
     }
     const newAlert = await AlertServices.ackAlert(id)
@@ -55,6 +73,13 @@ export class AlertStoreClass {
         errorMessage: err.message
       }
     }
+    Notifications.addListener((n: PushNotification) =>
+      this.handleNotification(n)
+    )
+  }
+
+  private isExists(alertId: string) {
+    return this.alerts.some(alert => alert.id === alertId)
   }
 }
 
