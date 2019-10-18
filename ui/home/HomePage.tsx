@@ -5,6 +5,7 @@ import uuid from 'uuid'
 import { EmojiType, IEmoji } from '../../domains/emojis/EmojiTypes'
 import { IUser } from '../../domains/users/UserTypes'
 import { LoadingState, LoadingStateStatus } from '../../types/LoadingState'
+import PageTitle from '../layouts/PageTitle'
 import ScreenLayout from '../layouts/ScreenLayout'
 import { brownishGrey, greenish, offWhite } from '../styles/colors'
 import AddEmotionButton from '../uikit/buttons/AddEmotionButton'
@@ -34,11 +35,6 @@ const styles = StyleSheet.create({
     top: 10,
     right: 10,
     position: 'absolute'
-  },
-  logoHolder: {
-    resizeMode: 'contain',
-    alignSelf: 'center',
-    marginTop: 20
   },
   chatSection: {
     width: '80%',
@@ -164,9 +160,9 @@ const HomePage = (props: HomePageProps) => {
       source={require('../../assets/curvy_top_bg.png')}
     >
       {renderAlertButton()}
-      <View style={styles.logoHolder}>
+      <PageTitle>
         <MainLogo />
-      </View>
+      </PageTitle>
       {renderChatSection()}
     </ImageBackground>
   )
