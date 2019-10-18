@@ -32,6 +32,8 @@ const HomePageContainer = observer(
         currentUser={currentUser}
         isMyself={props.isMyself}
         alerting={AlertStore.isAlerting(currentUser.id)}
+        showAlertModal={AlertStore.showAlertModal}
+        setShowAlertModal={t => AlertStore.setShowAlertModal(t)}
       />
     )
   }

@@ -7,7 +7,6 @@ export async function regisDevice() {
   if (!token) {
     return
   }
-  console.log('Device token = ', token)
   await authFetch<null>('POST', 'api/devices', { token })
 }
 

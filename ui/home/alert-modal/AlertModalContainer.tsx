@@ -12,7 +12,7 @@ interface IAlertModalContainerProps {
 
 const AlertModalContainer = observer(
   (props: IAlertModalContainerProps): JSX.Element => {
-    const displayAlerts = AlertStore.alerts.map(alert =>
+    const displayAlerts = AlertStore.alertArr.map(alert =>
       getDisplayableAlert(alert, UserStore.me, [UserStore.couple])
     )
     return (

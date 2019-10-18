@@ -107,11 +107,12 @@ type HomePageProps = {
   currentUser: IUser
   isMyself: boolean
   alerting: boolean
+  showAlertModal: boolean
+  setShowAlertModal: (show: boolean) => void
 }
 
 const HomePage = (props: HomePageProps) => {
   const [showAddEmotionModal, setShowAddEmotionModal] = useState(false)
-  const [showAlertModal, setShowAlertModal] = useState(false)
   const { emojis, addEmojis, currentUser, isMyself } = props
 
   const onOpenAddEmotionModal = () => {
@@ -152,7 +153,7 @@ const HomePage = (props: HomePageProps) => {
     <View style={styles.notificationButtonHolder}>
       <AlertButton
         alerting={props.alerting}
-        onPress={() => setShowAlertModal(true)}
+        onPress={() => props.setShowAlertModal(true)}
       />
     </View>
   )
@@ -227,8 +228,8 @@ const HomePage = (props: HomePageProps) => {
   const renderAlertModal = () => {
     return (
       <AlertModalContainer
-        show={showAlertModal}
-        onClose={() => setShowAlertModal(false)}
+        show={props.showAlertModal}
+        onClose={() => props.setShowAlertModal(false)}
       />
     )
   }

@@ -1,5 +1,6 @@
 import { Notifications } from 'expo'
-import { action, observable } from 'mobx'
+import _ from 'lodash'
+import { action, computed, observable, runInAction } from 'mobx'
 import { computedFn } from 'mobx-utils'
 import { Alert } from 'react-native'
 import * as AlertServices from '../apiServices/alertServices'
@@ -15,15 +16,20 @@ export class AlertStoreClass {
   @observable public loadState: LoadingState = {
     status: LoadingStateStatus.Initial
   }
-  @observable public alerts: IAlert[] = []
+  @observable public alerts: { [id: string]: IAlert } = {}
+  @observable public showAlertModal: boolean = false
 
   public isAlerting = computedFn((forUserId: string) => {
-    return this.alerts.some(
+    return this.alertArr.some(
       alert =>
         alert.owner_id === forUserId &&
         alert.status !== AlertStatus.Acknowledged
     )
   })
+
+  @action public setShowAlertModal(show: boolean) {
+    this.showAlertModal = show
+  }
 
   @action
   public async fetchAlert(id: string) {
@@ -31,20 +37,29 @@ export class AlertStoreClass {
       return
     }
     const newAlert = await AlertServices.fetchAlertById(id)
-    this.alerts = [newAlert, ...this.alerts]
+    this.alerts[newAlert.id] = newAlert
   }
 
-  @action
   public async handleNotification(notification: PushNotification) {
-    if (notification.data.type !== PushNotificationEntityType.Alert) {
-      return
-    }
-    const alertId = notification.data.id
-    await this.fetchAlert(alertId)
-    if (notification.origin === PushNotifiactionOrigin.Selected) {
-      await this.ackAlert(alertId)
-      Alert.alert('Jarmotion', 'Thank you for noticing my alert.')
-    }
+    return runInAction(async () => {
+      const buttons = [
+        {
+          text: 'Checkout',
+          onPress: () => this.setShowAlertModal(true)
+        }
+      ]
+      if (notification.data.type !== PushNotificationEntityType.Alert) {
+        return
+      }
+      const alertId = notification.data.id
+      await this.fetchAlert(alertId)
+      if (notification.origin === PushNotifiactionOrigin.Selected) {
+        await this.ackAlert(alertId)
+        Alert.alert('Jarmotion', 'Thank you for noticing my alert', buttons)
+      } else {
+        Alert.alert('Jarmotion', 'You got a personal alert.', buttons)
+      }
+    })
   }
 
   @action
@@ -53,9 +68,7 @@ export class AlertStoreClass {
       return
     }
     const newAlert = await AlertServices.ackAlert(id)
-    this.alerts = this.alerts.map(alert =>
-      alert.id === newAlert.id ? newAlert : alert
-    )
+    this.alerts[newAlert.id] = newAlert
   }
 
   @action
@@ -68,7 +81,7 @@ export class AlertStoreClass {
       this.loadState = {
         status: LoadingStateStatus.Loaded
       }
-      this.alerts = alerts
+      this.alerts = _.keyBy(alerts, a => a.id)
     } catch (err) {
       this.loadState = {
         status: LoadingStateStatus.Error,
@@ -80,8 +93,13 @@ export class AlertStoreClass {
     )
   }
 
+  @computed
+  public get alertArr(): IAlert[] {
+    return Object.values(this.alerts)
+  }
+
   private isExists(alertId: string) {
-    return this.alerts.some(alert => alert.id === alertId)
+    return !!this.alerts[alertId]
   }
 }
 
