@@ -24,6 +24,7 @@ export class StarterStoreClass {
       return
     }
     DeviceServices.regisDevice().catch(error =>
+      // tslint:disable-next-line: no-console
       console.error('Register device error:', error)
     )
     await Promise.all([this.userStore.init(), this.alertStore.init()])
