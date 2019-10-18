@@ -1,4 +1,5 @@
 import { action } from 'mobx'
+import * as DeviceServices from '../apiServices/deviceServices'
 import { IJarmotionEntity } from '../domains/general/GeneralTypes'
 import { establishedSocket } from '../socket/socketConnection'
 import AlertStore, { AlertStoreClass } from './AlertStore'
@@ -22,6 +23,9 @@ export class StarterStoreClass {
     ) {
       return
     }
+    DeviceServices.regisDevice().catch(error =>
+      console.error('Register device error:', error)
+    )
     await Promise.all([this.userStore.init(), this.alertStore.init()])
     const socket = await establishedSocket(
       this.authStore.getAuthStatus.token,

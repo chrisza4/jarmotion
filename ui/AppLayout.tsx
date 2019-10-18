@@ -25,6 +25,7 @@ function AppLayout(props: AppLayoutProps) {
       return
     }
     await props.setAuthToken(res.jwt)
+    await props.init()
   }
 
   switch (props.authStatus.auth) {
