@@ -1,6 +1,7 @@
 import { Notifications } from 'expo'
 import { action, observable } from 'mobx'
 import { computedFn } from 'mobx-utils'
+import { Alert } from 'react-native'
 import * as AlertServices from '../apiServices/alertServices'
 import { AlertStatus, IAlert } from '../domains/alert/AlertTypes'
 import {
@@ -42,6 +43,7 @@ export class AlertStoreClass {
     await this.fetchAlert(alertId)
     if (notification.origin === PushNotifiactionOrigin.Selected) {
       await this.ackAlert(alertId)
+      Alert.alert('Jarmotion', 'Thank you for noticing my alert.')
     }
   }
 
