@@ -6,8 +6,11 @@ import TextButton, { TextButtonStyle } from '../uikit/buttons/TextButton'
 import createEmojiComponent from '../uikit/emoji/createEmojiComponent'
 import Modal from '../uikit/Modal'
 
+const emojiList = Object.values(EmojiType)
+
 type AddEmotionModalProps = {
   show: boolean
+  excludeEmojis?: EmojiType[]
   onClose?: () => void
   onAddEmoji?: (emoji: EmojiType) => void
 }
@@ -80,13 +83,17 @@ const EmojiWrapper = ({ children, selected, onPress }: EmojiWrapperProps) => {
 type AddEmotionModalSectionProps = {
   selectedEmojiType: EmojiType
   setSelectedEmojiType: (type: EmojiType) => void
+  excludeEmojis?: EmojiType[]
 }
 const AddEmotionModalSection = ({
   selectedEmojiType,
-  setSelectedEmojiType
+  setSelectedEmojiType,
+  excludeEmojis
 }: AddEmotionModalSectionProps) => {
-  const emojiList = Object.values(EmojiType)
-  const emojis = emojiList.map(emojiName => {
+  const displayEmojiList = excludeEmojis
+    ? emojiList.filter(e => !excludeEmojis.includes(e))
+    : emojiList
+  const emojis = displayEmojiList.map(emojiName => {
     const Emoji = createEmojiComponent({ type: emojiName })
     return (
       <EmojiWrapper
@@ -137,6 +144,7 @@ const AddEmotionModal = (props: AddEmotionModalProps) => {
           <AddEmotionModalSection
             selectedEmojiType={selectedEmojiType}
             setSelectedEmojiType={setSelectedEmojiType}
+            excludeEmojis={props.excludeEmojis}
           />
         </View>
       </View>
