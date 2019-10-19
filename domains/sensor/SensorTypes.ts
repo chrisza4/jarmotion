@@ -1,6 +1,6 @@
 import { EmojiType } from '../emojis/EmojiTypes'
 
-export interface ISensing {
+export interface ISensor {
   emoji_type: EmojiType
   threshold: number
 }

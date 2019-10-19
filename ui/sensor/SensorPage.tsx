@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { ScrollView, Text, View } from 'react-native'
 import styled from 'styled-components/native'
 import { emojiDisplayName } from '../../domains/emojis/EmojiFunc'
-import { ISensing } from '../../domains/sensing/SensingTypes'
+import { ISensor } from '../../domains/sensor/SensorTypes'
 import PageLayout from '../layouts/PageLayout'
+import AddEmotionModal from '../modals/AddEmotionModal'
 import { brownishGrey, fontBlack } from '../styles/colors'
 import AddEmotionButton from '../uikit/buttons/AddEmotionButton'
 import EditButton from '../uikit/buttons/EditButton'
@@ -23,7 +24,7 @@ const PageDescription = styled.Text`
   font-size: 15px;
 `
 
-const SensingRow = styled.View`
+const SensorRow = styled.View`
   display: flex;
   flex-direction: row;
   margin-top: 15px;
@@ -59,17 +60,17 @@ const ThresholdNumberText = styled.Text`
   margin-top: 5px;
 `
 
-const SensingBoxDescriptionRow = styled.View`
+const SensorBoxDescriptionRow = styled.View`
   flex-direction: row;
   justify-content: space-between;
 `
-const SensingBoxDescription = styled.Text`
+const SensorBoxDescription = styled.Text`
   font-family: poppins-semibold;
   font-size: 10px;
 `
 
 const randomInsignificantHeightWtf = 100
-const SensePageContent = styled.View`
+const SensorPageContent = styled.View`
   margin-left: 18px;
   margin-right: 18px;
   margin-bottom: 16px;
@@ -78,7 +79,7 @@ const SensePageContent = styled.View`
   height: ${randomInsignificantHeightWtf}px;
 `
 
-const AddSensePanel = styled.View`
+const AddSensorPanel = styled.View`
   height: 61px;
   border-radius: 31px;
   background-color: white;
@@ -87,35 +88,46 @@ const AddSensePanel = styled.View`
   margin-top: 10px;
 `
 
-const AddSensePanelTextPlaceHolder = styled.View`
+const AddSensorPanelTextPlaceHolder = styled.View`
   padding-left: 17px;
   padding-top: 17px;
   padding-bottom: 17px;
 `
 
-type SensingPageProps = {
-  senses: ISensing[]
+type SensorPageProps = {
+  sensors: ISensor[]
 }
 
-const SensingPage = (props: SensingPageProps) => {
-  const renderSenses = () => {
-    return props.senses.map(sense => {
+const SensorPage = (props: SensorPageProps) => {
+  const [showAddEmotionModal, setShowAddEmotionModal] = useState(false)
+
+  const renderSensors = () => {
+    return props.sensors.map(sensor => {
       return (
-        <SensingRow key={sense.emoji_type}>
+        <SensorRow key={sensor.emoji_type}>
           <EmojiBox>
-            <Emoji type={sense.emoji_type} sizePx={40} />
+            <Emoji type={sensor.emoji_type} sizePx={40} />
           </EmojiBox>
           <ThresholdBox>
-            <EmojiText>{emojiDisplayName(sense.emoji_type)}</EmojiText>
-            <ThresholdNumberText>{sense.threshold}</ThresholdNumberText>
-            <SensingBoxDescriptionRow>
-              <SensingBoxDescription>Times</SensingBoxDescription>
+            <EmojiText>{emojiDisplayName(sensor.emoji_type)}</EmojiText>
+            <ThresholdNumberText>{sensor.threshold}</ThresholdNumberText>
+            <SensorBoxDescriptionRow>
+              <SensorBoxDescription>Times</SensorBoxDescription>
               <EditButton />
-            </SensingBoxDescriptionRow>
+            </SensorBoxDescriptionRow>
           </ThresholdBox>
-        </SensingRow>
+        </SensorRow>
       )
     })
+  }
+
+  const renderAddEmotionModal = () => {
+    return (
+      <AddEmotionModal
+        show={showAddEmotionModal}
+        onClose={() => setShowAddEmotionModal(false)}
+      />
+    )
   }
   // Can be any significantly hight number (> 800) for unknown Reason. WTF!!!
   const randomBigInsinificantScrollHeight = 1000
@@ -126,19 +138,20 @@ const SensingPage = (props: SensingPageProps) => {
           Receive an alert when your parter feel these
         </PageDescription>
       </View>
-      <SensePageContent>
+      <SensorPageContent>
         <ScrollView style={{ height: randomBigInsinificantScrollHeight }}>
-          {renderSenses()}
+          {renderSensors()}
         </ScrollView>
-        <AddSensePanel>
-          <AddSensePanelTextPlaceHolder>
+        <AddSensorPanel>
+          <AddSensorPanelTextPlaceHolder>
             <Text>How can I help notify you?</Text>
-          </AddSensePanelTextPlaceHolder>
-          <AddEmotionButton />
-        </AddSensePanel>
-      </SensePageContent>
+          </AddSensorPanelTextPlaceHolder>
+          <AddEmotionButton onPress={() => setShowAddEmotionModal(true)} />
+        </AddSensorPanel>
+      </SensorPageContent>
+      {renderAddEmotionModal()}
     </PageLayout>
   )
 }
 
-export default SensingPage
+export default SensorPage
