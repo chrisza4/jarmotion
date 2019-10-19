@@ -5,6 +5,7 @@ import { emojiDisplayName } from '../../domains/emojis/EmojiFunc'
 import { ISensing } from '../../domains/sensing/SensingTypes'
 import PageLayout from '../layouts/PageLayout'
 import { brownishGrey, fontBlack } from '../styles/colors'
+import EditButton from '../uikit/buttons/EditButton'
 import Emoji from '../uikit/emoji/Emoji'
 
 const PageTitleText = styled.Text`
@@ -46,6 +47,7 @@ const ThresholdBox = styled.View`
   padding-top: 10px;
   padding-bottom: 10px;
   padding-left: 15px;
+  padding-right: 15px;
 `
 
 const EmojiText = styled.Text`
@@ -58,6 +60,10 @@ const ThresholdNumberText = styled.Text`
   margin-top: 5px;
 `
 
+const SensingBoxDescriptionRow = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+`
 const SensingBoxDescription = styled.Text`
   font-family: poppins-semibold;
   font-size: 10px;
@@ -78,7 +84,10 @@ const SensingPage = (props: SensingPageProps) => {
           <ThresholdBox>
             <EmojiText>{emojiDisplayName(sense.emoji_type)}</EmojiText>
             <ThresholdNumberText>{sense.threshold}</ThresholdNumberText>
-            <SensingBoxDescription>Times</SensingBoxDescription>
+            <SensingBoxDescriptionRow>
+              <SensingBoxDescription>Times</SensingBoxDescription>
+              <EditButton />
+            </SensingBoxDescriptionRow>
           </ThresholdBox>
         </SensingRow>
       )
