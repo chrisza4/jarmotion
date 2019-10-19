@@ -5,6 +5,7 @@ import { emojiDisplayName } from '../../domains/emojis/EmojiFunc'
 import { ISensing } from '../../domains/sensing/SensingTypes'
 import PageLayout from '../layouts/PageLayout'
 import { brownishGrey, fontBlack } from '../styles/colors'
+import AddEmotionButton from '../uikit/buttons/AddEmotionButton'
 import EditButton from '../uikit/buttons/EditButton'
 import Emoji from '../uikit/emoji/Emoji'
 
@@ -70,17 +71,23 @@ const SensingBoxDescription = styled.Text`
 const SensePageContent = styled.View`
   margin-left: 18px;
   margin-right: 18px;
+  margin-bottom: 16px;
   justify-content: space-between;
   flex-grow: 1;
-  border-width: 1px;
-  border-color: black;
-  border-style: solid;
 `
 
 const AddSensePanel = styled.View`
   height: 61px;
   border-radius: 31px;
   background-color: white;
+  flex-direction: row;
+  justify-content: space-between;
+`
+
+const AddSensePanelTextPlaceHolder = styled.View`
+  padding-left: 17px;
+  padding-top: 17px;
+  padding-bottom: 17px;
 `
 
 type SensingPageProps = {
@@ -112,13 +119,16 @@ const SensingPage = (props: SensingPageProps) => {
     <PageLayout titleElement={<PageTitleText>Sensing</PageTitleText>}>
       <View>
         <PageDescription>
-          Receive an alert when your parter feel these!
+          Receive an alert when your parter feel these
         </PageDescription>
       </View>
       <SensePageContent>
         <ScrollView>{renderSenses()}</ScrollView>
         <AddSensePanel>
-          <Text>Please set score</Text>
+          <AddSensePanelTextPlaceHolder>
+            <Text>How can I help notify you?</Text>
+          </AddSensePanelTextPlaceHolder>
+          <AddEmotionButton />
         </AddSensePanel>
       </SensePageContent>
     </PageLayout>
