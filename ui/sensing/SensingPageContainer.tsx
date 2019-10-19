@@ -6,7 +6,14 @@ import SensingPage from './SensingPage'
 const SensingPageContainer = () => {
   const senses: ISensing[] = [
     { emoji_type: EmojiType.Happy, threshold: 3 },
-    { emoji_type: EmojiType.Love, threshold: 5 }
+    { emoji_type: EmojiType.Love, threshold: 5 },
+    { emoji_type: EmojiType.Love, threshold: 5 },
+    { emoji_type: EmojiType.Love, threshold: 5 },
+    { emoji_type: EmojiType.Love, threshold: 5 },
+    { emoji_type: EmojiType.Love, threshold: 5 },
+    { emoji_type: EmojiType.Love, threshold: 5 },
+    { emoji_type: EmojiType.Love, threshold: 5 },
+    { emoji_type: EmojiType.Love, threshold: 10 }
   ]
   return <SensingPage senses={senses} />
 }

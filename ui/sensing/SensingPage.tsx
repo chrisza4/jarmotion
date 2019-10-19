@@ -68,12 +68,14 @@ const SensingBoxDescription = styled.Text`
   font-size: 10px;
 `
 
+const randomInsignificantHeightWtf = 100
 const SensePageContent = styled.View`
   margin-left: 18px;
   margin-right: 18px;
   margin-bottom: 16px;
   justify-content: space-between;
   flex-grow: 1;
+  height: ${randomInsignificantHeightWtf}px;
 `
 
 const AddSensePanel = styled.View`
@@ -82,6 +84,7 @@ const AddSensePanel = styled.View`
   background-color: white;
   flex-direction: row;
   justify-content: space-between;
+  margin-top: 10px;
 `
 
 const AddSensePanelTextPlaceHolder = styled.View`
@@ -114,7 +117,8 @@ const SensingPage = (props: SensingPageProps) => {
       )
     })
   }
-
+  // Can be any significantly hight number (> 800) for unknown Reason. WTF!!!
+  const randomBigInsinificantScrollHeight = 1000
   return (
     <PageLayout titleElement={<PageTitleText>Sensing</PageTitleText>}>
       <View>
@@ -123,7 +127,9 @@ const SensingPage = (props: SensingPageProps) => {
         </PageDescription>
       </View>
       <SensePageContent>
-        <ScrollView>{renderSenses()}</ScrollView>
+        <ScrollView style={{ height: randomBigInsinificantScrollHeight }}>
+          {renderSenses()}
+        </ScrollView>
         <AddSensePanel>
           <AddSensePanelTextPlaceHolder>
             <Text>How can I help notify you?</Text>

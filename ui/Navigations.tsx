@@ -6,6 +6,7 @@ import HomePage from './home/HomePageNavigator'
 import LogoutPage from './LogoutPage'
 import SensingPageContainer from './sensing/SensingPageContainer'
 import { greenish } from './styles/colors'
+import { TabbarHeight } from './styles/margins'
 import UnderConstructionPage from './UnderConstructionPage'
 
 // Custom Type until PR get merged and add @types definition
@@ -32,6 +33,9 @@ const createTabbarOption: (
       tabStyle: {
         borderTopWidth: width,
         borderTopColor: 'transparent'
+      },
+      style: {
+        height: TabbarHeight
       },
       activeTabButtonStyle: {
         borderTopColor: greenish,
