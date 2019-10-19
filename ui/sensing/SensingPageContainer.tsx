@@ -7,13 +7,13 @@ const SensingPageContainer = () => {
   const senses: ISensing[] = [
     { emoji_type: EmojiType.Happy, threshold: 3 },
     { emoji_type: EmojiType.Love, threshold: 5 },
-    { emoji_type: EmojiType.Love, threshold: 5 },
-    { emoji_type: EmojiType.Love, threshold: 5 },
-    { emoji_type: EmojiType.Love, threshold: 5 },
-    { emoji_type: EmojiType.Love, threshold: 5 },
-    { emoji_type: EmojiType.Love, threshold: 5 },
-    { emoji_type: EmojiType.Love, threshold: 5 },
-    { emoji_type: EmojiType.Love, threshold: 10 }
+    { emoji_type: EmojiType.Miserable, threshold: 5 },
+    { emoji_type: EmojiType.Stupid, threshold: 5 },
+    { emoji_type: EmojiType.Determined, threshold: 5 },
+    { emoji_type: EmojiType.Sick, threshold: 5 },
+    { emoji_type: EmojiType.Amused, threshold: 5 },
+    { emoji_type: EmojiType.Confident, threshold: 5 },
+    { emoji_type: EmojiType.Confused, threshold: 10 }
   ]
   return <SensingPage senses={senses} />
 }
