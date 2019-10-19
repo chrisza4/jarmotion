@@ -1,5 +1,5 @@
 import React from 'react'
-import { ScrollView, View } from 'react-native'
+import { ScrollView, Text, View } from 'react-native'
 import styled from 'styled-components/native'
 import { emojiDisplayName } from '../../domains/emojis/EmojiFunc'
 import { ISensing } from '../../domains/sensing/SensingTypes'
@@ -23,8 +23,6 @@ const PageDescription = styled.Text`
 `
 
 const SensingRow = styled.View`
-  margin-left: 18px;
-  margin-right: 18px;
   display: flex;
   flex-direction: row;
   margin-top: 15px;
@@ -69,6 +67,22 @@ const SensingBoxDescription = styled.Text`
   font-size: 10px;
 `
 
+const SensePageContent = styled.View`
+  margin-left: 18px;
+  margin-right: 18px;
+  justify-content: space-between;
+  flex-grow: 1;
+  border-width: 1px;
+  border-color: black;
+  border-style: solid;
+`
+
+const AddSensePanel = styled.View`
+  height: 61px;
+  border-radius: 31px;
+  background-color: white;
+`
+
 type SensingPageProps = {
   senses: ISensing[]
 }
@@ -101,7 +115,12 @@ const SensingPage = (props: SensingPageProps) => {
           Receive an alert when your parter feel these!
         </PageDescription>
       </View>
-      <ScrollView style={{ height: 400 }}>{renderSenses()}</ScrollView>
+      <SensePageContent>
+        <ScrollView>{renderSenses()}</ScrollView>
+        <AddSensePanel>
+          <Text>Please set score</Text>
+        </AddSensePanel>
+      </SensePageContent>
     </PageLayout>
   )
 }

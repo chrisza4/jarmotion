@@ -6,8 +6,8 @@ import { offWhite } from '../styles/colors'
 const styles = StyleSheet.create({
   page: {
     backgroundColor: offWhite,
-    height: '100%',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    flexGrow: 1
   },
   backgroundImage: {
     height: 188,
@@ -37,8 +37,8 @@ const PageLayout = (props: IPageLayoutProps) => {
         {renderTopSection()}
         <View>
           <PageTitle>{props.titleElement}</PageTitle>
-          <View>{props.children}</View>
         </View>
+        {props.children}
       </View>
     </ScreenLayout>
   )
