@@ -94,6 +94,11 @@ const AddSensorPanelTextPlaceHolder = styled.View`
   padding-top: 17px;
   padding-bottom: 17px;
 `
+const ThresholdNumberTextInput = styled.TextInput`
+  font-family: poppins-bold;
+  font-size: 25px;
+  margin-top: 5px;
+`
 
 type SensorPageProps = {
   sensors: ISensor[]
@@ -103,19 +108,47 @@ type SensorPageProps = {
 
 const SensorPage = (props: SensorPageProps) => {
   const [showAddEmotionModal, setShowAddEmotionModal] = useState(false)
+  const [edittingSensorId, setEdittingSensorId] = useState<string | null>(null)
 
-  const onUpsertSensor = async (emojiType: EmojiType) => {
+  const onUpsertSensor = async (emojiType: EmojiType, threshold: number) => {
     const sensor: ISensor = {
       id: 'random',
       emoji_type: emojiType,
-      threshold: 1
+      threshold
     }
     await props.onUpsertSensor(sensor)
     setShowAddEmotionModal(false)
   }
 
+  const onTryEditSensorThreshold = async (
+    emojiType: EmojiType,
+    thresholdString: string
+  ) => {
+    setEdittingSensorId(null)
+    const threshold = parseInt(thresholdString, 10)
+    if (isNaN(threshold)) {
+      return
+    }
+    if (threshold <= 0) {
+      return props.onDeleteSensor(emojiType)
+    }
+    return onUpsertSensor(emojiType, threshold)
+  }
+
   const renderSensors = () => {
     return props.sensors.map(sensor => {
+      const numberElement =
+        edittingSensorId === sensor.id ? (
+          <ThresholdNumberTextInput
+            autoFocus
+            defaultValue={String(sensor.threshold)}
+            onBlur={e =>
+              onTryEditSensorThreshold(sensor.emoji_type, e.nativeEvent.text)
+            }
+          />
+        ) : (
+          <ThresholdNumberText>{sensor.threshold}</ThresholdNumberText>
+        )
       return (
         <SensorRow key={sensor.emoji_type}>
           <EmojiBox>
@@ -123,10 +156,10 @@ const SensorPage = (props: SensorPageProps) => {
           </EmojiBox>
           <ThresholdBox>
             <EmojiText>{emojiDisplayName(sensor.emoji_type)}</EmojiText>
-            <ThresholdNumberText>{sensor.threshold}</ThresholdNumberText>
+            {numberElement}
             <SensorBoxDescriptionRow>
               <SensorBoxDescription>Times</SensorBoxDescription>
-              <EditButton />
+              <EditButton onPress={() => setEdittingSensorId(sensor.id)} />
             </SensorBoxDescriptionRow>
           </ThresholdBox>
         </SensorRow>
@@ -139,7 +172,7 @@ const SensorPage = (props: SensorPageProps) => {
       <AddEmotionModal
         show={showAddEmotionModal}
         onClose={() => setShowAddEmotionModal(false)}
-        onAddEmoji={emojiType => onUpsertSensor(emojiType)}
+        onAddEmoji={emojiType => onUpsertSensor(emojiType, 1)}
         excludeEmojis={props.sensors.map(s => s.emoji_type)}
       />
     )

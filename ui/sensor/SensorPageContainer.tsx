@@ -12,7 +12,7 @@ const SensingPageContainer = observer(() => {
     <SensorPage
       sensors={SensorStore.sensorsArray}
       onUpsertSensor={s => SensorStore.upsertSensor(s)}
-      onDeleteSensor={async () => undefined}
+      onDeleteSensor={e => SensorStore.deleteSensor(e)}
     />
   )
 })
