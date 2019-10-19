@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import { action, computed, observable } from 'mobx'
-import { fetchSensors } from '../apiServices/sensorServices'
+import * as SensorServices from '../apiServices/sensorServices'
 import { ISensor } from '../domains/sensor/SensorTypes'
 
 export class SensorStoreClass {
@@ -8,8 +8,14 @@ export class SensorStoreClass {
 
   @action
   public async fetchSensors() {
-    const sensors = await fetchSensors()
+    const sensors = await SensorServices.fetchSensors()
     this.sensors = _.keyBy(sensors, s => s.id)
+  }
+
+  @action
+  public async upsertSensor(sensor: ISensor) {
+    const updatedSensor = await SensorServices.upsertSensor(sensor)
+    this.sensors[updatedSensor.id] = updatedSensor
   }
 
   @computed public get sensorsArray(): ISensor[] {

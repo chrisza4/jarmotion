@@ -44,6 +44,7 @@ export async function authFetch<T>(
     },
     body: JSON.stringify(body)
   })
+
   const responseBody = (await response.json()) as T
   if (response.status === 403) {
     AuthStore.destroyAuthToken()

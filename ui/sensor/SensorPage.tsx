@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { ScrollView, Text, View } from 'react-native'
 import styled from 'styled-components/native'
 import { emojiDisplayName } from '../../domains/emojis/EmojiFunc'
+import { EmojiType } from '../../domains/emojis/EmojiTypes'
 import { ISensor } from '../../domains/sensor/SensorTypes'
 import PageLayout from '../layouts/PageLayout'
 import AddEmotionModal from '../modals/AddEmotionModal'
@@ -96,10 +97,22 @@ const AddSensorPanelTextPlaceHolder = styled.View`
 
 type SensorPageProps = {
   sensors: ISensor[]
+  onUpsertSensor: (sensor: ISensor) => Promise<void>
+  onDeleteSensor: (sensorType: EmojiType) => Promise<void>
 }
 
 const SensorPage = (props: SensorPageProps) => {
   const [showAddEmotionModal, setShowAddEmotionModal] = useState(false)
+
+  const onUpsertSensor = async (emojiType: EmojiType) => {
+    const sensor: ISensor = {
+      id: 'random',
+      emoji_type: emojiType,
+      threshold: 1
+    }
+    await props.onUpsertSensor(sensor)
+    setShowAddEmotionModal(false)
+  }
 
   const renderSensors = () => {
     return props.sensors.map(sensor => {
@@ -126,6 +139,7 @@ const SensorPage = (props: SensorPageProps) => {
       <AddEmotionModal
         show={showAddEmotionModal}
         onClose={() => setShowAddEmotionModal(false)}
+        onAddEmoji={emojiType => onUpsertSensor(emojiType)}
       />
     )
   }
