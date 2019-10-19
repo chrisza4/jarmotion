@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { Alert, ImageBackground, StyleSheet, Text, View } from 'react-native'
+import styled from 'styled-components/native'
 
 import uuid from 'uuid'
 import { EmojiType, IEmoji } from '../../domains/emojis/EmojiTypes'
 import { IUser } from '../../domains/users/UserTypes'
 import { LoadingState, LoadingStateStatus } from '../../types/LoadingState'
+import { JarHeight } from '..//uikit/Jar/JarConstants'
 import PageTitle from '../layouts/PageTitle'
 import ScreenLayout from '../layouts/ScreenLayout'
 import { brownishGrey, greenish, offWhite } from '../styles/colors'
@@ -19,14 +21,13 @@ import NameTag from '../uikit/NameTag'
 import AddEmotionModal from './AddEmotionModal'
 import AlertModalContainer from './alert-modal/AlertModalContainer'
 
+const TopHeight = 188
+const MiddleHeight = JarHeight + 30
+const BottomHeight = 188
+
 const styles = StyleSheet.create({
-  page: {
-    backgroundColor: offWhite,
-    height: '100%',
-    justifyContent: 'space-between'
-  },
   backgroundImage: {
-    height: 188,
+    height: TopHeight,
     width: '100%',
     resizeMode: 'stretch',
     backgroundColor: 'transparent'
@@ -70,10 +71,7 @@ const styles = StyleSheet.create({
     width: '100%',
     marginTop: 10
   },
-  bottomSection: {
-    flexDirection: 'row',
-    justifyContent: 'center'
-  },
+
   bottomBackgroundImage: {
     bottom: 0
   },
@@ -95,6 +93,29 @@ const styles = StyleSheet.create({
     top: 76
   }
 })
+
+const PageView = styled.View`
+  background-color: ${offWhite};
+  justify-content: space-between;
+  flex-grow: 1;
+`
+
+const TopSection = styled.View`
+  height: ${TopHeight}px;
+`
+
+const MiddleSection = styled.View`
+  height: ${MiddleHeight}px;
+`
+
+const BottomSection = styled.View`
+  min-height: ${BottomHeight}px;
+  justify-content: flex-end;
+`
+
+const BottomContentHolder = styled.View`
+  align-items: center;
+`
 
 type HomePageProps = {
   loadState: LoadingState
@@ -155,21 +176,23 @@ const HomePage = (props: HomePageProps) => {
   )
 
   const renderTopSection = () => (
-    <ImageBackground
-      style={styles.backgroundImage}
-      source={require('../../assets/curvy_top_bg.png')}
-    >
-      {renderAlertButton()}
-      <PageTitle>
-        <MainLogo />
-      </PageTitle>
-      {renderChatSection()}
-    </ImageBackground>
+    <TopSection>
+      <ImageBackground
+        style={styles.backgroundImage}
+        source={require('../../assets/curvy_top_bg.png')}
+      >
+        {renderAlertButton()}
+        <PageTitle>
+          <MainLogo />
+        </PageTitle>
+        {renderChatSection()}
+      </ImageBackground>
+    </TopSection>
   )
 
   const renderMiddleSection = () => {
     return (
-      <View>
+      <MiddleSection>
         <JarContainer emojis={emojis} />
         <View style={styles.addButtonHolder}>
           {isMyself && (
@@ -179,21 +202,23 @@ const HomePage = (props: HomePageProps) => {
             />
           )}
         </View>
-      </View>
+      </MiddleSection>
     )
   }
 
   const renderBottomSection = () => (
-    <ImageBackground
-      style={[styles.backgroundImage, styles.bottomBackgroundImage]}
-      source={require('../../assets/curvy_bottom_bg.png')}
-    >
-      <View style={styles.bottomSection}>
-        <Circle radius={22} style={styles.leftCircle} />
-        <Circle radius={15} style={styles.rightCircle} />
-        <NameTag style={styles.nameTag} name={currentUser.name} />
-      </View>
-    </ImageBackground>
+    <BottomSection>
+      <ImageBackground
+        style={[styles.backgroundImage, styles.bottomBackgroundImage]}
+        source={require('../../assets/curvy_bottom_bg.png')}
+      >
+        <BottomContentHolder>
+          <Circle radius={22} style={styles.leftCircle} />
+          <Circle radius={15} style={styles.rightCircle} />
+          <NameTag style={styles.nameTag} name={currentUser.name} />
+        </BottomContentHolder>
+      </ImageBackground>
+    </BottomSection>
   )
 
   const renderAddEmotionModal = () => {
@@ -232,13 +257,13 @@ const HomePage = (props: HomePageProps) => {
 
   return (
     <ScreenLayout>
-      <View style={styles.page}>
+      <PageView>
         {renderTopSection()}
         {renderMiddleSection()}
         {renderBottomSection()}
-      </View>
-      {renderAddEmotionModal()}
-      {renderAlertModal()}
+        {renderAddEmotionModal()}
+        {renderAlertModal()}
+      </PageView>
     </ScreenLayout>
   )
 }
