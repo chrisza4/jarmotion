@@ -2,11 +2,12 @@ import React from 'react'
 import { Image } from 'react-native'
 import { EmojiType } from '../../../domains/emojis/EmojiTypes'
 
-interface IEmojiProps {
+export interface IEmojiProps {
   type: EmojiType
   key?: string
 }
-const emojiImageMap = {
+
+export const emojiImageMap = {
   [EmojiType.Heart]: require(`../../../assets/emoji_heart.png`),
   [EmojiType.Afraid]: require(`../../../assets/emojis/afraid.png`),
   [EmojiType.Amused]: require(`../../../assets/emojis/amused.png`),

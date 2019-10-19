@@ -13,7 +13,8 @@ const styles = StyleSheet.create({
     height: 188,
     width: '100%',
     resizeMode: 'stretch',
-    backgroundColor: 'transparent'
+    backgroundColor: 'transparent',
+    position: 'absolute'
   }
 })
 
@@ -27,15 +28,18 @@ const PageLayout = (props: IPageLayoutProps) => {
     <ImageBackground
       style={styles.backgroundImage}
       source={require('../../assets/curvy_top_bg.png')}
-    >
-      <PageTitle>{props.titleElement}</PageTitle>
-      <View style={{}}>{props.children}</View>
-    </ImageBackground>
+    ></ImageBackground>
   )
 
   return (
     <ScreenLayout>
-      <View style={styles.page}>{renderTopSection()}</View>
+      <View style={styles.page}>
+        {renderTopSection()}
+        <View>
+          <PageTitle>{props.titleElement}</PageTitle>
+          <View>{props.children}</View>
+        </View>
+      </View>
     </ScreenLayout>
   )
 }

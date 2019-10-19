@@ -4,7 +4,7 @@ import { BottomTabNavigatorConfig, createAppContainer } from 'react-navigation' 
 import { createBottomTabNavigator } from 'react-navigation-tabs'
 import HomePage from './home/HomePageNavigator'
 import LogoutPage from './LogoutPage'
-import SensingPage from './sensing/SensingPage'
+import SensingPageContainer from './sensing/SensingPageContainer'
 import { greenish } from './styles/colors'
 import UnderConstructionPage from './UnderConstructionPage'
 
@@ -74,7 +74,7 @@ const TabNavigator = createBottomTabNavigator(
       navigationOptions: () => ({})
     },
     Calendar: UnderConstructionPage,
-    Sensing: SensingPage,
+    Sensing: SensingPageContainer,
     Settings: LogoutPage
   },
   bottomTabNavigatorConfig

@@ -4,7 +4,7 @@ import { ApiResult } from './apiTypes'
 
 type HttpMethod = 'GET' | 'POST' | 'PATCH' | 'PUT' | 'DELETE' | 'OPTIONS'
 
-export const BASE_URL = sanitizeBaseUrl('https://b76aa95e.ngrok.io')
+export const BASE_URL = sanitizeBaseUrl('https://82989150.ngrok.io')
 
 export async function unauthFetch<T>(
   method: HttpMethod,
