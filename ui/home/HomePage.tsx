@@ -49,11 +49,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between'
   },
-  textGreeting: {
-    fontFamily: 'poppins-light',
-    color: brownishGrey,
-    fontSize: 10
-  },
   textTellSomething: {
     fontFamily: 'poppins-medium',
     fontSize: 10,
@@ -117,6 +112,12 @@ const BottomContentHolder = styled.View`
   align-items: center;
 `
 
+const TextGreeting = styled.Text`
+  font-family: poppins-light;
+  color: ${brownishGrey};
+  font-size: 10px;
+`
+
 type HomePageProps = {
   loadState: LoadingState
   emojis: IEmoji[]
@@ -155,7 +156,7 @@ const HomePage = (props: HomePageProps) => {
       <View style={styles.chatSection}>
         <IconPeople />
         <View style={styles.greetingHolder}>
-          <Text style={styles.textGreeting}>Hello Chris</Text>
+          <TextGreeting>Hello {props.currentUser.name}</TextGreeting>
           <Text style={styles.textTellSomething}>
             Tell loved one how you feel?
           </Text>
