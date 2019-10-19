@@ -11,6 +11,8 @@ const emojiList = Object.values(EmojiType)
 type AddEmotionModalProps = {
   show: boolean
   excludeEmojis?: EmojiType[]
+  title: string
+  subtitle: string
   onClose?: () => void
   onAddEmoji?: (emoji: EmojiType) => void
 }
@@ -85,11 +87,8 @@ type AddEmotionModalSectionProps = {
   setSelectedEmojiType: (type: EmojiType) => void
   excludeEmojis?: EmojiType[]
 }
-const AddEmotionModalSection = ({
-  selectedEmojiType,
-  setSelectedEmojiType,
-  excludeEmojis
-}: AddEmotionModalSectionProps) => {
+const AddEmotionModalSection = (props: AddEmotionModalSectionProps) => {
+  const { excludeEmojis } = props
   const displayEmojiList = excludeEmojis
     ? emojiList.filter(e => !excludeEmojis.includes(e))
     : emojiList
@@ -97,8 +96,8 @@ const AddEmotionModalSection = ({
     const Emoji = createEmojiComponent({ type: emojiName })
     return (
       <EmojiWrapper
-        selected={selectedEmojiType === emojiName}
-        onPress={() => setSelectedEmojiType(emojiName)}
+        selected={props.selectedEmojiType === emojiName}
+        onPress={() => props.setSelectedEmojiType(emojiName)}
         key={emojiName}
       >
         <Emoji />
@@ -133,12 +132,10 @@ const AddEmotionModal = (props: AddEmotionModalProps) => {
     <Modal show={props.show} showFooter footer={footer}>
       <View style={styles.title}>
         <View style={styles.textCenterHolder}>
-          <Text style={styles.textHeader}>Tell me how you feel?</Text>
+          <Text style={styles.textHeader}>{props.title}</Text>
         </View>
         <View style={styles.textCenterHolder}>
-          <Text style={styles.textHeaderDescription}>
-            You can select your mood more one.
-          </Text>
+          <Text style={styles.textHeaderDescription}>{props.subtitle}</Text>
         </View>
         <View style={styles.content}>
           <AddEmotionModalSection

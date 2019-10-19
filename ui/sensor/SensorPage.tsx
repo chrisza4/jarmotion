@@ -174,6 +174,8 @@ const SensorPage = (props: SensorPageProps) => {
         onClose={() => setShowAddEmotionModal(false)}
         onAddEmoji={emojiType => onUpsertSensor(emojiType, 1)}
         excludeEmojis={props.sensors.map(s => s.emoji_type)}
+        title='Sense emotion'
+        subtitle='Select emotion that you want to keep track of'
       />
     )
   }

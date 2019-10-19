@@ -243,6 +243,8 @@ const HomePage = (props: HomePageProps) => {
         show={showAddEmotionModal}
         onClose={onCloseEmojiModal}
         onAddEmoji={onAddEmoji}
+        title='Tell me how you feel?'
+        subtitle='ou can select your mood more one.'
       />
     )
   }
