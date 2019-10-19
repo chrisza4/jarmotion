@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { Alert, ImageBackground, StyleSheet, Text, View } from 'react-native'
+import styled from 'styled-components/native'
 
 import uuid from 'uuid'
 import { EmojiType, IEmoji } from '../../domains/emojis/EmojiTypes'
 import { IUser } from '../../domains/users/UserTypes'
 import { LoadingState, LoadingStateStatus } from '../../types/LoadingState'
+import { JarHeight } from '..//uikit/Jar/JarConstants'
+import PageTitle from '../layouts/PageTitle'
 import ScreenLayout from '../layouts/ScreenLayout'
+import AddEmotionModal from '../modals/AddEmotionModal'
 import { brownishGrey, greenish, offWhite } from '../styles/colors'
 import AddEmotionButton from '../uikit/buttons/AddEmotionButton'
 import AlertButton from '../uikit/buttons/AlertButton'
@@ -15,17 +19,15 @@ import IconPeople from '../uikit/images/IconPeople'
 import MainLogo from '../uikit/images/MainLogo'
 import JarContainer from '../uikit/Jar/JarContainer'
 import NameTag from '../uikit/NameTag'
-import AddEmotionModal from './AddEmotionModal'
 import AlertModalContainer from './alert-modal/AlertModalContainer'
 
+const TopHeight = 188
+const MiddleHeight = JarHeight + 30
+const BottomHeight = 188
+
 const styles = StyleSheet.create({
-  page: {
-    backgroundColor: offWhite,
-    height: '100%',
-    justifyContent: 'space-between'
-  },
   backgroundImage: {
-    height: 188,
+    height: TopHeight,
     width: '100%',
     resizeMode: 'stretch',
     backgroundColor: 'transparent'
@@ -34,11 +36,6 @@ const styles = StyleSheet.create({
     top: 10,
     right: 10,
     position: 'absolute'
-  },
-  logoHolder: {
-    resizeMode: 'contain',
-    alignSelf: 'center',
-    marginTop: 20
   },
   chatSection: {
     width: '80%',
@@ -51,11 +48,6 @@ const styles = StyleSheet.create({
     paddingVertical: 7.5,
     flexDirection: 'row',
     justifyContent: 'space-between'
-  },
-  textGreeting: {
-    fontFamily: 'poppins-light',
-    color: brownishGrey,
-    fontSize: 10
   },
   textTellSomething: {
     fontFamily: 'poppins-medium',
@@ -74,10 +66,7 @@ const styles = StyleSheet.create({
     width: '100%',
     marginTop: 10
   },
-  bottomSection: {
-    flexDirection: 'row',
-    justifyContent: 'center'
-  },
+
   bottomBackgroundImage: {
     bottom: 0
   },
@@ -99,6 +88,35 @@ const styles = StyleSheet.create({
     top: 76
   }
 })
+
+const PageView = styled.View`
+  background-color: ${offWhite};
+  justify-content: space-between;
+  flex-grow: 1;
+`
+
+const TopSection = styled.View`
+  height: ${TopHeight}px;
+`
+
+const MiddleSection = styled.View`
+  height: ${MiddleHeight}px;
+`
+
+const BottomSection = styled.View`
+  min-height: ${BottomHeight}px;
+  justify-content: flex-end;
+`
+
+const BottomContentHolder = styled.View`
+  align-items: center;
+`
+
+const TextGreeting = styled.Text`
+  font-family: poppins-light;
+  color: ${brownishGrey};
+  font-size: 10px;
+`
 
 type HomePageProps = {
   loadState: LoadingState
@@ -138,7 +156,7 @@ const HomePage = (props: HomePageProps) => {
       <View style={styles.chatSection}>
         <IconPeople />
         <View style={styles.greetingHolder}>
-          <Text style={styles.textGreeting}>Hello Chris</Text>
+          <TextGreeting>Hello {props.currentUser.name}</TextGreeting>
           <Text style={styles.textTellSomething}>
             Tell loved one how you feel?
           </Text>
@@ -159,21 +177,23 @@ const HomePage = (props: HomePageProps) => {
   )
 
   const renderTopSection = () => (
-    <ImageBackground
-      style={styles.backgroundImage}
-      source={require('../../assets/curvy_top_bg.png')}
-    >
-      {renderAlertButton()}
-      <View style={styles.logoHolder}>
-        <MainLogo />
-      </View>
-      {renderChatSection()}
-    </ImageBackground>
+    <TopSection>
+      <ImageBackground
+        style={styles.backgroundImage}
+        source={require('../../assets/curvy_top_bg.png')}
+      >
+        {renderAlertButton()}
+        <PageTitle>
+          <MainLogo />
+        </PageTitle>
+        {renderChatSection()}
+      </ImageBackground>
+    </TopSection>
   )
 
   const renderMiddleSection = () => {
     return (
-      <View>
+      <MiddleSection>
         <JarContainer emojis={emojis} />
         <View style={styles.addButtonHolder}>
           {isMyself && (
@@ -183,21 +203,23 @@ const HomePage = (props: HomePageProps) => {
             />
           )}
         </View>
-      </View>
+      </MiddleSection>
     )
   }
 
   const renderBottomSection = () => (
-    <ImageBackground
-      style={[styles.backgroundImage, styles.bottomBackgroundImage]}
-      source={require('../../assets/curvy_bottom_bg.png')}
-    >
-      <View style={styles.bottomSection}>
-        <Circle radius={22} style={styles.leftCircle} />
-        <Circle radius={15} style={styles.rightCircle} />
-        <NameTag style={styles.nameTag} name={currentUser.name} />
-      </View>
-    </ImageBackground>
+    <BottomSection>
+      <ImageBackground
+        style={[styles.backgroundImage, styles.bottomBackgroundImage]}
+        source={require('../../assets/curvy_bottom_bg.png')}
+      >
+        <BottomContentHolder>
+          <Circle radius={22} style={styles.leftCircle} />
+          <Circle radius={15} style={styles.rightCircle} />
+          <NameTag style={styles.nameTag} name={currentUser.name} />
+        </BottomContentHolder>
+      </ImageBackground>
+    </BottomSection>
   )
 
   const renderAddEmotionModal = () => {
@@ -221,6 +243,8 @@ const HomePage = (props: HomePageProps) => {
         show={showAddEmotionModal}
         onClose={onCloseEmojiModal}
         onAddEmoji={onAddEmoji}
+        title='Tell me how you feel?'
+        subtitle='ou can select your mood more one.'
       />
     )
   }
@@ -236,13 +260,13 @@ const HomePage = (props: HomePageProps) => {
 
   return (
     <ScreenLayout>
-      <View style={styles.page}>
+      <PageView>
         {renderTopSection()}
         {renderMiddleSection()}
         {renderBottomSection()}
-      </View>
-      {renderAddEmotionModal()}
-      {renderAlertModal()}
+        {renderAddEmotionModal()}
+        {renderAlertModal()}
+      </PageView>
     </ScreenLayout>
   )
 }

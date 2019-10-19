@@ -3,9 +3,11 @@ import { Image, ImageSourcePropType, StyleProp, ViewStyle } from 'react-native'
 import { BottomTabNavigatorConfig, createAppContainer } from 'react-navigation' // 1.0.0-beta.27
 import { createBottomTabNavigator } from 'react-navigation-tabs'
 import HomePage from './home/HomePageNavigator'
-import { greenish } from './styles/colors'
-import UnderConstructionPage from './UnderConstructionPage'
 import LogoutPage from './LogoutPage'
+import SensingPageContainer from './sensor/SensorPageContainer'
+import { greenish } from './styles/colors'
+import { TabbarHeight } from './styles/margins'
+import UnderConstructionPage from './UnderConstructionPage'
 
 // Custom Type until PR get merged and add @types definition
 // https://github.com/react-navigation/tabs/pull/147/files
@@ -32,6 +34,9 @@ const createTabbarOption: (
         borderTopWidth: width,
         borderTopColor: 'transparent'
       },
+      style: {
+        height: TabbarHeight
+      },
       activeTabButtonStyle: {
         borderTopColor: greenish,
         borderTopWidth: width
@@ -52,7 +57,7 @@ const bottomTabNavigatorConfig: JarmotionBottomTabNavigatorConfig = {
           return (
             <TabbarIcon source={require('../assets/tabbar_calendar.png')} />
           )
-        case 'Diary':
+        case 'Sensing':
           return <TabbarIcon source={require('../assets/tabbar_diary.png')} />
         case 'Settings':
           return (
@@ -73,7 +78,7 @@ const TabNavigator = createBottomTabNavigator(
       navigationOptions: () => ({})
     },
     Calendar: UnderConstructionPage,
-    Diary: UnderConstructionPage,
+    Sensing: SensingPageContainer,
     Settings: LogoutPage
   },
   bottomTabNavigatorConfig
