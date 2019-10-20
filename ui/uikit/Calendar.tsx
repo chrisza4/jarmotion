@@ -2,6 +2,8 @@ import _ from 'lodash'
 import moment from 'moment'
 import React from 'react'
 import { View } from 'react-native'
+import { TouchableOpacity } from 'react-native-gesture-handler'
+import Triangle from 'react-native-triangle'
 import styled from 'styled-components/native'
 import { sicklyYellow } from '../styles/colors'
 import { ScreenWidth } from '../styles/margins'
@@ -73,6 +75,16 @@ const MonthSelectorRow = styled.View`
   height: 50px;
   background-color: white;
   border-radius: 25px;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+  padding-left: 15px;
+  padding-right: 15px;
+`
+
+const MonthSelectedText = styled.Text`
+  font-family: poppins-bold;
+  font-size: 18px;
 `
 
 type CalendarProps = {
@@ -80,11 +92,26 @@ type CalendarProps = {
   month?: number
 }
 
+type MonthButtonProps = {
+  onPress?: () => any
+}
+const PreviousMonthButton = (props: MonthButtonProps) => (
+  <TouchableOpacity onPress={props.onPress}>
+    <Triangle direction='left' width={10} height={15} color={'black'} />
+  </TouchableOpacity>
+)
+
+const NextMonthButton = (props: MonthButtonProps) => (
+  <TouchableOpacity onPress={props.onPress}>
+    <Triangle direction='right' width={10} height={15} color={'black'} />
+  </TouchableOpacity>
+)
+
 const Calendar = (props: CalendarProps) => {
   const today = moment.utc()
   const year = props.year || today.year()
   const month = props.month || today.month()
-
+  const startOfMonth = moment.utc([year, month, 1])
   const renderWeekRow = () => {
     const weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
     const weekTexts = weekDays.map(w => <TextWeek key={w}>{w}</TextWeek>)
@@ -92,7 +119,6 @@ const Calendar = (props: CalendarProps) => {
   }
 
   const renderDateRows = () => {
-    const startOfMonth = moment.utc([year, month, 1])
     const endOfMonth = moment(startOfMonth).endOf('month')
     const dateSet = getCalendarDatesFromStartDate(
       moment(startOfMonth).startOf('week')
@@ -115,10 +141,15 @@ const Calendar = (props: CalendarProps) => {
     ))
     return dateRows
   }
-  const months = ['January', 'Febuary', 'March', 'April', 'May']
   return (
     <View>
-      <MonthSelectorRow></MonthSelectorRow>
+      <MonthSelectorRow>
+        <PreviousMonthButton />
+        <MonthSelectedText>
+          {startOfMonth.format('MMMM YYYY')}
+        </MonthSelectedText>
+        <NextMonthButton />
+      </MonthSelectorRow>
       {renderWeekRow()}
       {renderDateRows()}
     </View>
