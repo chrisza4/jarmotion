@@ -7,7 +7,7 @@ import LogoutPage from './LogoutPage'
 import SensingPageContainer from './sensor/SensorPageContainer'
 import { greenish } from './styles/colors'
 import { TabbarHeight } from './styles/margins'
-import UnderConstructionPage from './UnderConstructionPage'
+import CalendarPage from './calendar/CalendarPage'
 
 // Custom Type until PR get merged and add @types definition
 // https://github.com/react-navigation/tabs/pull/147/files
@@ -77,7 +77,7 @@ const TabNavigator = createBottomTabNavigator(
       screen: HomePage,
       navigationOptions: () => ({})
     },
-    Calendar: UnderConstructionPage,
+    Calendar: CalendarPage,
     Sensing: SensingPageContainer,
     Settings: LogoutPage
   },
