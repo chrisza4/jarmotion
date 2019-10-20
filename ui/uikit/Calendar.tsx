@@ -66,6 +66,15 @@ const TextWeek = styled.Text`
   width: ${calendarCellWidth}px;
 `
 
+const MonthSelectorRow = styled.View`
+  margin-left: 15px;
+  margin-right: 15px;
+  margin-bottom: 20px;
+  height: 50px;
+  background-color: white;
+  border-radius: 25px;
+`
+
 type CalendarProps = {
   year?: number
   month?: number
@@ -106,9 +115,10 @@ const Calendar = (props: CalendarProps) => {
     ))
     return dateRows
   }
-
+  const months = ['January', 'Febuary', 'March', 'April', 'May']
   return (
     <View>
+      <MonthSelectorRow></MonthSelectorRow>
       {renderWeekRow()}
       {renderDateRows()}
     </View>
