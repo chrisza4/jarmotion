@@ -42,11 +42,12 @@ const DateRow = styled.View`
   border-style: solid;
   align-items: center;
 `
-const DateText = styled.Text`
+const DateText = styled.Text<{ blur: boolean }>`
   text-align: center;
   align-self: center;
   flex-grow: 1;
   font-family: poppins-medium;
+  opacity: ${props => (props.blur ? 0.4 : 1)};
 `
 
 const DateView = styled.View<{ today: boolean }>`
@@ -83,14 +84,22 @@ const Calendar = (props: CalendarProps) => {
 
   const renderDateRows = () => {
     const startOfMonth = moment.utc([year, month, 1])
-    const dateSet = getCalendarDatesFromStartDate(startOfMonth.startOf('week'))
+    const endOfMonth = moment(startOfMonth).endOf('month')
+    const dateSet = getCalendarDatesFromStartDate(
+      moment(startOfMonth).startOf('week')
+    )
+
     const dateChunks = _.chunk(dateSet, 7)
 
     const dateRows = dateChunks.map((dates, index) => (
       <DateRow key={index}>
         {dates.map(date => (
           <DateView key={date.date()} today={date.isSame(today, 'date')}>
-            <DateText>{date.date()}</DateText>
+            <DateText
+              blur={date.isBefore(startOfMonth) || date.isAfter(endOfMonth)}
+            >
+              {date.date()}
+            </DateText>
           </DateView>
         ))}
       </DateRow>
