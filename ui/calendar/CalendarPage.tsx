@@ -64,27 +64,37 @@ const CalendarPage = (props: CalendarPageProps) => {
     const nextMonthDate = moment
       .utc([currentCalendarState.year, currentCalendarState.month, 1])
       .add(1, 'month')
-    setCurrentCalendarState({
-      month: nextMonthDate.month(),
-      year: nextMonthDate.year()
-    })
+    const year = nextMonthDate.year()
+    const month = nextMonthDate.month()
+    setCurrentCalendarState({ month, year })
+    if (selectedUserId) {
+      props.fetchStats(selectedUserId, year, month)
+    }
   }
 
   const onPrevMonth = () => {
     const nextMonthDate = moment
       .utc([currentCalendarState.year, currentCalendarState.month, 1])
       .add(-1, 'month')
-    setCurrentCalendarState({
-      month: nextMonthDate.month(),
-      year: nextMonthDate.year()
-    })
+    const year = nextMonthDate.year()
+    const month = nextMonthDate.month()
+    setCurrentCalendarState({ month, year })
+    if (selectedUserId) {
+      props.fetchStats(selectedUserId, year, month)
+    }
+  }
+
+  const onChangeUser = (newUserId: string) => {
+    setSelectedUserId(newUserId)
+    const { year, month } = currentCalendarState
+    props.fetchStats(newUserId, year, month)
   }
 
   const renderUserSelectors = () => {
     return props.users.map(user => (
       <TouchableWithoutFeedback
         key={user.id}
-        onPress={() => setSelectedUserId(user.id)}
+        onPress={() => onChangeUser(user.id)}
       >
         <UserSelectorHolder>
           <UserSelectorText selected={selectedUserId === user.id}>

@@ -34,9 +34,12 @@ export async function fetchEmojiStats(
   month: number
 ): Promise<EmojiStat> {
   // Mock
+  const n1 = Math.ceil(Math.random() * 30)
+  const n2 = Math.ceil(Math.random() * 30)
+  const n3 = Math.ceil(Math.random() * 30)
   return {
-    4: EmojiType.Happy,
-    10: EmojiType.Sad,
-    15: EmojiType.Happy
+    [n1]: EmojiType.Happy,
+    [n2]: EmojiType.Sad,
+    [n3]: EmojiType.Happy
   }
 }
