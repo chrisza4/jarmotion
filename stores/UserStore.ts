@@ -34,6 +34,10 @@ export class UserStoreClass {
     }
     return this.others[0]
   }
+
+  @computed public get users(): IUser[] {
+    return [this.me, ...(this.others || [])]
+  }
 }
 
 export default new UserStoreClass()
