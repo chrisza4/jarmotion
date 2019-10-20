@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import * as AlertServices from '../apiServices/alertServices'
 import { getMockAlert } from '../domains/alert/AlertMocks'
 import { AlertStatus } from '../domains/alert/AlertTypes'
@@ -12,7 +13,7 @@ describe('AlertStore', () => {
       const alerts = [getMockAlert({}), getMockAlert({})]
       mockFetchAlerts.mockResolvedValue(alerts)
       await AlertStore.init()
-      expect(AlertStore.alerts).toEqual(alerts)
+      expect(AlertStore.alerts).toEqual(_.keyBy(alerts, a => a.id))
     })
 
     it('Should turn into error loading state if cannot load data', async () => {
@@ -29,12 +30,12 @@ describe('AlertStore', () => {
         getMockAlert({ id: 'alert1' }),
         getMockAlert({ id: 'alert2' })
       ]
-      AlertStore.alerts = alerts
+      AlertStore.alerts = _.keyBy(alerts, a => a.id)
       const mockFetchAlertById = AlertServices.fetchAlertById as jest.Mock
       mockFetchAlertById.mockResolvedValue(getMockAlert({ id: 'alert3' }))
       await AlertStore.fetchAlert('alert3')
-      expect(AlertStore.alerts.length).toEqual(3)
-      expect(AlertStore.alerts[0].id).toEqual('alert3')
+      expect(AlertStore.alertArr.length).toEqual(3)
+      expect(AlertStore.alerts.alert3.id).toEqual('alert3')
     })
   })
 
@@ -44,16 +45,16 @@ describe('AlertStore', () => {
         getMockAlert({ id: 'alert1' }),
         getMockAlert({ id: 'alert2' })
       ]
-      AlertStore.alerts = alerts
+      AlertStore.alerts = _.keyBy(alerts, a => a.id)
       const mockAckAlert = AlertServices.ackAlert as jest.Mock
       mockAckAlert.mockResolvedValue(
         getMockAlert({ id: 'alert2', status: AlertStatus.Acknowledged })
       )
       await AlertStore.ackAlert('alert2')
       expect(mockAckAlert.mock.calls.length).toEqual(1)
-      expect(AlertStore.alerts.length).toEqual(2)
-      expect(AlertStore.alerts[1].id).toEqual('alert2')
-      expect(AlertStore.alerts[1].status).toEqual(AlertStatus.Acknowledged)
+      expect(AlertStore.alertArr.length).toEqual(2)
+      expect(AlertStore.alerts.alert2.id).toEqual('alert2')
+      expect(AlertStore.alerts.alert2.status).toEqual(AlertStatus.Acknowledged)
     })
 
     it('should do nothing if alert is not exists in store', async () => {
@@ -61,7 +62,7 @@ describe('AlertStore', () => {
         getMockAlert({ id: 'alert1' }),
         getMockAlert({ id: 'alert2' })
       ]
-      AlertStore.alerts = alerts
+      AlertStore.alerts = _.keyBy(alerts, a => a.id)
       const mockAckAlert = AlertServices.ackAlert as jest.Mock
       mockAckAlert.mockReset()
       await AlertStore.ackAlert('alert3')
