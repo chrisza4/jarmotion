@@ -2,7 +2,6 @@ import _ from 'lodash'
 import moment from 'moment'
 import React from 'react'
 import { View } from 'react-native'
-import { TouchableOpacity } from 'react-native-gesture-handler'
 import Triangle from 'react-native-triangle'
 import styled from 'styled-components/native'
 import { sicklyYellow } from '../styles/colors'
@@ -87,24 +86,41 @@ const MonthSelectedText = styled.Text`
   font-size: 18px;
 `
 
+const monthTouchableStyle = `
+  width: 30px;
+  height: 100%;
+  flex-direction: row;
+  align-items: center;
+`
+const PrevMonthTouchable = styled.TouchableOpacity`
+  ${monthTouchableStyle}
+  justify-content: flex-start;
+`
+const NextMonthTouchable = styled.TouchableOpacity`
+  ${monthTouchableStyle}
+  justify-content: flex-end;
+`
+
 type CalendarProps = {
   year?: number
   month?: number
+  onNextMonth?: () => void
+  onPrevMonth?: () => void
 }
 
 type MonthButtonProps = {
   onPress?: () => any
 }
 const PreviousMonthButton = (props: MonthButtonProps) => (
-  <TouchableOpacity onPress={props.onPress}>
+  <PrevMonthTouchable onPress={props.onPress}>
     <Triangle direction='left' width={10} height={15} color={'black'} />
-  </TouchableOpacity>
+  </PrevMonthTouchable>
 )
 
 const NextMonthButton = (props: MonthButtonProps) => (
-  <TouchableOpacity onPress={props.onPress}>
+  <NextMonthTouchable onPress={props.onPress}>
     <Triangle direction='right' width={10} height={15} color={'black'} />
-  </TouchableOpacity>
+  </NextMonthTouchable>
 )
 
 const Calendar = (props: CalendarProps) => {
@@ -144,11 +160,11 @@ const Calendar = (props: CalendarProps) => {
   return (
     <View>
       <MonthSelectorRow>
-        <PreviousMonthButton />
+        <PreviousMonthButton onPress={props.onPrevMonth || _.noop} />
         <MonthSelectedText>
           {startOfMonth.format('MMMM YYYY')}
         </MonthSelectedText>
-        <NextMonthButton />
+        <NextMonthButton onPress={props.onNextMonth || _.noop} />
       </MonthSelectorRow>
       {renderWeekRow()}
       {renderDateRows()}

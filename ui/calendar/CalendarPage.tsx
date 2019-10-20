@@ -1,3 +1,4 @@
+import moment from 'moment'
 import React, { useState } from 'react'
 import { TouchableWithoutFeedback } from 'react-native'
 import styled from 'styled-components/native'
@@ -35,8 +36,38 @@ type CalendarPageProps = {
   users: IUser[]
 }
 
+interface ICalendarState {
+  month: number
+  year: number
+}
+
+const now = new Date()
+
 const CalendarPage = (props: CalendarPageProps) => {
   const [selectedUserId, setSelectedUserId] = useState(props.users[0].id)
+  const [currentCalendarState, setCurrentCalendarState] = useState<
+    ICalendarState
+  >({ month: now.getMonth(), year: now.getFullYear() })
+
+  const onNextMonth = () => {
+    const nextMonthDate = moment
+      .utc([currentCalendarState.year, currentCalendarState.month, 1])
+      .add(1, 'month')
+    setCurrentCalendarState({
+      month: nextMonthDate.month(),
+      year: nextMonthDate.year()
+    })
+  }
+
+  const onPrevMonth = () => {
+    const nextMonthDate = moment
+      .utc([currentCalendarState.year, currentCalendarState.month, 1])
+      .add(-1, 'month')
+    setCurrentCalendarState({
+      month: nextMonthDate.month(),
+      year: nextMonthDate.year()
+    })
+  }
 
   const renderUserSelectors = () => {
     return props.users.map(user => (
@@ -55,7 +86,12 @@ const CalendarPage = (props: CalendarPageProps) => {
   return (
     <PageLayout titleElement={<PageTitleText>Calendar</PageTitleText>}>
       <UserSelectorRow>{renderUserSelectors()}</UserSelectorRow>
-      <Calendar />
+      <Calendar
+        month={currentCalendarState.month}
+        year={currentCalendarState.year}
+        onNextMonth={() => onNextMonth()}
+        onPrevMonth={() => onPrevMonth()}
+      />
     </PageLayout>
   )
 }
