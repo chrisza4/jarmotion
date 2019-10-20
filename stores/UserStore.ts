@@ -1,8 +1,12 @@
 import { action, computed, observable } from 'mobx'
 import * as UserServices from '../apiServices/userServices'
 import { IUser } from '../domains/users/UserTypes'
+import { LoadingState, LoadingStateStatus } from '../types/LoadingState'
 
 export class UserStoreClass {
+  @observable public loadState: LoadingState = {
+    status: LoadingStateStatus.Initial
+  }
   @observable
   private others: IUser[] | null = null
 
@@ -11,12 +15,14 @@ export class UserStoreClass {
 
   @action
   public async init() {
+    this.loadState.status = LoadingStateStatus.Loading
     const [me, others] = await Promise.all([
       UserServices.getMyself(),
       UserServices.getUsersInRelationship()
     ])
     this.myself = me
     this.others = others
+    this.loadState.status = LoadingStateStatus.Loaded
   }
 
   @computed
@@ -36,6 +42,9 @@ export class UserStoreClass {
   }
 
   @computed public get users(): IUser[] {
+    if (!this.myself) {
+      return []
+    }
     return [this.me, ...(this.others || [])]
   }
 }

@@ -4,8 +4,10 @@ import React from 'react'
 import { View } from 'react-native'
 import Triangle from 'react-native-triangle'
 import styled from 'styled-components/native'
+import { EmojiStat } from '../../domains/emojis/EmojiTypes'
 import { sicklyYellow } from '../styles/colors'
 import { ScreenWidth } from '../styles/margins'
+import Emoji from '../uikit/emoji/Emoji'
 
 const getCalendarDatesFromStartDate = (start: moment.Moment) => {
   const result = []
@@ -59,6 +61,8 @@ const DateView = styled.View<{ today: boolean }>`
   border-radius: 15px;
   width: 30px;
   text-align: center;
+  justify-content: space-between;
+  align-items: center;
 `
 
 const TextWeek = styled.Text`
@@ -106,6 +110,7 @@ type CalendarProps = {
   month?: number
   onNextMonth?: () => void
   onPrevMonth?: () => void
+  emojiStats: EmojiStat
 }
 
 type MonthButtonProps = {
@@ -128,6 +133,14 @@ const Calendar = (props: CalendarProps) => {
   const year = props.year || today.year()
   const month = props.month || today.month()
   const startOfMonth = moment.utc([year, month, 1])
+
+  const getEmojiByDate = (date: number) => {
+    const emojiType = props.emojiStats[date]
+    if (!emojiType) {
+      return null
+    }
+    return <Emoji type={emojiType} sizePx={18} />
+  }
   const renderWeekRow = () => {
     const weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
     const weekTexts = weekDays.map(w => <TextWeek key={w}>{w}</TextWeek>)
@@ -144,15 +157,16 @@ const Calendar = (props: CalendarProps) => {
 
     const dateRows = dateChunks.map((dates, index) => (
       <DateRow key={index}>
-        {dates.map(date => (
-          <DateView key={date.date()} today={date.isSame(today, 'date')}>
-            <DateText
-              blur={date.isBefore(startOfMonth) || date.isAfter(endOfMonth)}
-            >
-              {date.date()}
-            </DateText>
-          </DateView>
-        ))}
+        {dates.map(date => {
+          const isCurrentMonth = date.isBetween(startOfMonth, endOfMonth)
+          const emoji = isCurrentMonth && getEmojiByDate(date.date())
+          return (
+            <DateView key={date.date()} today={date.isSame(today, 'date')}>
+              <DateText blur={!isCurrentMonth}>{date.date()}</DateText>
+              {emoji}
+            </DateView>
+          )
+        })}
       </DateRow>
     ))
     return dateRows

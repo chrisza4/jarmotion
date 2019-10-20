@@ -1,8 +1,10 @@
 import moment from 'moment'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { TouchableWithoutFeedback } from 'react-native'
 import styled from 'styled-components/native'
+import { EmojiStat } from '../../domains/emojis/EmojiTypes'
 import { IUser } from '../../domains/users/UserTypes'
+import { LoadingState } from '../../types/LoadingState'
 import { PageTitleText } from '../layouts/PageElements'
 import PageLayout from '../layouts/PageLayout'
 import { brownishGrey } from '../styles/colors'
@@ -34,6 +36,9 @@ const UserSelectorText = styled.Text<{ selected?: boolean }>`
 
 type CalendarPageProps = {
   users: IUser[]
+  fetchStats: (userId: string, year: number, month: number) => Promise<void>
+  loadState: LoadingState
+  emojiStats: EmojiStat
 }
 
 interface ICalendarState {
@@ -44,10 +49,16 @@ interface ICalendarState {
 const now = new Date()
 
 const CalendarPage = (props: CalendarPageProps) => {
-  const [selectedUserId, setSelectedUserId] = useState(props.users[0].id)
+  const [selectedUserId, setSelectedUserId] = useState<string | null>(null)
   const [currentCalendarState, setCurrentCalendarState] = useState<
     ICalendarState
   >({ month: now.getMonth(), year: now.getFullYear() })
+  useEffect(() => {
+    if (props.users.length > 0) {
+      setSelectedUserId(props.users[0].id)
+      props.fetchStats(props.users[0].id, now.getFullYear(), now.getMonth())
+    }
+  }, [props.users])
 
   const onNextMonth = () => {
     const nextMonthDate = moment
@@ -91,6 +102,7 @@ const CalendarPage = (props: CalendarPageProps) => {
         year={currentCalendarState.year}
         onNextMonth={() => onNextMonth()}
         onPrevMonth={() => onPrevMonth()}
+        emojiStats={props.emojiStats}
       />
     </PageLayout>
   )
