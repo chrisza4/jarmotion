@@ -7,7 +7,7 @@ import { EmojiType, IEmoji } from '../../domains/emojis/EmojiTypes'
 import { IUser } from '../../domains/users/UserTypes'
 import { LoadingState, LoadingStateStatus } from '../../types/LoadingState'
 import { JarHeight } from '..//uikit/Jar/JarConstants'
-import PageTitle from '../layouts/PageTitle'
+import { PageTitleHolder } from '../layouts/PageElements'
 import ScreenLayout from '../layouts/ScreenLayout'
 import AddEmotionModal from '../modals/AddEmotionModal'
 import { brownishGrey, greenish, offWhite } from '../styles/colors'
@@ -183,9 +183,9 @@ const HomePage = (props: HomePageProps) => {
         source={require('../../assets/curvy_top_bg.png')}
       >
         {renderAlertButton()}
-        <PageTitle>
+        <PageTitleHolder>
           <MainLogo />
-        </PageTitle>
+        </PageTitleHolder>
         {renderChatSection()}
       </ImageBackground>
     </TopSection>

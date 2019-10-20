@@ -1,29 +1,15 @@
 import React, { useState } from 'react'
-import { ScrollView, Text, View } from 'react-native'
+import { ScrollView, Text, TouchableWithoutFeedback, View } from 'react-native'
 import styled from 'styled-components/native'
 import { emojiDisplayName } from '../../domains/emojis/EmojiFunc'
 import { EmojiType } from '../../domains/emojis/EmojiTypes'
 import { ISensor } from '../../domains/sensor/SensorTypes'
+import { PageDescription, PageTitleText } from '../layouts/PageElements'
 import PageLayout from '../layouts/PageLayout'
 import AddEmotionModal from '../modals/AddEmotionModal'
-import { brownishGrey, fontBlack } from '../styles/colors'
 import AddEmotionButton from '../uikit/buttons/AddEmotionButton'
 import EditButton from '../uikit/buttons/EditButton'
 import Emoji from '../uikit/emoji/Emoji'
-
-const PageTitleText = styled.Text`
-  color: ${fontBlack};
-  font-family: poppins-bold;
-  font-size: 21px;
-`
-
-const PageDescription = styled.Text`
-  align-self: center;
-  margin-top: 20px;
-  color: ${brownishGrey};
-  font-family: poppins-medium;
-  font-size: 15px;
-`
 
 const SensorRow = styled.View`
   display: flex;
@@ -58,7 +44,7 @@ const EmojiText = styled.Text`
 const ThresholdNumberText = styled.Text`
   font-family: poppins-bold;
   font-size: 25px;
-  margin-top: 5px;
+  margin-top: 6px;
 `
 
 const SensorBoxDescriptionRow = styled.View`
@@ -145,9 +131,14 @@ const SensorPage = (props: SensorPageProps) => {
             onBlur={e =>
               onTryEditSensorThreshold(sensor.emoji_type, e.nativeEvent.text)
             }
+            keyboardType='number-pad'
           />
         ) : (
-          <ThresholdNumberText>{sensor.threshold}</ThresholdNumberText>
+          <TouchableWithoutFeedback
+            onPress={() => setEdittingSensorId(sensor.id)}
+          >
+            <ThresholdNumberText>{sensor.threshold}</ThresholdNumberText>
+          </TouchableWithoutFeedback>
         )
       return (
         <SensorRow key={sensor.emoji_type}>

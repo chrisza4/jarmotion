@@ -1,14 +1,17 @@
 import React from 'react'
 import { ImageBackground, StyleSheet, View } from 'react-native'
-import PageTitle from '../layouts/PageTitle'
+import styled from 'styled-components/native'
 import ScreenLayout from '../layouts/ScreenLayout'
 import { offWhite } from '../styles/colors'
+import { PageTitleHolder } from './PageElements'
+
+const PageView = styled.View`
+  background-color: ${offWhite};
+  justify-content: space-between;
+  flex-grow: 1;
+`
+
 const styles = StyleSheet.create({
-  page: {
-    backgroundColor: offWhite,
-    justifyContent: 'space-between',
-    flexGrow: 1
-  },
   backgroundImage: {
     height: 188,
     width: '100%',
@@ -33,13 +36,13 @@ const PageLayout = (props: IPageLayoutProps) => {
 
   return (
     <ScreenLayout>
-      <View style={styles.page}>
+      <PageView>
         {renderTopSection()}
         <View>
-          <PageTitle>{props.titleElement}</PageTitle>
+          <PageTitleHolder>{props.titleElement}</PageTitleHolder>
         </View>
         {props.children}
-      </View>
+      </PageView>
     </ScreenLayout>
   )
 }
