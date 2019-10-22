@@ -1,5 +1,6 @@
 import { action, observable } from 'mobx'
 import * as EmojiServices from '../apiServices/emojiServices'
+import * as EmojiFunc from '../domains/emojis/EmojiFunc'
 import { EmojiStat } from '../domains/emojis/EmojiTypes'
 import { LoadingState, LoadingStateStatus } from '../types/LoadingState'
 
@@ -15,7 +16,7 @@ export class EmojiStatsStoreClass {
       status: LoadingStateStatus.Loading
     }
     const stats = await EmojiServices.fetchEmojiStats(userId, year, month)
-    this.emojiStats = stats
+    this.emojiStats = EmojiFunc.responseToStats(stats)
     this.loadState = {
       status: LoadingStateStatus.Loaded
     }

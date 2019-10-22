@@ -1,4 +1,4 @@
-import { EmojiStat, EmojiType, IEmoji } from '../domains/emojis/EmojiTypes'
+import { IEmoji, IEmojiStatsResponse } from '../domains/emojis/EmojiTypes'
 import { authFetch } from './apiConnector'
 
 export async function fetchEmojis(userId: string): Promise<IEmoji[]> {
@@ -32,14 +32,13 @@ export async function fetchEmojiStats(
   userId: string,
   year: number,
   month: number
-): Promise<EmojiStat> {
-  // Mock
-  const n1 = Math.ceil(Math.random() * 30)
-  const n2 = Math.ceil(Math.random() * 30)
-  const n3 = Math.ceil(Math.random() * 30)
-  return {
-    [n1]: EmojiType.Happy,
-    [n2]: EmojiType.Sad,
-    [n3]: EmojiType.Happy
+): Promise<IEmojiStatsResponse[]> {
+  const res = await authFetch<IEmojiStatsResponse[]>(
+    'GET',
+    `api/emoji/stats?user_id=${userId}&year=${year}&month=${month}`
+  )
+  if (res.status !== 200) {
+    throw Error('Cannot fetch emoji')
   }
+  return res.body
 }

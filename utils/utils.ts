@@ -13,3 +13,7 @@ export function leftPad(str: string, length: number) {
   }
   return space + str
 }
+
+export function getHumanMonth(date: Date) {
+  return date.getMonth() + 1
+}

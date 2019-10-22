@@ -40,3 +40,8 @@ export interface IEmoji {
 }
 
 export type EmojiStat = { [date: number]: EmojiType | undefined }
+export interface IEmojiStatsResponse {
+  count: number
+  date: Date
+  type: EmojiType
+}

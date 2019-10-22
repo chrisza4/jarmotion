@@ -5,6 +5,7 @@ import styled from 'styled-components/native'
 import { EmojiStat } from '../../domains/emojis/EmojiTypes'
 import { IUser } from '../../domains/users/UserTypes'
 import { LoadingState } from '../../types/LoadingState'
+import { getHumanMonth } from '../../utils/utils'
 import { PageTitleText } from '../layouts/PageElements'
 import PageLayout from '../layouts/PageLayout'
 import { brownishGrey } from '../styles/colors'
@@ -46,6 +47,9 @@ interface ICalendarState {
   year: number
 }
 
+function getHumanMonthFromCalendarState(state: ICalendarState) {
+  return state.month + 1
+}
 const now = new Date()
 
 const CalendarPage = (props: CalendarPageProps) => {
@@ -56,7 +60,7 @@ const CalendarPage = (props: CalendarPageProps) => {
   useEffect(() => {
     if (props.users.length > 0) {
       setSelectedUserId(props.users[0].id)
-      props.fetchStats(props.users[0].id, now.getFullYear(), now.getMonth())
+      props.fetchStats(props.users[0].id, now.getFullYear(), getHumanMonth(now))
     }
   }, [props.users])
 
@@ -66,9 +70,10 @@ const CalendarPage = (props: CalendarPageProps) => {
       .add(1, 'month')
     const year = nextMonthDate.year()
     const month = nextMonthDate.month()
+    const humanMonth = getHumanMonth(nextMonthDate.toDate())
     setCurrentCalendarState({ month, year })
     if (selectedUserId) {
-      props.fetchStats(selectedUserId, year, month)
+      props.fetchStats(selectedUserId, year, humanMonth)
     }
   }
 
@@ -78,16 +83,21 @@ const CalendarPage = (props: CalendarPageProps) => {
       .add(-1, 'month')
     const year = nextMonthDate.year()
     const month = nextMonthDate.month()
+    const humanMonth = getHumanMonth(nextMonthDate.toDate())
     setCurrentCalendarState({ month, year })
     if (selectedUserId) {
-      props.fetchStats(selectedUserId, year, month)
+      props.fetchStats(selectedUserId, year, humanMonth)
     }
   }
 
   const onChangeUser = (newUserId: string) => {
     setSelectedUserId(newUserId)
-    const { year, month } = currentCalendarState
-    props.fetchStats(newUserId, year, month)
+    const { year } = currentCalendarState
+    props.fetchStats(
+      newUserId,
+      year,
+      getHumanMonthFromCalendarState(currentCalendarState)
+    )
   }
 
   const renderUserSelectors = () => {
