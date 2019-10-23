@@ -1,30 +1,36 @@
 import React, { useState } from 'react'
+import { View } from 'react-native'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import styled from 'styled-components/native'
 import { emojiDisplayName } from '../../../domains/emojis/EmojiFunc'
 import { EmojiType } from '../../../domains/emojis/EmojiTypes'
-import { ISensor } from '../../../domains/sensor/SensorTypes'
 import EditButton from '../../uikit/buttons/EditButton'
 import Emoji from './Emoji'
 
-type EmojiTableProps = {
-  sensors: ISensor[]
-  editable?: boolean
-  onTryEditSensorThreshold: (type: EmojiType, value: string) => void
+export interface IEmojiTableRow {
+  id: string
+  emoji_type: EmojiType
+  threshold: number
 }
 
-const SensorRow = styled.View`
+type EmojiTableProps = {
+  emojiSummaryRows: IEmojiTableRow[]
+  editable?: boolean
+  onTryEditEmojiTableRow: (type: EmojiType, value: string) => void
+}
+
+const EmojiRow = styled.View`
   display: flex;
   flex-direction: row;
   margin-top: 15px;
 `
 
-const ThresholdNumberText = styled.Text`
+const EmojiNumberText = styled.Text`
   font-family: poppins-bold;
   font-size: 25px;
   margin-top: 6px;
 `
-const ThresholdNumberTextInput = styled.TextInput`
+const EmojiNumberTextInput = styled.TextInput`
   font-family: poppins-bold;
   font-size: 25px;
   margin-top: 5px;
@@ -39,7 +45,7 @@ const EmojiBox = styled.View`
   justify-content: center;
 `
 
-const ThresholdBox = styled.View`
+const EmojiNumberBox = styled.View`
   margin-left: 12px;
   height: 100px;
   border-radius: 10px;
@@ -55,54 +61,60 @@ const EmojiText = styled.Text`
   font-family: poppins-semibold;
 `
 
-const SensorBoxDescriptionRow = styled.View`
+const EmojiBoxDescriptionRow = styled.View`
   flex-direction: row;
   justify-content: space-between;
 `
-const SensorBoxDescription = styled.Text`
+const EmojiBoxDescription = styled.Text`
   font-family: poppins-semibold;
   font-size: 10px;
 `
 
 const EmojiTable = (props: EmojiTableProps) => {
-  const [edittingSensorId, setEdittingSensorId] = useState<string | null>(null)
-  return props.sensors.map(sensor => {
+  const [edittingRowId, setEdittingRowId] = useState<string | null>(null)
+  const table = props.emojiSummaryRows.map(emojiSummaryRow => {
     const numberElement =
-      edittingSensorId === sensor.id ? (
-        <ThresholdNumberTextInput
+      props.editable && edittingRowId === emojiSummaryRow.id ? (
+        <EmojiNumberTextInput
           autoFocus
-          defaultValue={String(sensor.threshold)}
-          onBlur={e =>
-            props.onTryEditSensorThreshold(
-              sensor.emoji_type,
+          defaultValue={String(emojiSummaryRow.threshold)}
+          onBlur={e => {
+            setEdittingRowId(null)
+            props.onTryEditEmojiTableRow(
+              emojiSummaryRow.emoji_type,
               e.nativeEvent.text
             )
-          }
+          }}
           keyboardType='number-pad'
         />
       ) : (
         <TouchableWithoutFeedback
-          onPress={() => props.editable && setEdittingSensorId(sensor.id)}
+          onPress={() => props.editable && setEdittingRowId(emojiSummaryRow.id)}
         >
-          <ThresholdNumberText>{sensor.threshold}</ThresholdNumberText>
+          <EmojiNumberText>{emojiSummaryRow.threshold}</EmojiNumberText>
         </TouchableWithoutFeedback>
       )
     return (
-      <SensorRow key={sensor.emoji_type}>
+      <EmojiRow key={emojiSummaryRow.emoji_type}>
         <EmojiBox>
-          <Emoji type={sensor.emoji_type} sizePx={40} />
+          <Emoji type={emojiSummaryRow.emoji_type} sizePx={40} />
         </EmojiBox>
-        <ThresholdBox>
-          <EmojiText>{emojiDisplayName(sensor.emoji_type)}</EmojiText>
+        <EmojiNumberBox>
+          <EmojiText>{emojiDisplayName(emojiSummaryRow.emoji_type)}</EmojiText>
           {numberElement}
-          <SensorBoxDescriptionRow>
-            <SensorBoxDescription>Times</SensorBoxDescription>
-            <EditButton onPress={() => setEdittingSensorId(sensor.id)} />
-          </SensorBoxDescriptionRow>
-        </ThresholdBox>
-      </SensorRow>
+          <EmojiBoxDescriptionRow>
+            <EmojiBoxDescription>Times</EmojiBoxDescription>
+            {props.editable && (
+              <EditButton
+                onPress={() => setEdittingRowId(emojiSummaryRow.id)}
+              />
+            )}
+          </EmojiBoxDescriptionRow>
+        </EmojiNumberBox>
+      </EmojiRow>
     )
   })
+  return <View>{table}</View>
 }
 
 export default EmojiTable
