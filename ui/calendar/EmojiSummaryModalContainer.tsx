@@ -12,6 +12,7 @@ const EmojiSummaryModalContainer = observer(
         summary={EmojiSummaryStore.currentSummary}
         navigation={props.navigation}
         loadingState={EmojiSummaryStore.loadState}
+        user={EmojiSummaryStore.currentUser}
       />
     )
   }

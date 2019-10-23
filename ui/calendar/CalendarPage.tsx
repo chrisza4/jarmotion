@@ -40,7 +40,7 @@ type CalendarPageProps = {
   fetchStats: (userId: string, year: number, month: number) => Promise<void>
   loadState: LoadingState
   emojiStats: EmojiStat
-  onShowEmojis: (userId: string, date: Date) => void
+  onShowEmojis: (user: IUser, date: Date) => void
 }
 
 interface ICalendarState {
@@ -129,7 +129,7 @@ const CalendarPage = (props: CalendarPageProps) => {
           if (!currentUser) {
             return
           }
-          props.onShowEmojis(currentUser.id, date)
+          props.onShowEmojis(currentUser, date)
         }}
       />
     </PageLayout>

@@ -21,8 +21,8 @@ const CalendarPageContainer = observer((props: INavitationComponentProps) => {
         EmojiStatsStore.loadState,
         UserStore.loadState
       )}
-      onShowEmojis={(userId, date) => {
-        EmojiSummaryStore.fetchEmojiSummarys(userId, Moment(date))
+      onShowEmojis={(user, date) => {
+        EmojiSummaryStore.fetchEmojiSummarys(user, Moment(date))
         props.navigation.navigate('Modal')
       }}
       emojiStats={EmojiStatsStore.emojiStats}

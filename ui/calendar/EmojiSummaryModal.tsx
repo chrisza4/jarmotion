@@ -3,6 +3,7 @@ import React from 'react'
 import { ScrollView, View } from 'react-native'
 import styled from 'styled-components/native'
 
+import { IUser } from '../../domains/users/UserTypes'
 import { LoadingState, LoadingStateStatus } from '../../types/LoadingState'
 import { INavitationComponentProps } from '../../types/NavigationTypes'
 import { PageDescription, PageTitleText } from '../../ui/layouts/PageElements'
@@ -24,15 +25,17 @@ type EmojiSummaryModalProps = INavitationComponentProps & {
   summary: IEmojiTableRow[]
   loadingState: LoadingState
   date: Moment.Moment
+  user: IUser | null
 }
 
 const EmojiSummaryModal = (props: EmojiSummaryModalProps) => {
   if (props.loadingState.status !== LoadingStateStatus.Loaded) {
     return <LoadingStatePage />
   }
+  const userName = props.user ? props.user.name : ''
   return (
     <PageLayout
-      titleElement={<PageTitleText>Emoji</PageTitleText>}
+      titleElement={<PageTitleText>How did {userName} feel?</PageTitleText>}
       showBackButton
       onBack={() => props.navigation.goBack()}
     >
