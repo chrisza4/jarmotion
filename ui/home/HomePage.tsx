@@ -196,12 +196,7 @@ const HomePage = (props: HomePageProps) => {
       <MiddleSection>
         <JarContainer emojis={emojis} />
         <View style={styles.addButtonHolder}>
-          {isMyself && (
-            <AddEmotionButton
-              onPress={onOpenAddEmotionModal}
-              loading={props.loadState.status === LoadingStateStatus.Loading}
-            />
-          )}
+          {isMyself && <AddEmotionButton onPress={onOpenAddEmotionModal} />}
         </View>
       </MiddleSection>
     )

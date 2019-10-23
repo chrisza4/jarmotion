@@ -53,7 +53,7 @@ const DateText = styled.Text<{ blur: boolean }>`
   opacity: ${props => (props.blur ? 0.4 : 1)};
 `
 
-const DateView = styled.View<{ today: boolean }>`
+const DateView = styled.TouchableOpacity<{ today: boolean }>`
   margin-top: 5px;
   margin-bottom: 5px;
   background-color: ${props => (props.today ? sicklyYellow : 'transparent')};
@@ -111,6 +111,7 @@ type CalendarProps = {
   onNextMonth?: () => void
   onPrevMonth?: () => void
   emojiStats: EmojiStat
+  onClickDate?: (date: Date) => void
 }
 
 type MonthButtonProps = {
@@ -161,7 +162,13 @@ const Calendar = (props: CalendarProps) => {
           const isCurrentMonth = date.isBetween(startOfMonth, endOfMonth)
           const emoji = isCurrentMonth && getEmojiByDate(date.date())
           return (
-            <DateView key={date.date()} today={date.isSame(today, 'date')}>
+            <DateView
+              key={date.date()}
+              today={date.isSame(today, 'date')}
+              onPress={() =>
+                props.onClickDate && props.onClickDate(date.toDate())
+              }
+            >
               <DateText blur={!isCurrentMonth}>{date.date()}</DateText>
               {emoji}
             </DateView>
