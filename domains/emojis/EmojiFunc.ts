@@ -1,5 +1,7 @@
 import moment from 'moment'
-import { EmojiStat, EmojiType, IEmojiStatsResponse } from './EmojiTypes'
+import uuid from 'uuid'
+import { IEmojiTableRow } from '../../ui/uikit/emoji/EmojiTable'
+import { EmojiStat, EmojiType, IEmoji, IEmojiStatsResponse } from './EmojiTypes'
 
 export function emojiDisplayName(emoji: EmojiType): string {
   const str = String(emoji)
@@ -14,4 +16,21 @@ export function responseToStats(
     acc[date] = emojiRes.type
     return acc
   }, {})
+}
+
+export function summarize(emojis: IEmoji[]): IEmojiTableRow[] {
+  return Object.values(
+    emojis.reduce<{ [key: string]: IEmojiTableRow }>((acc, emoji) => {
+      if (!acc[emoji.type]) {
+        acc[emoji.type] = {
+          id: uuid.v4(),
+          emoji_type: emoji.type,
+          threshold: 1
+        }
+      } else {
+        acc[emoji.type].threshold++
+      }
+      return acc
+    }, {})
+  )
 }
