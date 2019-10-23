@@ -1,10 +1,12 @@
 import styled from 'styled-components/native'
 import { brownishGrey, fontBlack } from '../styles/colors'
 
+const titleMargin = 20
+
 export const PageTitleHolder = styled.View`
   resize-mode: contain;
   align-self: center;
-  margin-top: 20px;
+  margin-top: ${titleMargin}px;
 `
 export const PageTitleText = styled.Text`
   color: ${fontBlack};
@@ -18,4 +20,20 @@ export const PageDescription = styled.Text`
   color: ${brownishGrey};
   font-family: poppins-medium;
   font-size: 15px;
+`
+
+export const BackButton = styled.TouchableOpacity`
+  left: 15px;
+  top: ${titleMargin}px;
+  align-self: flex-start;
+  flex: 1;
+`
+export const BackButtonText = styled.Text`
+  font-family: poppins-bold;
+  font-size: 18px;
+`
+
+export const TitleRow = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
 `

@@ -31,7 +31,11 @@ const EmojiSummaryModal = (props: EmojiSummaryModalProps) => {
     return <LoadingStatePage />
   }
   return (
-    <PageLayout titleElement={<PageTitleText>Emoji</PageTitleText>}>
+    <PageLayout
+      titleElement={<PageTitleText>Emoji</PageTitleText>}
+      showBackButton
+      onBack={() => props.navigation.goBack()}
+    >
       <View>
         <PageDescription>
           Date: {props.date.format('DD MMM YYYY')}
