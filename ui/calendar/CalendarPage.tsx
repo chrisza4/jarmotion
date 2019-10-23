@@ -40,7 +40,7 @@ type CalendarPageProps = {
   fetchStats: (userId: string, year: number, month: number) => Promise<void>
   loadState: LoadingState
   emojiStats: EmojiStat
-  onShowEmojis: (date: Date) => void
+  onShowEmojis: (userId: string, date: Date) => void
 }
 
 interface ICalendarState {
@@ -65,6 +65,7 @@ const CalendarPage = (props: CalendarPageProps) => {
     }
   }, [props.users])
 
+  const currentUser = props.users.find(p => p.id === selectedUserId)
   const onNextMonth = () => {
     const nextMonthDate = moment
       .utc([currentCalendarState.year, currentCalendarState.month, 1])
@@ -124,7 +125,12 @@ const CalendarPage = (props: CalendarPageProps) => {
         onNextMonth={() => onNextMonth()}
         onPrevMonth={() => onPrevMonth()}
         emojiStats={props.emojiStats}
-        onClickDate={date => props.onShowEmojis(date)}
+        onClickDate={date => {
+          if (!currentUser) {
+            return
+          }
+          props.onShowEmojis(currentUser.id, date)
+        }}
       />
     </PageLayout>
   )

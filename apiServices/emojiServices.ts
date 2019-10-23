@@ -13,8 +13,9 @@ export async function fetchEmojis(userId: string): Promise<IEmoji[]> {
 export async function fetchEmojisByDate(userId: string, date: Moment.Moment) {
   const res = await authFetch<IEmoji[]>(
     'GET',
-    `api/emoji/user/${userId}?date=${date.format('YYYY-DD-MM')}`
+    `api/emoji/user/${userId}?date=${date.format('YYYY-MM-DD')}`
   )
+
   if (res.status !== 200) {
     throw Error('Cannot fetch emoji')
   }

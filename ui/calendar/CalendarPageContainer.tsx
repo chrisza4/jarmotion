@@ -1,12 +1,14 @@
 import { observer } from 'mobx-react'
+import Moment from 'moment'
 import React from 'react'
 import { createStackNavigator } from 'react-navigation-stack'
 import EmojiStatsStore from '../../stores/EmojiStatsStore'
+import EmojiSummaryStore from '../../stores/EmojiSummaryStore'
 import UserStore from '../../stores/UserStore'
 import { combineLoadingState } from '../../types/LoadingState'
 import { INavitationComponentProps } from '../../types/NavigationTypes'
 import CalendarPage from './CalendarPage'
-import EmojiSummaryModal from './EmojiSummaryModal'
+import EmojiSummaryModalContainer from './EmojiSummaryModalContainer'
 
 const CalendarPageContainer = observer((props: INavitationComponentProps) => {
   return (
@@ -19,7 +21,10 @@ const CalendarPageContainer = observer((props: INavitationComponentProps) => {
         EmojiStatsStore.loadState,
         UserStore.loadState
       )}
-      onShowEmojis={() => props.navigation.navigate('Modal')}
+      onShowEmojis={(userId, date) => {
+        EmojiSummaryStore.fetchEmojiSummarys(userId, Moment(date))
+        props.navigation.navigate('Modal')
+      }}
       emojiStats={EmojiStatsStore.emojiStats}
     />
   )
@@ -31,7 +36,7 @@ export default createStackNavigator(
       screen: CalendarPageContainer
     },
     Modal: {
-      screen: EmojiSummaryModal
+      screen: EmojiSummaryModalContainer
     }
   },
   {
