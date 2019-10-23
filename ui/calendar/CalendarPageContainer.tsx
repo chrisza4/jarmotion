@@ -1,13 +1,14 @@
 import { observer } from 'mobx-react'
 import React from 'react'
-import { Button, Text, View } from 'react-native'
 import { createStackNavigator } from 'react-navigation-stack'
 import EmojiStatsStore from '../../stores/EmojiStatsStore'
 import UserStore from '../../stores/UserStore'
 import { combineLoadingState } from '../../types/LoadingState'
+import { INavitationComponentProps } from '../../types/NavigationTypes'
 import CalendarPage from './CalendarPage'
+import EmojiSummaryModal from './EmojiSummaryModal'
 
-const CalendarPageContainer = observer((props: any) => {
+const CalendarPageContainer = observer((props: INavitationComponentProps) => {
   return (
     <CalendarPage
       users={UserStore.users}
@@ -24,20 +25,13 @@ const CalendarPageContainer = observer((props: any) => {
   )
 })
 
-const Modal = (props: any) => (
-  <View>
-    <Text>Modal</Text>
-    <Button title='back' onPress={() => props.navigation.goBack()} />
-  </View>
-)
-
 export default createStackNavigator(
   {
     Main: {
       screen: CalendarPageContainer
     },
     Modal: {
-      screen: Modal
+      screen: EmojiSummaryModal
     }
   },
   {

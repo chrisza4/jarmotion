@@ -16,7 +16,7 @@ export interface IEmojiTableRow {
 type EmojiTableProps = {
   emojiSummaryRows: IEmojiTableRow[]
   editable?: boolean
-  onTryEditEmojiTableRow: (type: EmojiType, value: string) => void
+  onTryEditEmojiTableRow?: (type: EmojiType, value: string) => void
 }
 
 const EmojiRow = styled.View`
@@ -72,19 +72,26 @@ const EmojiBoxDescription = styled.Text`
 
 const EmojiTable = (props: EmojiTableProps) => {
   const [edittingRowId, setEdittingRowId] = useState<string | null>(null)
+  const onTryEditEmojiTableRow = (emojiType: EmojiType, text: string) => {
+    setEdittingRowId(null)
+    if (!props.onTryEditEmojiTableRow) {
+      return
+    }
+    return props.onTryEditEmojiTableRow(emojiType, text)
+  }
+
   const table = props.emojiSummaryRows.map(emojiSummaryRow => {
     const numberElement =
       props.editable && edittingRowId === emojiSummaryRow.id ? (
         <EmojiNumberTextInput
           autoFocus
           defaultValue={String(emojiSummaryRow.threshold)}
-          onBlur={e => {
-            setEdittingRowId(null)
-            props.onTryEditEmojiTableRow(
+          onBlur={e =>
+            onTryEditEmojiTableRow(
               emojiSummaryRow.emoji_type,
               e.nativeEvent.text
             )
-          }}
+          }
           keyboardType='number-pad'
         />
       ) : (
