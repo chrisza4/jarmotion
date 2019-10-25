@@ -38,3 +38,10 @@ export interface IEmoji {
   inserted_at: Date
   owner_id: string
 }
+
+export type EmojiStat = { [date: number]: EmojiType | undefined }
+export interface IEmojiStatsResponse {
+  count: number
+  date: Date
+  type: EmojiType
+}

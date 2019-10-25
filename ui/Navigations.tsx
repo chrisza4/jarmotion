@@ -2,12 +2,12 @@ import React from 'react'
 import { Image, ImageSourcePropType, StyleProp, ViewStyle } from 'react-native'
 import { BottomTabNavigatorConfig, createAppContainer } from 'react-navigation' // 1.0.0-beta.27
 import { createBottomTabNavigator } from 'react-navigation-tabs'
+import CalendarPageContainer from './calendar/CalendarPageContainer'
 import HomePage from './home/HomePageNavigator'
 import LogoutPage from './LogoutPage'
 import SensingPageContainer from './sensor/SensorPageContainer'
 import { greenish } from './styles/colors'
 import { TabbarHeight } from './styles/margins'
-import UnderConstructionPage from './UnderConstructionPage'
 
 // Custom Type until PR get merged and add @types definition
 // https://github.com/react-navigation/tabs/pull/147/files
@@ -77,7 +77,7 @@ const TabNavigator = createBottomTabNavigator(
       screen: HomePage,
       navigationOptions: () => ({})
     },
-    Calendar: UnderConstructionPage,
+    Calendar: CalendarPageContainer,
     Sensing: SensingPageContainer,
     Settings: LogoutPage
   },

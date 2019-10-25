@@ -1,74 +1,13 @@
 import React, { useState } from 'react'
 import { ScrollView, Text, View } from 'react-native'
 import styled from 'styled-components/native'
-import { emojiDisplayName } from '../../domains/emojis/EmojiFunc'
 import { EmojiType } from '../../domains/emojis/EmojiTypes'
 import { ISensor } from '../../domains/sensor/SensorTypes'
+import { PageDescription, PageTitleText } from '../layouts/PageElements'
 import PageLayout from '../layouts/PageLayout'
 import AddEmotionModal from '../modals/AddEmotionModal'
-import { brownishGrey, fontBlack } from '../styles/colors'
 import AddEmotionButton from '../uikit/buttons/AddEmotionButton'
-import EditButton from '../uikit/buttons/EditButton'
-import Emoji from '../uikit/emoji/Emoji'
-
-const PageTitleText = styled.Text`
-  color: ${fontBlack};
-  font-family: poppins-bold;
-  font-size: 21px;
-`
-
-const PageDescription = styled.Text`
-  align-self: center;
-  margin-top: 20px;
-  color: ${brownishGrey};
-  font-family: poppins-medium;
-  font-size: 15px;
-`
-
-const SensorRow = styled.View`
-  display: flex;
-  flex-direction: row;
-  margin-top: 15px;
-`
-const EmojiBox = styled.View`
-  height: 100px;
-  width: 100px;
-  border-radius: 10px;
-  background-color: white;
-  align-items: center;
-  justify-content: center;
-`
-
-const ThresholdBox = styled.View`
-  margin-left: 12px;
-  height: 100px;
-  border-radius: 10px;
-  background-color: white;
-  flex-grow: 1;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  padding-left: 15px;
-  padding-right: 15px;
-`
-
-const EmojiText = styled.Text`
-  font-family: poppins-semibold;
-`
-
-const ThresholdNumberText = styled.Text`
-  font-family: poppins-bold;
-  font-size: 25px;
-  margin-top: 5px;
-`
-
-const SensorBoxDescriptionRow = styled.View`
-  flex-direction: row;
-  justify-content: space-between;
-`
-const SensorBoxDescription = styled.Text`
-  font-family: poppins-semibold;
-  font-size: 10px;
-`
+import EmojiTable from '../uikit/emoji/EmojiTable'
 
 const randomInsignificantHeightWtf = 100
 const SensorPageContent = styled.View`
@@ -94,11 +33,6 @@ const AddSensorPanelTextPlaceHolder = styled.View`
   padding-top: 17px;
   padding-bottom: 17px;
 `
-const ThresholdNumberTextInput = styled.TextInput`
-  font-family: poppins-bold;
-  font-size: 25px;
-  margin-top: 5px;
-`
 
 type SensorPageProps = {
   sensors: ISensor[]
@@ -108,7 +42,6 @@ type SensorPageProps = {
 
 const SensorPage = (props: SensorPageProps) => {
   const [showAddEmotionModal, setShowAddEmotionModal] = useState(false)
-  const [edittingSensorId, setEdittingSensorId] = useState<string | null>(null)
 
   const onUpsertSensor = async (emojiType: EmojiType, threshold: number) => {
     const sensor: ISensor = {
@@ -124,7 +57,6 @@ const SensorPage = (props: SensorPageProps) => {
     emojiType: EmojiType,
     thresholdString: string
   ) => {
-    setEdittingSensorId(null)
     const threshold = parseInt(thresholdString, 10)
     if (isNaN(threshold)) {
       return
@@ -136,35 +68,13 @@ const SensorPage = (props: SensorPageProps) => {
   }
 
   const renderSensors = () => {
-    return props.sensors.map(sensor => {
-      const numberElement =
-        edittingSensorId === sensor.id ? (
-          <ThresholdNumberTextInput
-            autoFocus
-            defaultValue={String(sensor.threshold)}
-            onBlur={e =>
-              onTryEditSensorThreshold(sensor.emoji_type, e.nativeEvent.text)
-            }
-          />
-        ) : (
-          <ThresholdNumberText>{sensor.threshold}</ThresholdNumberText>
-        )
-      return (
-        <SensorRow key={sensor.emoji_type}>
-          <EmojiBox>
-            <Emoji type={sensor.emoji_type} sizePx={40} />
-          </EmojiBox>
-          <ThresholdBox>
-            <EmojiText>{emojiDisplayName(sensor.emoji_type)}</EmojiText>
-            {numberElement}
-            <SensorBoxDescriptionRow>
-              <SensorBoxDescription>Times</SensorBoxDescription>
-              <EditButton onPress={() => setEdittingSensorId(sensor.id)} />
-            </SensorBoxDescriptionRow>
-          </ThresholdBox>
-        </SensorRow>
-      )
-    })
+    return (
+      <EmojiTable
+        emojiSummaryRows={props.sensors}
+        onTryEditEmojiTableRow={onTryEditSensorThreshold}
+        editable
+      />
+    )
   }
 
   const renderAddEmotionModal = () => {

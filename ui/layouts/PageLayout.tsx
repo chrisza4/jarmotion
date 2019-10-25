@@ -1,14 +1,22 @@
 import React from 'react'
 import { ImageBackground, StyleSheet, View } from 'react-native'
-import PageTitle from '../layouts/PageTitle'
+import styled from 'styled-components/native'
 import ScreenLayout from '../layouts/ScreenLayout'
 import { offWhite } from '../styles/colors'
+import {
+  BackButton,
+  BackButtonText,
+  PageTitleHolder,
+  TitleRow
+} from './PageElements'
+
+const PageView = styled.View`
+  background-color: ${offWhite};
+  justify-content: space-between;
+  flex-grow: 1;
+`
+
 const styles = StyleSheet.create({
-  page: {
-    backgroundColor: offWhite,
-    justifyContent: 'space-between',
-    flexGrow: 1
-  },
   backgroundImage: {
     height: 188,
     width: '100%',
@@ -21,25 +29,35 @@ const styles = StyleSheet.create({
 interface IPageLayoutProps {
   titleElement: React.ReactNode
   children: React.ReactNode
+  showBackButton?: boolean
+  onBack?: () => void
 }
 
 const PageLayout = (props: IPageLayoutProps) => {
   const renderTopSection = () => (
-    <ImageBackground
-      style={styles.backgroundImage}
-      source={require('../../assets/curvy_top_bg.png')}
-    ></ImageBackground>
+    <View>
+      <ImageBackground
+        style={styles.backgroundImage}
+        source={require('../../assets/curvy_top_bg.png')}
+      ></ImageBackground>
+    </View>
   )
 
   return (
     <ScreenLayout>
-      <View style={styles.page}>
+      <PageView>
         {renderTopSection()}
-        <View>
-          <PageTitle>{props.titleElement}</PageTitle>
-        </View>
+        <TitleRow>
+          <BackButton onPress={() => (props.onBack ? props.onBack() : null)}>
+            {props.showBackButton ? (
+              <BackButtonText>{'<'}</BackButtonText>
+            ) : null}
+          </BackButton>
+          <PageTitleHolder>{props.titleElement}</PageTitleHolder>
+          <View style={{ flex: 1 }} />
+        </TitleRow>
         {props.children}
-      </View>
+      </PageView>
     </ScreenLayout>
   )
 }
