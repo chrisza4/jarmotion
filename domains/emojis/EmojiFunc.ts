@@ -32,5 +32,14 @@ export function summarize(emojis: IEmoji[]): IEmojiTableRow[] {
       }
       return acc
     }, {})
-  )
+  ).sort((a, b) => {
+    switch (true) {
+      case a.threshold > b.threshold:
+        return -1
+      case a.threshold < b.threshold:
+        return 1
+      default:
+        return 0
+    }
+  })
 }
