@@ -39,7 +39,7 @@ const PageLayout = (props: IPageLayoutProps) => {
     <View>
       <ImageBackground
         style={styles.backgroundImage}
-        source={ImageAssets.CurvyBottomBg}
+        source={ImageAssets.CurvyTopBg}
       ></ImageBackground>
     </View>
   )
