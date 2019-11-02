@@ -1,5 +1,6 @@
 import React from 'react'
 import { Image } from 'react-native'
+import * as ImageAssets from '../../../assets/imageAssets'
 
 const IconChatNoti = () => {
   return (
@@ -9,7 +10,7 @@ const IconChatNoti = () => {
         height: 19,
         resizeMode: 'contain'
       }}
-      source={require('../../../assets/icon_chat_noti.png')}
+      source={ImageAssets.IconChatNoti}
     />
   )
 }

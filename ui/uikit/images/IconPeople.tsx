@@ -1,5 +1,6 @@
 import React from 'react'
 import { Image } from 'react-native'
+import * as ImageAssets from '../../../assets/imageAssets'
 
 const IconPeople = () => {
   return (
@@ -8,7 +9,7 @@ const IconPeople = () => {
         width: 35,
         height: 35
       }}
-      source={require('../../../assets/icon_people.png')}
+      source={ImageAssets.IconPeople}
     />
   )
 }

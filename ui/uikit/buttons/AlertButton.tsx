@@ -1,5 +1,6 @@
 import React from 'react'
 import { Animated, Easing, TouchableOpacity } from 'react-native'
+import * as ImageAssets from '../../../assets/imageAssets'
 
 interface IAlertButtonProps {
   alerting: boolean
@@ -64,7 +65,7 @@ export default class AlertButton extends React.Component<IAlertButtonProps> {
     return (
       <TouchableOpacity onPress={this.props.onPress}>
         <Animated.Image
-          source={require('../../../assets/btn_notification.png')}
+          source={ImageAssets.ImageButtonNotification}
           resizeMode='contain'
           style={{
             width: 70,

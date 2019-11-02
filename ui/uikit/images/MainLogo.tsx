@@ -1,5 +1,6 @@
 import React from 'react'
 import { Image } from 'react-native'
+import * as ImageAssets from '../../../assets/imageAssets'
 
 const MainLogo = () => {
   return (
@@ -9,7 +10,7 @@ const MainLogo = () => {
         height: 65,
         resizeMode: 'contain'
       }}
-      source={require('../../../assets/logo.png')}
+      source={ImageAssets.Logo}
     />
   )
 }

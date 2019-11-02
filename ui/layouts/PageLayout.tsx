@@ -1,6 +1,7 @@
 import React from 'react'
 import { ImageBackground, StyleSheet, View } from 'react-native'
 import styled from 'styled-components/native'
+import * as ImageAssets from '../../assets/imageAssets'
 import ScreenLayout from '../layouts/ScreenLayout'
 import { offWhite } from '../styles/colors'
 import {
@@ -38,7 +39,7 @@ const PageLayout = (props: IPageLayoutProps) => {
     <View>
       <ImageBackground
         style={styles.backgroundImage}
-        source={require('../../assets/curvy_top_bg.png')}
+        source={ImageAssets.CurvyBottomBg}
       ></ImageBackground>
     </View>
   )

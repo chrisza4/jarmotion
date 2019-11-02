@@ -2,10 +2,9 @@ import _ from 'lodash'
 import React, { useEffect, useState } from 'react'
 import { Dimensions, View } from 'react-native'
 import { GameEngine } from 'react-native-game-engine'
-import { EmojiType, IEmoji } from '../../../domains/emojis/EmojiTypes'
+import { IEmoji } from '../../../domains/emojis/EmojiTypes'
 import { usePrevious } from '../../../utils/reactHooks'
 import createEmojiComponent from '../emoji/createEmojiComponent'
-import Heart from '../emoji/Heart'
 import Jar from './Jar'
 import { JarHeight, JarWidth } from './JarConstants'
 import { createJarboxMatter } from './JarEngine'
@@ -20,15 +19,10 @@ interface IJarContainerProps {
 }
 
 const withRenderer = (emoji: IGameEngineEmoji) => {
-  switch (emoji.emojiType) {
-    case EmojiType.Heart:
-      return { ...emoji, renderer: PhysicalEmojiWrapper(Heart) }
-    default:
-      const EmojiComponent = createEmojiComponent({
-        type: emoji.emojiType
-      })
-      return { ...emoji, renderer: PhysicalEmojiWrapper(EmojiComponent) }
-  }
+  const EmojiComponent = createEmojiComponent({
+    type: emoji.emojiType
+  })
+  return { ...emoji, renderer: PhysicalEmojiWrapper(EmojiComponent) }
 }
 
 const JarContainer = (props: IJarContainerProps) => {

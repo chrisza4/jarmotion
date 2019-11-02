@@ -1,5 +1,6 @@
 import React from 'react'
 import { Image } from 'react-native'
+import * as ImageAssets from '../../../assets/imageAssets'
 import { JarHeight, JarWidth } from './JarConstants'
 
 const Jar = () => {
@@ -10,7 +11,7 @@ const Jar = () => {
         height: JarHeight,
         resizeMode: 'contain'
       }}
-      source={require('../../../assets/jar.png')}
+      source={ImageAssets.Jar}
     />
   )
 }

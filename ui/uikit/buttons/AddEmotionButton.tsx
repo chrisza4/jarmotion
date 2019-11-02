@@ -1,5 +1,6 @@
 import React from 'react'
 import { Image, StyleProp, TouchableOpacity, ViewStyle } from 'react-native'
+import * as ImageAssets from '../../../assets/imageAssets'
 
 type AddEmotionButtonProps = {
   onPress?: () => void
@@ -13,7 +14,7 @@ const AddEmotionButton = (props: AddEmotionButtonProps) => {
     <TouchableOpacity onPress={props.onPress} style={style}>
       <Image
         style={{ width: 70, height: 70 }}
-        source={require('../../../assets/btn_add_emotion.png')}
+        source={ImageAssets.ImageButtonAddEmotion}
       />
     </TouchableOpacity>
   )

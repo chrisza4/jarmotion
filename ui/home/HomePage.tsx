@@ -3,6 +3,7 @@ import { Alert, ImageBackground, StyleSheet, Text, View } from 'react-native'
 import styled from 'styled-components/native'
 
 import uuid from 'uuid'
+import * as ImageAssets from '../../assets/imageAssets'
 import { EmojiType, IEmoji } from '../../domains/emojis/EmojiTypes'
 import { IUser } from '../../domains/users/UserTypes'
 import { LoadingState, LoadingStateStatus } from '../../types/LoadingState'
@@ -180,7 +181,7 @@ const HomePage = (props: HomePageProps) => {
     <TopSection>
       <ImageBackground
         style={styles.backgroundImage}
-        source={require('../../assets/curvy_top_bg.png')}
+        source={ImageAssets.CurvyTopBg}
       >
         {renderAlertButton()}
         <PageTitleHolder>
@@ -206,7 +207,7 @@ const HomePage = (props: HomePageProps) => {
     <BottomSection>
       <ImageBackground
         style={[styles.backgroundImage, styles.bottomBackgroundImage]}
-        source={require('../../assets/curvy_bottom_bg.png')}
+        source={ImageAssets.CurvyBottomBg}
       >
         <BottomContentHolder>
           <Circle radius={22} style={styles.leftCircle} />

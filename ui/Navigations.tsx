@@ -2,6 +2,7 @@ import React from 'react'
 import { Image, ImageSourcePropType, StyleProp, ViewStyle } from 'react-native'
 import { BottomTabNavigatorConfig, createAppContainer } from 'react-navigation' // 1.0.0-beta.27
 import { createBottomTabNavigator } from 'react-navigation-tabs'
+import * as ImageAssets from '../assets/imageAssets'
 import CalendarPageContainer from './calendar/CalendarPageContainer'
 import HomePage from './home/HomePageNavigator'
 import LogoutPage from './LogoutPage'
@@ -50,19 +51,13 @@ const bottomTabNavigatorConfig: JarmotionBottomTabNavigatorConfig = {
     tabBarIcon: () => {
       switch (navigation.state.routeName) {
         case 'Home':
-          return (
-            <TabbarIcon source={require('../assets/tabbar_dashboard.png')} />
-          )
+          return <TabbarIcon source={ImageAssets.TabbarDashboard} />
         case 'Calendar':
-          return (
-            <TabbarIcon source={require('../assets/tabbar_calendar.png')} />
-          )
+          return <TabbarIcon source={ImageAssets.TabbarCalendar} />
         case 'Sensing':
-          return <TabbarIcon source={require('../assets/tabbar_diary.png')} />
+          return <TabbarIcon source={ImageAssets.TabbarDiary} />
         case 'Settings':
-          return (
-            <TabbarIcon source={require('../assets/tabbar_settings.png')} />
-          )
+          return <TabbarIcon source={ImageAssets.TabbarSettings} />
         default:
           return null
       }
