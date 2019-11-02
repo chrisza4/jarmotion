@@ -4,24 +4,29 @@
     "slug": "jarmotion",
     "privacy": "public",
     "sdkVersion": "33.0.0",
-    "platforms": ["ios", "android", "web"],
+    "platforms": ["ios", "android"],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/Logo1024.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#c2dd32"
     },
+    "primaryColor": "#c2dd32",
     "updates": {
       "fallbackToCacheTimeout": 0
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": false
+      "supportsTablet": false,
+      "bundleIdentifier": "com.chrisza.jarmotion",
+      "buildNumber": "1.0.0"
     },
     "android": {
-      "package": "com.chrisza.jarmotion"
+      "package": "com.chrisza.jarmotion",
+      "versionCode": "1.0.0",
+      "permissions": []
     },
     "description": ""
   }
