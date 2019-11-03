@@ -7,6 +7,7 @@ import * as ImageAssets from '../../assets/imageAssets'
 import { EmojiType, IEmoji } from '../../domains/emojis/EmojiTypes'
 import { IUser } from '../../domains/users/UserTypes'
 import { LoadingState, LoadingStateStatus } from '../../types/LoadingState'
+import { ScreenHeight, TabbarHeight } from '../../ui/styles/margins'
 import { JarHeight } from '..//uikit/Jar/JarConstants'
 import { PageTitleHolder } from '../layouts/PageElements'
 import ScreenLayout from '../layouts/ScreenLayout'
@@ -107,6 +108,7 @@ const MiddleSection = styled.View`
 const BottomSection = styled.View`
   min-height: ${BottomHeight}px;
   justify-content: flex-end;
+  bottom: 0px;
 `
 
 const BottomContentHolder = styled.View`
@@ -253,9 +255,8 @@ const HomePage = (props: HomePageProps) => {
       />
     )
   }
-
   return (
-    <ScreenLayout>
+    <ScreenLayout hackHeight={ScreenHeight - TabbarHeight}>
       <PageView>
         {renderTopSection()}
         {renderMiddleSection()}

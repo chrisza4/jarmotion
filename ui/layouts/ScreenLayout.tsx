@@ -5,14 +5,16 @@ import CrossPlatformStatusBar from '../uikit/CrossPlatformStatusBar'
 
 type ScreenLayoutProps = {
   children: React.ReactNode
+  hackHeight?: number
 }
 
-const FullScreenView = styled.View`
+const FullScreenView = styled.View<ScreenLayoutProps>`
   top: 0;
   right: 0;
   left: 0;
   bottom: 0;
   position: absolute;
+  ${props => (props.hackHeight ? `height: ${props.hackHeight};` : '')}
 `
 
 const ContentView = styled.View`
@@ -20,7 +22,7 @@ const ContentView = styled.View`
 `
 const ScreenLayout = (props: ScreenLayoutProps) => {
   return (
-    <FullScreenView>
+    <FullScreenView {...props}>
       <CrossPlatformStatusBar
         backgroundColor={sicklyYellow}
         barStyle='light-content'
