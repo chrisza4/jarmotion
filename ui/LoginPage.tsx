@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
-import { ActivityIndicator, View } from 'react-native'
+import { ActivityIndicator, Image, View } from 'react-native'
 import styled from 'styled-components/native'
+import * as ImageAssets from '../assets/imageAssets'
 import PageCenterLayout from './layouts/PageCenterLayout'
 import { BottomBackground, PageTitleText } from './layouts/PageElements'
 import PageLayout from './layouts/PageLayout'
@@ -19,6 +20,17 @@ const BottomBackgroundPlaceHolder = styled.View`
   padding-bottom: 43px;
   align-items: flex-end;
   flex-direction: row;
+`
+const InputPlaceHolderImage = styled.Image`
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  z-index: 1;
+  left: 21px;
+  top: 16px;
+`
+const InputPlaceHolderView = styled.View`
+  width: 80%;
 `
 
 const LoginPage = (props: LoginPageProps) => {
@@ -44,19 +56,29 @@ const LoginPage = (props: LoginPageProps) => {
   return (
     <PageLayout titleElement={renderTitle()}>
       <PageCenterLayout>
-        <FormTextInput
-          placeholder='Email'
-          value={username}
-          onChangeText={text => setUsername(text)}
-          keyboardType='email-address'
-          autoCapitalize='none'
-        />
-        <FormTextInput
-          placeholder='Password'
-          secureTextEntry
-          value={password}
-          onChangeText={text => setPassword(text)}
-        />
+        <InputPlaceHolderView>
+          <InputPlaceHolderImage source={ImageAssets.InputPlaceHolderJar} />
+          <FormTextInput
+            placeholder='Email'
+            value={username}
+            onChangeText={text => setUsername(text)}
+            keyboardType='email-address'
+            autoCapitalize='none'
+            style={{ paddingLeft: 61 }}
+          />
+        </InputPlaceHolderView>
+        <InputPlaceHolderView>
+          <InputPlaceHolderImage source={ImageAssets.InputPlaceHolderSecure} />
+          <FormTextInput
+            placeholder='Password'
+            secureTextEntry
+            value={password}
+            onChangeText={text => setPassword(text)}
+            style={{ paddingLeft: 61 }}
+          />
+        </InputPlaceHolderView>
+      </PageCenterLayout>
+      <View>
         <BottomBackground>
           <BottomBackgroundPlaceHolder>
             <TextButton text='LOGIN' onPress={onLogin} disabled={busy} />
@@ -70,7 +92,7 @@ const LoginPage = (props: LoginPageProps) => {
             {busy && <ActivityIndicator size='small' />}
           </BottomBackgroundPlaceHolder>
         </BottomBackground>
-      </PageCenterLayout>
+      </View>
     </PageLayout>
   )
 }

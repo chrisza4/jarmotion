@@ -7,11 +7,11 @@ const StyledTextInput = styled.TextInput`
   height: 50px;
   border-color: ${sicklyYellow};
   border-radius: 32px;
-  border-width: 1px;
+  border-width: 0.5px;
   min-width: 200px;
   margin-bottom: 17px;
   padding: 15px 20px;
-  box-shadow: 0px 8px 3px ${sicklyYellow};
+  box-shadow: 2px 8px 3px ${sicklyYellow};
   background-color: white;
 `
 

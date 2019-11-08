@@ -50,7 +50,6 @@ export const BottomBackground = (props: BottomBackgroundProps) => {
         height: 188,
         width: '100%',
         backgroundColor: 'transparent',
-        position: 'absolute',
         left: 0,
         bottom: 0
       }}

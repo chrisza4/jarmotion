@@ -16,3 +16,6 @@ export const IconPeople = require('./icon_people.png')
 
 export const Logo = require('./logo.png')
 export const Jar = require('./jar.png')
+
+export const InputPlaceHolderJar = require('./input_placeholder_jar.png')
+export const InputPlaceHolderSecure = require('./input_placeholder_secure.png')
