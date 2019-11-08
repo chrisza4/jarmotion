@@ -1,4 +1,7 @@
+import React from 'react'
+import { ImageBackground, View } from 'react-native'
 import styled from 'styled-components/native'
+import * as ImageAssets from '../../assets/imageAssets'
 import { brownishGrey, fontBlack } from '../styles/colors'
 
 const titleMargin = 20
@@ -37,3 +40,23 @@ export const TitleRow = styled.View`
   flex-direction: row;
   justify-content: space-between;
 `
+type BottomBackgroundProps = {
+  children?: React.ReactNode
+}
+export const BottomBackground = (props: BottomBackgroundProps) => {
+  return (
+    <ImageBackground
+      style={{
+        height: 188,
+        width: '100%',
+        backgroundColor: 'transparent',
+        position: 'absolute',
+        left: 0,
+        bottom: 0
+      }}
+      source={ImageAssets.CurvyBottomBg}
+    >
+      {props.children}
+    </ImageBackground>
+  )
+}

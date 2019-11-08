@@ -1,11 +1,25 @@
 import React, { useState } from 'react'
-import { ActivityIndicator, Button, View } from 'react-native'
+import { ActivityIndicator, View } from 'react-native'
+import styled from 'styled-components/native'
 import PageCenterLayout from './layouts/PageCenterLayout'
+import { BottomBackground, PageTitleText } from './layouts/PageElements'
+import PageLayout from './layouts/PageLayout'
+import TextButton, { TextButtonStyle } from './uikit/buttons/TextButton'
 import FormTextInput from './uikit/FormTextInput'
+import MainLogo from './uikit/images/MainLogo'
 
 type LoginPageProps = {
   login: (username: string, password: string) => Promise<void>
 }
+
+const BottomBackgroundPlaceHolder = styled.View`
+  width: 100%;
+  height: 100%;
+  justify-content: space-around;
+  padding-bottom: 43px;
+  align-items: flex-end;
+  flex-direction: row;
+`
 
 const LoginPage = (props: LoginPageProps) => {
   const [username, setUsername] = useState('')
@@ -18,26 +32,46 @@ const LoginPage = (props: LoginPageProps) => {
     setBusy(false)
   }
 
-  return (
-    <PageCenterLayout>
-      <FormTextInput
-        placeholder='Email'
-        value={username}
-        onChangeText={text => setUsername(text)}
-        keyboardType='email-address'
-        autoCapitalize='none'
-      />
-      <FormTextInput
-        placeholder='Password'
-        secureTextEntry
-        value={password}
-        onChangeText={text => setPassword(text)}
-      />
+  const renderTitle = () => {
+    return (
       <View>
-        <Button title='login' onPress={onLogin} disabled={busy} />
-        {busy && <ActivityIndicator size='small' />}
+        <MainLogo />
+        <PageTitleText>Login</PageTitleText>
       </View>
-    </PageCenterLayout>
+    )
+  }
+
+  return (
+    <PageLayout titleElement={renderTitle()}>
+      <PageCenterLayout>
+        <FormTextInput
+          placeholder='Email'
+          value={username}
+          onChangeText={text => setUsername(text)}
+          keyboardType='email-address'
+          autoCapitalize='none'
+        />
+        <FormTextInput
+          placeholder='Password'
+          secureTextEntry
+          value={password}
+          onChangeText={text => setPassword(text)}
+        />
+        <BottomBackground>
+          <BottomBackgroundPlaceHolder>
+            <TextButton text='LOGIN' onPress={onLogin} disabled={busy} />
+            <TextButton
+              text='REGISTER'
+              buttonStyle={TextButtonStyle.BlackButton}
+              onPress={onLogin}
+              disabled={busy}
+              style={{ width: 130, height: 50 }}
+            />
+            {busy && <ActivityIndicator size='small' />}
+          </BottomBackgroundPlaceHolder>
+        </BottomBackground>
+      </PageCenterLayout>
+    </PageLayout>
   )
 }
 

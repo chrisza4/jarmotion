@@ -39,7 +39,7 @@ const AlertModal = (props: IAlertModalProps) => {
       <CloseButtonWrapper>
         <TextButton
           text='CLOSE'
-          style={TextButtonStyle.PlainText}
+          buttonStyle={TextButtonStyle.PlainText}
           onPress={props.onClose || _.noop}
         />
       </CloseButtonWrapper>

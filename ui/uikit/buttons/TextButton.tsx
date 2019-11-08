@@ -1,5 +1,6 @@
 import React from 'react'
 import {
+  StyleProp,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -11,7 +12,9 @@ import { blackButton } from '../../styles/colors'
 type TextButtonProps = {
   text: string
   onPress?: () => void
-  style?: TextButtonStyle
+  buttonStyle?: TextButtonStyle
+  disabled?: boolean
+  style?: StyleProp<ViewStyle>
 }
 
 export enum TextButtonStyle {
@@ -45,13 +48,15 @@ const blackButtonStyle = StyleSheet.create({
   buttonStyle: {
     backgroundColor: blackButton,
     borderRadius: 10,
-    ...defaultButtonStyle
+    ...defaultButtonStyle,
+    paddingHorizontal: 30,
+    paddingVertical: 14
   }
 })
 
 const TextButton = (props: TextButtonProps) => {
   const getStyle = () => {
-    switch (props.style) {
+    switch (props.buttonStyle) {
       case TextButtonStyle.BlackButton:
         return blackButtonStyle
       case TextButtonStyle.PlainText:
@@ -60,9 +65,10 @@ const TextButton = (props: TextButtonProps) => {
     }
   }
   const buttonStyle = getStyle()
+  const disabledStyle = props.disabled ? { opacity: 0.5 } : {}
   return (
     <TouchableOpacity onPress={props.onPress}>
-      <View style={buttonStyle.buttonStyle}>
+      <View style={[buttonStyle.buttonStyle, disabledStyle, props.style]}>
         <Text style={buttonStyle.textStyle}>{props.text}</Text>
       </View>
     </TouchableOpacity>

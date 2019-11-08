@@ -115,12 +115,12 @@ const AddEmotionModal = (props: AddEmotionModalProps) => {
     <View style={styles.footerHolder}>
       <TextButton
         text='CANCEL'
-        style={TextButtonStyle.PlainText}
+        buttonStyle={TextButtonStyle.PlainText}
         onPress={props.onClose || _.noop}
       />
       <TextButton
         text='ADD'
-        style={TextButtonStyle.BlackButton}
+        buttonStyle={TextButtonStyle.BlackButton}
         onPress={() =>
           props.onAddEmoji ? props.onAddEmoji(selectedEmojiType) : _.noop
         }
