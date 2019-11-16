@@ -3,11 +3,7 @@ import { ScrollView, Text, View } from 'react-native'
 import styled from 'styled-components/native'
 import { EmojiType } from '../../domains/emojis/EmojiTypes'
 import { ISensor } from '../../domains/sensor/SensorTypes'
-import {
-  PageContent,
-  PageDescription,
-  PageTitleText
-} from '../layouts/PageElements'
+import { PageDescription, PageTitleText } from '../layouts/PageElements'
 import PageLayout from '../layouts/PageLayout'
 import AddEmotionModal from '../modals/AddEmotionModal'
 import AddEmotionButton from '../uikit/buttons/AddEmotionButton'

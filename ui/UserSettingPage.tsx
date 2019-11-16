@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import styled from 'styled-components/native'
 import AuthStore from '../stores/AuthStore'
 import TextButton, { TextButtonStyle } from '../ui/uikit/buttons/TextButton'
