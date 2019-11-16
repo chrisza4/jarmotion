@@ -9,7 +9,7 @@ import { IUser } from '../../domains/users/UserTypes'
 import { LoadingState, LoadingStateStatus } from '../../types/LoadingState'
 import { ScreenHeight, TabbarHeight } from '../../ui/styles/margins'
 import { JarHeight } from '..//uikit/Jar/JarConstants'
-import { PageTitleHolder } from '../layouts/PageElements'
+import { CenterAvatar, PageTitleHolder } from '../layouts/PageElements'
 import ScreenLayout from '../layouts/ScreenLayout'
 import AddEmotionModal from '../modals/AddEmotionModal'
 import { brownishGrey, greenish, offWhite } from '../styles/colors'
@@ -102,6 +102,7 @@ const TopSection = styled.View`
 `
 
 const MiddleSection = styled.View`
+  margin-top: 10px;
   height: ${MiddleHeight}px;
 `
 
@@ -186,6 +187,7 @@ const HomePage = (props: HomePageProps) => {
         source={ImageAssets.CurvyTopBg}
       >
         {renderAlertButton()}
+        <CenterAvatar />
         <PageTitleHolder>
           <MainLogo />
         </PageTitleHolder>

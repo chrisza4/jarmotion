@@ -2,7 +2,9 @@ import React from 'react'
 import { ImageBackground } from 'react-native'
 import styled from 'styled-components/native'
 import * as ImageAssets from '../../assets/imageAssets'
-import { brownishGrey, fontBlack } from '../styles/colors'
+import { ScreenWidth } from '../../ui/styles/margins'
+import Circle from '../../ui/uikit/Circle'
+import { brownishGrey, fontBlack, sicklyYellow } from '../styles/colors'
 
 const titleMargin = 20
 
@@ -60,3 +62,23 @@ export const BottomBackground = (props: BottomBackgroundProps) => {
     </ImageBackground>
   )
 }
+
+type CenterAvatarProps = {
+  avatarContent?: React.ReactNode
+}
+
+export const CenterAvatar = (props: CenterAvatarProps) => (
+  <Circle
+    radius={37.5}
+    style={{
+      backgroundColor: 'white',
+      position: 'absolute',
+      top: 100,
+      borderColor: sicklyYellow,
+      borderWidth: 2.5,
+      left: ScreenWidth / 2 - 37.5
+    }}
+  >
+    {props.avatarContent}
+  </Circle>
+)

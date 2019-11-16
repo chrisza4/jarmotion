@@ -86,7 +86,10 @@ const UserSettingPage = (props: UserSettingPageProps) => {
     return null
   }
   return (
-    <PageLayout titleElement={<PageTitleText>Setting</PageTitleText>}>
+    <PageLayout
+      titleElement={<PageTitleText>Setting</PageTitleText>}
+      avatarContent={<View></View>}
+    >
       <View>
         <PageDescription>Set your profile</PageDescription>
       </View>
