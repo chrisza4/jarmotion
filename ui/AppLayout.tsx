@@ -5,7 +5,7 @@ import AuthStore, { AuthStoreStatus } from '../stores/AuthStore'
 import StarterStore from '../stores/StarterStore'
 import LoginPage from './LoginPage'
 import Navigations from './Navigations'
-import LoadingState from './uikit/LoadingState'
+import { FullScreenLoadingState } from './uikit/LoadingScreen'
 
 type AppLayoutProps = {
   authStatus: AuthStoreStatus
@@ -30,7 +30,7 @@ function AppLayout(props: AppLayoutProps) {
 
   switch (props.authStatus.auth) {
     case 'loading':
-      return <LoadingState />
+      return <FullScreenLoadingState />
     case false:
       return <LoginPage login={login} />
     case true:

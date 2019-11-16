@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { ActivityIndicator, Image, View } from 'react-native'
+import { ActivityIndicator, View } from 'react-native'
 import styled from 'styled-components/native'
 import * as ImageAssets from '../assets/imageAssets'
 import PageCenterLayout from './layouts/PageCenterLayout'

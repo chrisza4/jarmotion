@@ -9,7 +9,7 @@ import { INavitationComponentProps } from '../../types/NavigationTypes'
 import { PageDescription, PageTitleText } from '../../ui/layouts/PageElements'
 import PageLayout from '../../ui/layouts/PageLayout'
 import EmojiTable, { IEmojiTableRow } from '../../ui/uikit/emoji/EmojiTable'
-import LoadingStatePage from '../uikit/LoadingState'
+import { FullScreenLoadingState } from '../uikit/LoadingScreen'
 
 const randomInsignificantHeightWtf = 100
 const SensorPageContent = styled.View`
@@ -30,7 +30,7 @@ type EmojiSummaryModalProps = INavitationComponentProps & {
 
 const EmojiSummaryModal = (props: EmojiSummaryModalProps) => {
   if (props.loadingState.status !== LoadingStateStatus.Loaded) {
-    return <LoadingStatePage />
+    return <FullScreenLoadingState />
   }
   const userName = props.user ? props.user.name : ''
   return (

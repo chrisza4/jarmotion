@@ -3,10 +3,10 @@ import React from 'react'
 import GestureRecognizer from 'react-native-swipe-gestures'
 import { createStackNavigator } from 'react-navigation-stack'
 import UserStore from '../../stores/UserStore'
-import LoadingState from '../uikit/LoadingState'
+import { FullScreenLoadingState } from '../uikit/LoadingScreen'
 import HomePageContainer from './HomePageContainer'
 
-const EmptyPage = () => <LoadingState />
+const EmptyPage = () => <FullScreenLoadingState />
 
 const HomePageMe = observer((props: any) => {
   const me = UserStore.me
