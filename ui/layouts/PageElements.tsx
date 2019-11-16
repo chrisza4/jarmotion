@@ -1,5 +1,5 @@
 import React from 'react'
-import { ImageBackground, View } from 'react-native'
+import { ImageBackground } from 'react-native'
 import styled from 'styled-components/native'
 import * as ImageAssets from '../../assets/imageAssets'
 import { brownishGrey, fontBlack } from '../styles/colors'
@@ -39,9 +39,11 @@ export const TitleRow = styled.View`
   flex-direction: row;
   justify-content: space-between;
 `
+
 type BottomBackgroundProps = {
   children?: React.ReactNode
 }
+
 export const BottomBackground = (props: BottomBackgroundProps) => {
   return (
     <ImageBackground

@@ -2,8 +2,10 @@ import React from 'react'
 import { ImageBackground, StyleSheet, View } from 'react-native'
 import styled from 'styled-components/native'
 import * as ImageAssets from '../../assets/imageAssets'
+import { ScreenWidth } from '../../ui/styles/margins'
 import ScreenLayout from '../layouts/ScreenLayout'
-import { offWhite } from '../styles/colors'
+import { offWhite, sicklyYellow } from '../styles/colors'
+import Circle from '../uikit/Circle'
 import {
   BackButton,
   BackButtonText,
@@ -23,7 +25,8 @@ const styles = StyleSheet.create({
     width: '100%',
     resizeMode: 'stretch',
     backgroundColor: 'transparent',
-    position: 'absolute'
+    position: 'absolute',
+    justifyContent: 'center'
   }
 })
 
@@ -31,16 +34,40 @@ interface IPageLayoutProps {
   titleElement: React.ReactNode
   children: React.ReactNode
   showBackButton?: boolean
+  avatarContent?: React.ReactNode
+
   onBack?: () => void
 }
 
 const PageLayout = (props: IPageLayoutProps) => {
+  const renderCenterAvatar = () => {
+    if (!props.avatarContent) {
+      return null
+    }
+    return (
+      <Circle
+        radius={37.5}
+        style={{
+          backgroundColor: 'white',
+          position: 'absolute',
+          top: 100,
+          borderColor: sicklyYellow,
+          borderWidth: 2.5,
+          left: ScreenWidth / 2 - 37.5
+        }}
+      >
+        {props.avatarContent}
+      </Circle>
+    )
+  }
   const renderTopSection = () => (
     <View>
       <ImageBackground
         style={styles.backgroundImage}
         source={ImageAssets.CurvyTopBg}
-      ></ImageBackground>
+      >
+        {renderCenterAvatar()}
+      </ImageBackground>
     </View>
   )
 
@@ -57,6 +84,7 @@ const PageLayout = (props: IPageLayoutProps) => {
           <PageTitleHolder>{props.titleElement}</PageTitleHolder>
           <View style={{ flex: 1 }} />
         </TitleRow>
+
         {props.children}
       </PageView>
     </ScreenLayout>
