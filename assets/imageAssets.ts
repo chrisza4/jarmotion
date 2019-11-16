@@ -19,3 +19,4 @@ export const Jar = require('./jar.png')
 
 export const InputPlaceHolderJar = require('./input_placeholder_jar.png')
 export const InputPlaceHolderSecure = require('./input_placeholder_secure.png')
+export const LoadingGif = require('./loading.gif')
