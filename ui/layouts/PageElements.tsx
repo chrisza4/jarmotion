@@ -24,7 +24,6 @@ export const PageDescription = styled.Text`
   font-family: poppins-medium;
   font-size: 15px;
 `
-
 export const BackButton = styled.TouchableOpacity`
   left: 15px;
   top: ${titleMargin}px;
