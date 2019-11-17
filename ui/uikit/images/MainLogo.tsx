@@ -7,7 +7,7 @@ const MainLogo = () => {
     <Image
       style={{
         width: 45,
-        height: 65,
+        height: 45,
         resizeMode: 'contain'
       }}
       source={ImageAssets.Logo}

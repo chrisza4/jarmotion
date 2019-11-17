@@ -13,6 +13,7 @@ export const PageTitleHolder = styled.View`
   resize-mode: contain;
   align-self: center;
   margin-top: ${titleMargin}px;
+  align-items: center;
 `
 export const PageTitleText = styled.Text`
   color: ${fontBlack};

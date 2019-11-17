@@ -13,7 +13,8 @@ import { JarHeight } from '..//uikit/Jar/JarConstants'
 import {
   AvatarCenterImage,
   CenterAvatar,
-  PageTitleHolder
+  PageTitleHolder,
+  PageTitleText
 } from '../layouts/PageElements'
 import ScreenLayout from '../layouts/ScreenLayout'
 import AddEmotionModal from '../modals/AddEmotionModal'
@@ -175,6 +176,9 @@ const HomePage = (props: HomePageProps) => {
         />
         <PageTitleHolder>
           <MainLogo />
+          <PageTitleText>{`${UserFunc.getCapitalizeName(
+            currentUser
+          )}'s Jar`}</PageTitleText>
         </PageTitleHolder>
       </ImageBackground>
     </TopSection>
