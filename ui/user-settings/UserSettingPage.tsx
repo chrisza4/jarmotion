@@ -94,12 +94,13 @@ const UserSettingPage = (props: UserSettingPageProps) => {
     setNewPassword('')
   }
 
-  const onUpdateProfile = () => {
+  const onUpdateProfile = async () => {
     const updates: IUserUpdate = {
       email: currentMe.email,
       name: currentMe.name
     }
-    return props.onUpdateProfile(updates)
+    await props.onUpdateProfile(updates)
+    setDirty(false)
   }
 
   const onEditAvatar = async () => {
