@@ -18,7 +18,7 @@ export async function getUsersInRelationship() {
 }
 
 export async function updateProfile(updates: IUserUpdate) {
-  const res = await authFetch<IUser[]>('POST', 'api/users/me', updates)
+  const res = await authFetch<IUser>('POST', 'api/users/me', updates)
   if (res.status !== 200) {
     throw Error('Cannot edit profile of myself')
   }

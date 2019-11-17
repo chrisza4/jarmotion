@@ -8,6 +8,8 @@ const UserSettingPageContainer = observer(() => {
   return (
     <UserSettingPage
       me={UserStore.me}
+      loadState={UserStore.loadState}
+      onUpdateProfile={updates => UserStore.updateProfile(updates)}
       onLogout={() => AuthStore.destroyAuthToken()}
     />
   )

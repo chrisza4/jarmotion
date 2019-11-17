@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { View } from 'react-native'
 import styled from 'styled-components/native'
-import { IUser } from '../../domains/users/UserTypes'
+import { IUser, IUserUpdate } from '../../domains/users/UserTypes'
+import { LoadingState, LoadingStateStatus } from '../../types/LoadingState'
 import { PageDescription, PageTitleText } from '../layouts/PageElements'
 import PageLayout from '../layouts/PageLayout'
 import TextButton, { TextButtonStyle } from '../uikit/buttons/TextButton'
+import { OverlayLoadingState } from '../uikit/LoadingScreen'
 
 const UserSettingPageContent = styled.View`
   flex: 1;
@@ -41,24 +43,26 @@ const ButtonsHolder = styled.View`
 
 type UserSettingPageProps = {
   me: IUser
+  loadState: LoadingState
+  onUpdateProfile: (update: IUserUpdate) => Promise<void>
   onLogout: () => void
   // onSaveSetting: (user: IUser, newPassword?: string) => Promise<boolean>
 }
 
 const UserSettingPage = (props: UserSettingPageProps) => {
-  const [me, setMe] = useState<IUser>(props.me)
+  const [currentMe, setCurrentMe] = useState<IUser>(props.me)
   const [dirty, setDirty] = useState(false)
   const [newPassword, setNewPassword] = useState('')
   const [oldPassword, setOldPassword] = useState('')
 
   useEffect(() => {
-    setMe(props.me)
+    setCurrentMe(props.me)
   }, [props.me])
 
   const onChangeUsername = (newUsername: string) => {
     setDirty(true)
-    setMe({
-      ...me,
+    setCurrentMe({
+      ...currentMe,
       name: newUsername
     })
   }
@@ -69,20 +73,28 @@ const UserSettingPage = (props: UserSettingPageProps) => {
 
   const onChangeEmail = (newEmail: string) => {
     setDirty(true)
-    setMe({
-      ...me,
+    setCurrentMe({
+      ...currentMe,
       email: newEmail
     })
   }
 
   const onReset = () => {
     setDirty(false)
-    setMe(props.me)
+    setCurrentMe(props.me)
     setOldPassword('')
     setNewPassword('')
   }
 
-  if (!me) {
+  const onUpdateProfile = () => {
+    const updates: IUserUpdate = {
+      email: currentMe.email,
+      name: currentMe.name
+    }
+    return props.onUpdateProfile(updates)
+  }
+
+  if (!currentMe) {
     return null
   }
   return (
@@ -99,7 +111,7 @@ const UserSettingPage = (props: UserSettingPageProps) => {
             <FieldDescription>Name</FieldDescription>
           </UserSettingFieldDescriptionHolder>
           <SettingTextInput
-            value={me.name}
+            value={currentMe.name}
             onChangeText={text => onChangeUsername(text)}
           />
         </UserSettingFieldHolder>
@@ -108,7 +120,7 @@ const UserSettingPage = (props: UserSettingPageProps) => {
             <FieldDescription>Email</FieldDescription>
           </UserSettingFieldDescriptionHolder>
           <SettingTextInput
-            value={me.email}
+            value={currentMe.email}
             keyboardType='email-address'
             onChangeText={text => onChangeEmail(text)}
           />
@@ -140,6 +152,7 @@ const UserSettingPage = (props: UserSettingPageProps) => {
           text='Save'
           style={{ height: 50, width: 100, marginLeft: 10 }}
           disabled={!dirty}
+          onPress={() => onUpdateProfile()}
         />
         <TextButton
           buttonStyle={TextButtonStyle.BlackButton}
@@ -154,6 +167,9 @@ const UserSettingPage = (props: UserSettingPageProps) => {
           style={{ height: 50, width: 100 }}
         />
       </ButtonsHolder>
+      {props.loadState.status !== LoadingStateStatus.Loaded ? (
+        <OverlayLoadingState />
+      ) : null}
     </PageLayout>
   )
 }
