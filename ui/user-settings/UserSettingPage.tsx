@@ -12,7 +12,6 @@ import {
 } from '../layouts/PageElements'
 import PageLayout from '../layouts/PageLayout'
 import TextButton, { TextButtonStyle } from '../uikit/buttons/TextButton'
-import CircleAvatar from '../uikit/CircleAvatar'
 import { OverlayLoadingState } from '../uikit/LoadingScreen'
 
 const UserSettingPageContent = styled.View`

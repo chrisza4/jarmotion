@@ -103,13 +103,15 @@ export type AvatarContentProps = {
 }
 
 export const AvatarCenterImage = (props: AvatarContentProps) => {
-  return props.uri ? (
+  return (
     <AvatarButton onPress={() => props.onPress && props.onPress()}>
-      <View>
-        <CircleAvatar radius={37.5} uri={props.uri} />
-      </View>
+      {props.uri ? (
+        <View>
+          <CircleAvatar radius={37.5} uri={props.uri} />
+        </View>
+      ) : (
+        <AvatarButtonEmpty />
+      )}
     </AvatarButton>
-  ) : (
-    <AvatarButtonEmpty />
   )
 }
