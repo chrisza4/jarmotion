@@ -155,22 +155,6 @@ const HomePage = (props: HomePageProps) => {
     }
   }, [props.loadState])
 
-  const renderChatSection = () =>
-    isMyself && (
-      <View style={styles.chatSection}>
-        <IconPeople />
-        <View style={styles.greetingHolder}>
-          <TextGreeting>Hello {props.currentUser.name}</TextGreeting>
-          <Text style={styles.textTellSomething}>
-            Tell loved one how you feel?
-          </Text>
-        </View>
-        <View style={styles.chatNotiHolder}>
-          <IconChatNoti />
-        </View>
-      </View>
-    )
-
   const renderAlertButton = () => (
     <View style={styles.notificationButtonHolder}>
       <AlertButton
@@ -191,7 +175,6 @@ const HomePage = (props: HomePageProps) => {
         <PageTitleHolder>
           <MainLogo />
         </PageTitleHolder>
-        {renderChatSection()}
       </ImageBackground>
     </TopSection>
   )

@@ -4,6 +4,11 @@ export interface IUser {
   readonly name: string
 }
 
+export interface IUserUpdate {
+  readonly email: string
+  readonly name: string
+}
+
 export enum UserType {
   Me,
   Couple

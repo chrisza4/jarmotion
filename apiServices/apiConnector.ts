@@ -4,7 +4,7 @@ import { ApiResult } from './apiTypes'
 
 type HttpMethod = 'GET' | 'POST' | 'PATCH' | 'PUT' | 'DELETE' | 'OPTIONS'
 
-export const BASE_URL = sanitizeBaseUrl('https://api.jarmotion.co')
+export const BASE_URL = sanitizeBaseUrl('https://ddd48c66.ngrok.io')
 
 export async function unauthFetch<T>(
   method: HttpMethod,

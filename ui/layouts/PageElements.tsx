@@ -67,16 +67,17 @@ type CenterAvatarProps = {
   avatarContent?: React.ReactNode
 }
 
+const radius = 37.5
 export const CenterAvatar = (props: CenterAvatarProps) => (
   <Circle
-    radius={37.5}
+    radius={radius}
     style={{
       backgroundColor: 'white',
       position: 'absolute',
       top: 100,
       borderColor: sicklyYellow,
       borderWidth: 2.5,
-      left: ScreenWidth / 2 - 37.5
+      left: ScreenWidth / 2 - radius
     }}
   >
     {props.avatarContent}
