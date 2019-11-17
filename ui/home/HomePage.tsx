@@ -1,23 +1,26 @@
 import React, { useEffect, useState } from 'react'
-import { Alert, ImageBackground, StyleSheet, Text, View } from 'react-native'
+import { Alert, ImageBackground, StyleSheet, View } from 'react-native'
 import styled from 'styled-components/native'
 
 import uuid from 'uuid'
 import * as ImageAssets from '../../assets/imageAssets'
 import { EmojiType, IEmoji } from '../../domains/emojis/EmojiTypes'
+import * as UserFunc from '../../domains/users/UserFunc'
 import { IUser } from '../../domains/users/UserTypes'
 import { LoadingState, LoadingStateStatus } from '../../types/LoadingState'
 import { ScreenHeight, TabbarHeight } from '../../ui/styles/margins'
 import { JarHeight } from '..//uikit/Jar/JarConstants'
-import { CenterAvatar, PageTitleHolder } from '../layouts/PageElements'
+import {
+  AvatarCenterImage,
+  CenterAvatar,
+  PageTitleHolder
+} from '../layouts/PageElements'
 import ScreenLayout from '../layouts/ScreenLayout'
 import AddEmotionModal from '../modals/AddEmotionModal'
-import { brownishGrey, greenish, offWhite } from '../styles/colors'
+import { greenish, offWhite } from '../styles/colors'
 import AddEmotionButton from '../uikit/buttons/AddEmotionButton'
 import AlertButton from '../uikit/buttons/AlertButton'
 import Circle from '../uikit/Circle'
-import IconChatNoti from '../uikit/images/IconChatNoti'
-import IconPeople from '../uikit/images/IconPeople'
 import MainLogo from '../uikit/images/MainLogo'
 import JarContainer from '../uikit/Jar/JarContainer'
 import NameTag from '../uikit/NameTag'
@@ -116,12 +119,6 @@ const BottomContentHolder = styled.View`
   align-items: center;
 `
 
-const TextGreeting = styled.Text`
-  font-family: poppins-light;
-  color: ${brownishGrey};
-  font-size: 10px;
-`
-
 type HomePageProps = {
   loadState: LoadingState
   emojis: IEmoji[]
@@ -164,6 +161,7 @@ const HomePage = (props: HomePageProps) => {
     </View>
   )
 
+  const avatarUri = UserFunc.getThumbnailUrl(props.currentUser)
   const renderTopSection = () => (
     <TopSection>
       <ImageBackground
@@ -171,7 +169,10 @@ const HomePage = (props: HomePageProps) => {
         source={ImageAssets.CurvyTopBg}
       >
         {renderAlertButton()}
-        <CenterAvatar />
+        <CenterAvatar
+          avatarContent={<AvatarCenterImage uri={avatarUri} />}
+          hideAvatarBorder={!!avatarUri}
+        />
         <PageTitleHolder>
           <MainLogo />
         </PageTitleHolder>

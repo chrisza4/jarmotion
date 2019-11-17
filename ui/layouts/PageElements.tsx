@@ -1,9 +1,10 @@
 import React from 'react'
-import { ImageBackground } from 'react-native'
+import { ImageBackground, View } from 'react-native'
 import styled from 'styled-components/native'
 import * as ImageAssets from '../../assets/imageAssets'
 import { ScreenWidth } from '../../ui/styles/margins'
 import Circle from '../../ui/uikit/Circle'
+import CircleAvatar from '../../ui/uikit/CircleAvatar'
 import { brownishGrey, fontBlack, sicklyYellow } from '../styles/colors'
 
 const titleMargin = 20
@@ -65,6 +66,7 @@ export const BottomBackground = (props: BottomBackgroundProps) => {
 
 type CenterAvatarProps = {
   avatarContent?: React.ReactNode
+  hideAvatarBorder?: boolean
 }
 
 const radius = 37.5
@@ -76,7 +78,7 @@ export const CenterAvatar = (props: CenterAvatarProps) => (
       position: 'absolute',
       top: 100,
       borderColor: sicklyYellow,
-      borderWidth: 2.5,
+      borderWidth: props.hideAvatarBorder ? 0 : 2.5,
       left: ScreenWidth / 2 - radius,
       justifyContent: 'flex-start',
       alignItems: 'flex-start'
@@ -85,3 +87,29 @@ export const CenterAvatar = (props: CenterAvatarProps) => (
     {props.avatarContent}
   </Circle>
 )
+
+const AvatarButtonEmpty = styled.View`
+  width: 100%;
+  height: 100%;
+`
+const AvatarButton = styled.TouchableWithoutFeedback`
+  width: 100%;
+  height: 100%;
+`
+
+export type AvatarContentProps = {
+  uri: string
+  onPress?: () => void
+}
+
+export const AvatarCenterImage = (props: AvatarContentProps) => {
+  return props.uri ? (
+    <AvatarButton onPress={() => props.onPress && props.onPress()}>
+      <View>
+        <CircleAvatar radius={37.5} uri={props.uri} />
+      </View>
+    </AvatarButton>
+  ) : (
+    <AvatarButtonEmpty />
+  )
+}

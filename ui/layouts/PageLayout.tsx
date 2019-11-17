@@ -2,13 +2,12 @@ import React from 'react'
 import { ImageBackground, StyleSheet, View } from 'react-native'
 import styled from 'styled-components/native'
 import * as ImageAssets from '../../assets/imageAssets'
-import { ScreenWidth } from '../../ui/styles/margins'
 import ScreenLayout from '../layouts/ScreenLayout'
-import { offWhite, sicklyYellow } from '../styles/colors'
-import Circle from '../uikit/Circle'
+import { offWhite } from '../styles/colors'
 import {
   BackButton,
   BackButtonText,
+  CenterAvatar,
   PageTitleHolder,
   TitleRow
 } from './PageElements'
@@ -46,19 +45,10 @@ const PageLayout = (props: IPageLayoutProps) => {
       return null
     }
     return (
-      <Circle
-        radius={37.5}
-        style={{
-          backgroundColor: 'white',
-          position: 'absolute',
-          top: 100,
-          borderColor: sicklyYellow,
-          borderWidth: props.hideAvatarBorder ? 0 : 2.5,
-          left: ScreenWidth / 2 - 37.5
-        }}
-      >
-        {props.avatarContent}
-      </Circle>
+      <CenterAvatar
+        hideAvatarBorder={props.hideAvatarBorder}
+        avatarContent={props.avatarContent}
+      />
     )
   }
   const renderTopSection = () => (

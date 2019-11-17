@@ -5,7 +5,11 @@ import * as UserFunc from '../../domains/users/UserFunc'
 import { IUser, IUserUpdate } from '../../domains/users/UserTypes'
 import { getImageFromDevice } from '../../localServices/CameraServices'
 import { LoadingState, LoadingStateStatus } from '../../types/LoadingState'
-import { PageDescription, PageTitleText } from '../layouts/PageElements'
+import {
+  AvatarCenterImage,
+  PageDescription,
+  PageTitleText
+} from '../layouts/PageElements'
 import PageLayout from '../layouts/PageLayout'
 import TextButton, { TextButtonStyle } from '../uikit/buttons/TextButton'
 import CircleAvatar from '../uikit/CircleAvatar'
@@ -42,12 +46,6 @@ const ButtonsHolder = styled.View`
   justify-content: center;
   flex-direction: row;
   margin-bottom: 40px;
-`
-
-const AvatarButton = styled.TouchableWithoutFeedback`
-  width: 100%;
-  height: 100%;
-  background-color: black;
 `
 
 type UserSettingPageProps = {
@@ -121,24 +119,7 @@ const UserSettingPage = (props: UserSettingPageProps) => {
     <PageLayout
       titleElement={<PageTitleText>Setting</PageTitleText>}
       avatarContent={
-        <AvatarButton onPress={() => onEditAvatar()}>
-          {photoUrl ? (
-            <View>
-              <CircleAvatar
-                radius={37.5}
-                uri={UserFunc.getThumbnailUrl(currentMe)}
-              />
-            </View>
-          ) : (
-            <View
-              style={{
-                width: '100%',
-                height: '100%',
-                backgroundColor: 'black'
-              }}
-            />
-          )}
-        </AvatarButton>
+        <AvatarCenterImage uri={photoUrl} onPress={() => onEditAvatar()} />
       }
       hideAvatarBorder={!!photoUrl}
     >
