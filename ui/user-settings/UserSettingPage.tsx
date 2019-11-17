@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { View } from 'react-native'
 import styled from 'styled-components/native'
+import * as UserFunc from '../../domains/users/UserFunc'
 import { IUser, IUserUpdate } from '../../domains/users/UserTypes'
+import { getImageFromDevice } from '../../localServices/CameraServices'
 import { LoadingState, LoadingStateStatus } from '../../types/LoadingState'
 import { PageDescription, PageTitleText } from '../layouts/PageElements'
 import PageLayout from '../layouts/PageLayout'
 import TextButton, { TextButtonStyle } from '../uikit/buttons/TextButton'
+import CircleAvatar from '../uikit/CircleAvatar'
 import { OverlayLoadingState } from '../uikit/LoadingScreen'
 
 const UserSettingPageContent = styled.View`
@@ -41,10 +44,17 @@ const ButtonsHolder = styled.View`
   margin-bottom: 40px;
 `
 
+const AvatarButton = styled.TouchableWithoutFeedback`
+  width: 100%;
+  height: 100%;
+  background-color: black;
+`
+
 type UserSettingPageProps = {
   me: IUser
   loadState: LoadingState
   onUpdateProfile: (update: IUserUpdate) => Promise<void>
+  onUploadAvatar: (uri: string) => Promise<void>
   onLogout: () => void
   // onSaveSetting: (user: IUser, newPassword?: string) => Promise<boolean>
 }
@@ -94,13 +104,43 @@ const UserSettingPage = (props: UserSettingPageProps) => {
     return props.onUpdateProfile(updates)
   }
 
+  const onEditAvatar = async () => {
+    const image = await getImageFromDevice()
+    if (!image || image.cancelled) {
+      return
+    }
+    return props.onUploadAvatar(image.uri)
+  }
+
   if (!currentMe) {
     return null
   }
+
+  const photoUrl = UserFunc.getThumbnailUrl(currentMe)
   return (
     <PageLayout
       titleElement={<PageTitleText>Setting</PageTitleText>}
-      avatarContent={<View></View>}
+      avatarContent={
+        <AvatarButton onPress={() => onEditAvatar()}>
+          {photoUrl ? (
+            <View>
+              <CircleAvatar
+                radius={37.5}
+                uri={UserFunc.getThumbnailUrl(currentMe)}
+              />
+            </View>
+          ) : (
+            <View
+              style={{
+                width: '100%',
+                height: '100%',
+                backgroundColor: 'black'
+              }}
+            />
+          )}
+        </AvatarButton>
+      }
+      hideAvatarBorder={!!photoUrl}
     >
       <View>
         <PageDescription>Set your profile</PageDescription>

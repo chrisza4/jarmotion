@@ -41,6 +41,18 @@ export class UserStoreClass {
     }
   }
 
+  @action
+  public async uploadAvatar(uri: string) {
+    this.loadState = {
+      status: LoadingStateStatus.Loading
+    }
+    const newMe = await UserServices.uploadAvatar(uri)
+    this.myself = newMe
+    this.loadState = {
+      status: LoadingStateStatus.Loaded
+    }
+  }
+
   @computed
   public get me(): IUser {
     if (this.myself) {

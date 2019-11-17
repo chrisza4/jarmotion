@@ -54,3 +54,31 @@ export async function authFetch<T>(
     body: responseBody
   }
 }
+
+export async function authUpload<T>(
+  url: string,
+  body?: FormData
+): Promise<ApiResult<T>> {
+  const authStatus = AuthStore.getAuthStatus
+  if (!authStatus.auth || authStatus.auth === 'loading') {
+    throw Error('Not authorized')
+  }
+  const response = await fetch(BASE_URL + url, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'multipart/form-data',
+      Authorization: `Bearer ${authStatus.token}`
+    },
+    body
+  })
+
+  const responseBody = (await response.json()) as T
+  if (response.status === 403) {
+    AuthStore.destroyAuthToken()
+  }
+  return {
+    status: response.status,
+    body: responseBody
+  }
+}

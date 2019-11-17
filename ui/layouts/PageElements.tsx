@@ -77,7 +77,9 @@ export const CenterAvatar = (props: CenterAvatarProps) => (
       top: 100,
       borderColor: sicklyYellow,
       borderWidth: 2.5,
-      left: ScreenWidth / 2 - radius
+      left: ScreenWidth / 2 - radius,
+      justifyContent: 'flex-start',
+      alignItems: 'flex-start'
     }}
   >
     {props.avatarContent}

@@ -35,6 +35,7 @@ interface IPageLayoutProps {
   children: React.ReactNode
   showBackButton?: boolean
   avatarContent?: React.ReactNode
+  hideAvatarBorder?: boolean
 
   onBack?: () => void
 }
@@ -52,7 +53,7 @@ const PageLayout = (props: IPageLayoutProps) => {
           position: 'absolute',
           top: 100,
           borderColor: sicklyYellow,
-          borderWidth: 2.5,
+          borderWidth: props.hideAvatarBorder ? 0 : 2.5,
           left: ScreenWidth / 2 - 37.5
         }}
       >

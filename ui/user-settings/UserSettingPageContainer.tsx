@@ -9,6 +9,7 @@ const UserSettingPageContainer = observer(() => {
     <UserSettingPage
       me={UserStore.me}
       loadState={UserStore.loadState}
+      onUploadAvatar={uri => UserStore.uploadAvatar(uri)}
       onUpdateProfile={updates => UserStore.updateProfile(updates)}
       onLogout={() => AuthStore.destroyAuthToken()}
     />
