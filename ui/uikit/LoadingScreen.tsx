@@ -1,11 +1,6 @@
 import React from 'react'
-import {
-  ActivityIndicator,
-  Image,
-  Modal as ReactNativeModal
-} from 'react-native'
+import { ActivityIndicator, Modal as ReactNativeModal } from 'react-native'
 import styled from 'styled-components/native'
-import { LoadingGif } from '../../assets/imageAssets'
 import PageCenterLayout from '../layouts/PageCenterLayout'
 
 export function FullScreenLoadingState() {
@@ -37,17 +32,25 @@ const LoadingStateHolder = styled.View`
   box-shadow: 2px 2px rgba(0, 0, 0, 0.2);
 `
 
-const LoadingImage = styled.Image`
-  width: 40px;
-  height: 40px;
-`
+// const LoadingImage = styled.Image`
+//   width: 40px;
+//   height: 40px;
+// `
 
-export function OverlayLoadingState() {
+type OverlayLoadingStateProps = {
+  visible?: boolean
+}
+export function OverlayLoadingState(props: OverlayLoadingStateProps) {
   return (
-    <ReactNativeModal visible transparent={true}>
+    <ReactNativeModal
+      animationType='none'
+      visible={props.visible}
+      transparent={true}
+    >
       <ModalOverlay>
         <LoadingStateHolder>
-          <LoadingImage source={LoadingGif} />
+          {/* <LoadingImage source={LoadingGif} /> */}
+          <ActivityIndicator size='large' />
         </LoadingStateHolder>
       </ModalOverlay>
     </ReactNativeModal>

@@ -67,7 +67,7 @@ const TextButton = (props: TextButtonProps) => {
   const buttonStyle = getStyle()
   const disabledStyle = props.disabled ? { opacity: 0.5 } : {}
   return (
-    <TouchableOpacity onPress={props.onPress}>
+    <TouchableOpacity disabled={props.disabled} onPress={props.onPress}>
       <View style={[buttonStyle.buttonStyle, disabledStyle, props.style]}>
         <Text style={buttonStyle.textStyle}>{props.text}</Text>
       </View>

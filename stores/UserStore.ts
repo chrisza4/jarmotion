@@ -1,6 +1,6 @@
 import { action, computed, observable } from 'mobx'
 import * as UserServices from '../apiServices/userServices'
-import { IUser } from '../domains/users/UserTypes'
+import { IUser, IUserUpdate } from '../domains/users/UserTypes'
 import { LoadingState, LoadingStateStatus } from '../types/LoadingState'
 
 export class UserStoreClass {
@@ -15,14 +15,42 @@ export class UserStoreClass {
 
   @action
   public async init() {
-    this.loadState.status = LoadingStateStatus.Loading
+    this.loadState = {
+      status: LoadingStateStatus.Loading
+    }
     const [me, others] = await Promise.all([
       UserServices.getMyself(),
       UserServices.getUsersInRelationship()
     ])
     this.myself = me
     this.others = others
-    this.loadState.status = LoadingStateStatus.Loaded
+    this.loadState = {
+      status: LoadingStateStatus.Loaded
+    }
+  }
+
+  @action
+  public async updateProfile(updates: IUserUpdate) {
+    this.loadState = {
+      status: LoadingStateStatus.Loading
+    }
+    const newMe = await UserServices.updateProfile(updates)
+    this.myself = newMe
+    this.loadState = {
+      status: LoadingStateStatus.Loaded
+    }
+  }
+
+  @action
+  public async uploadAvatar(uri: string) {
+    this.loadState = {
+      status: LoadingStateStatus.Loading
+    }
+    const newMe = await UserServices.uploadAvatar(uri)
+    this.myself = newMe
+    this.loadState = {
+      status: LoadingStateStatus.Loaded
+    }
   }
 
   @computed

@@ -2,7 +2,10 @@ import React from 'react'
 import { ImageBackground, View } from 'react-native'
 import styled from 'styled-components/native'
 import * as ImageAssets from '../../assets/imageAssets'
-import { brownishGrey, fontBlack } from '../styles/colors'
+import { ScreenWidth } from '../../ui/styles/margins'
+import Circle from '../../ui/uikit/Circle'
+import CircleAvatar from '../../ui/uikit/CircleAvatar'
+import { brownishGrey, fontBlack, sicklyYellow } from '../styles/colors'
 
 const titleMargin = 20
 
@@ -10,6 +13,7 @@ export const PageTitleHolder = styled.View`
   resize-mode: contain;
   align-self: center;
   margin-top: ${titleMargin}px;
+  align-items: center;
 `
 export const PageTitleText = styled.Text`
   color: ${fontBlack};
@@ -24,7 +28,6 @@ export const PageDescription = styled.Text`
   font-family: poppins-medium;
   font-size: 15px;
 `
-
 export const BackButton = styled.TouchableOpacity`
   left: 15px;
   top: ${titleMargin}px;
@@ -40,9 +43,11 @@ export const TitleRow = styled.View`
   flex-direction: row;
   justify-content: space-between;
 `
+
 type BottomBackgroundProps = {
   children?: React.ReactNode
 }
+
 export const BottomBackground = (props: BottomBackgroundProps) => {
   return (
     <ImageBackground
@@ -57,5 +62,57 @@ export const BottomBackground = (props: BottomBackgroundProps) => {
     >
       {props.children}
     </ImageBackground>
+  )
+}
+
+type CenterAvatarProps = {
+  avatarContent?: React.ReactNode
+  hideAvatarBorder?: boolean
+}
+
+const radius = 37.5
+export const CenterAvatar = (props: CenterAvatarProps) => (
+  <Circle
+    radius={radius}
+    style={{
+      backgroundColor: 'white',
+      position: 'absolute',
+      top: 100,
+      borderColor: sicklyYellow,
+      borderWidth: props.hideAvatarBorder ? 0 : 2.5,
+      left: ScreenWidth / 2 - radius,
+      justifyContent: 'flex-start',
+      alignItems: 'flex-start'
+    }}
+  >
+    {props.avatarContent}
+  </Circle>
+)
+
+const AvatarButtonEmpty = styled.View`
+  width: 100%;
+  height: 100%;
+`
+const AvatarButton = styled.TouchableWithoutFeedback`
+  width: 100%;
+  height: 100%;
+`
+
+export type AvatarContentProps = {
+  uri: string
+  onPress?: () => void
+}
+
+export const AvatarCenterImage = (props: AvatarContentProps) => {
+  return (
+    <AvatarButton onPress={() => props.onPress && props.onPress()}>
+      {props.uri ? (
+        <View>
+          <CircleAvatar radius={37.5} uri={props.uri} />
+        </View>
+      ) : (
+        <AvatarButtonEmpty />
+      )}
+    </AvatarButton>
   )
 }

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View } from 'react-native'
+import { Alert, View } from 'react-native'
 import styled from 'styled-components/native'
 import * as ImageAssets from '../assets/imageAssets'
 import PageCenterLayout from './layouts/PageCenterLayout'
@@ -11,7 +11,7 @@ import MainLogo from './uikit/images/MainLogo'
 import { OverlayLoadingState } from './uikit/LoadingScreen'
 
 type LoginPageProps = {
-  login: (username: string, password: string) => Promise<void>
+  login: (username: string, password: string) => Promise<boolean>
 }
 
 const BottomBackgroundPlaceHolder = styled.View`
@@ -34,28 +34,59 @@ const InputPlaceHolderView = styled.View`
   width: 80%;
 `
 
+const PageTitleHolder = styled.View`
+  align-items: center;
+`
+
+enum PageMode {
+  Login = 'Login',
+  Register = 'Register'
+}
+
 const LoginPage = (props: LoginPageProps) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const [registrationCode, setRegistrationCode] = useState('')
+  const [registerName, setRegisterName] = useState('')
   const [busy, setBusy] = useState(false)
+  const [pageMode, setPageMode] = useState(PageMode.Login)
 
   const onLogin = async () => {
+    if (pageMode !== PageMode.Login) {
+      setPageMode(PageMode.Login)
+      return
+    }
     setBusy(true)
-    await props.login(username, password)
-    setBusy(false)
+    const isSuccess = await props.login(username, password)
+    if (!isSuccess) {
+      return Alert.alert('Jarmotion', 'Incorrect username or password', [
+        { text: 'OK', onPress: () => setBusy(false) }
+      ])
+    }
+    return setBusy(false)
+  }
+
+  const onRegister = async () => {
+    if (pageMode !== PageMode.Register) {
+      setPageMode(PageMode.Register)
+      return
+    }
   }
 
   const renderTitle = () => {
     return (
-      <View>
+      <PageTitleHolder>
         <MainLogo />
-        <PageTitleText>Login</PageTitleText>
-      </View>
+        <PageTitleText>{String(pageMode)}</PageTitleText>
+      </PageTitleHolder>
     )
   }
 
-  return (
-    <PageLayout titleElement={renderTitle()}>
+  const renderLogin = () => {
+    if (pageMode !== PageMode.Login) {
+      return null
+    }
+    return (
       <PageCenterLayout>
         <InputPlaceHolderView>
           <InputPlaceHolderImage source={ImageAssets.InputPlaceHolderJar} />
@@ -79,18 +110,89 @@ const LoginPage = (props: LoginPageProps) => {
           />
         </InputPlaceHolderView>
       </PageCenterLayout>
+    )
+  }
+
+  const renderRegister = () => {
+    if (pageMode !== PageMode.Register) {
+      return null
+    }
+    return (
+      <PageCenterLayout>
+        <InputPlaceHolderView>
+          <InputPlaceHolderImage source={ImageAssets.InputPlaceHolderJar} />
+          <FormTextInput
+            placeholder='Registration code'
+            value={registrationCode}
+            onChangeText={text => setRegistrationCode(text)}
+            autoCapitalize='none'
+            style={{ paddingLeft: 61 }}
+          />
+        </InputPlaceHolderView>
+        <InputPlaceHolderView>
+          <InputPlaceHolderImage source={ImageAssets.InputPlaceHolderJar} />
+          <FormTextInput
+            placeholder='Name'
+            value={registerName}
+            onChangeText={text => setRegisterName(text)}
+            autoCapitalize='none'
+            style={{ paddingLeft: 61 }}
+          />
+        </InputPlaceHolderView>
+        <InputPlaceHolderView>
+          <InputPlaceHolderImage source={ImageAssets.InputPlaceHolderJar} />
+          <FormTextInput
+            placeholder='Email'
+            value={username}
+            onChangeText={text => setUsername(text)}
+            autoCapitalize='none'
+            style={{ paddingLeft: 61 }}
+          />
+        </InputPlaceHolderView>
+        <InputPlaceHolderView>
+          <InputPlaceHolderImage source={ImageAssets.InputPlaceHolderJar} />
+          <FormTextInput
+            placeholder='Password'
+            value={password}
+            onChangeText={text => setPassword(text)}
+            autoCapitalize='none'
+            style={{ paddingLeft: 61 }}
+          />
+        </InputPlaceHolderView>
+      </PageCenterLayout>
+    )
+  }
+
+  return (
+    <PageLayout titleElement={renderTitle()}>
+      {renderLogin()}
+      {renderRegister()}
       <View>
         <BottomBackground>
           <BottomBackgroundPlaceHolder>
-            <TextButton text='LOGIN' onPress={onLogin} disabled={busy} />
+            <TextButton
+              text='LOGIN'
+              onPress={onLogin}
+              disabled={busy}
+              buttonStyle={
+                pageMode === PageMode.Login
+                  ? TextButtonStyle.BlackButton
+                  : TextButtonStyle.PlainText
+              }
+              style={{ width: 130, height: 50 }}
+            />
             <TextButton
               text='REGISTER'
-              buttonStyle={TextButtonStyle.BlackButton}
-              onPress={onLogin}
+              buttonStyle={
+                pageMode === PageMode.Register
+                  ? TextButtonStyle.BlackButton
+                  : TextButtonStyle.PlainText
+              }
+              onPress={onRegister}
               disabled={busy}
               style={{ width: 130, height: 50 }}
             />
-            {busy && <OverlayLoadingState />}
+            <OverlayLoadingState visible={busy} />
           </BottomBackgroundPlaceHolder>
         </BottomBackground>
       </View>

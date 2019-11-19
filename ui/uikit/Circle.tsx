@@ -4,6 +4,7 @@ import { View, ViewStyle } from 'react-native'
 export type CircleProps = {
   radius: number
   style?: ViewStyle
+  children?: React.ReactNode
 }
 
 const Circle = (props: CircleProps) => {
@@ -14,7 +15,7 @@ const Circle = (props: CircleProps) => {
     borderRadius: radius,
     ...style
   }
-  return <View style={circleStyle} />
+  return <View style={circleStyle}>{props.children}</View>
 }
 
 export default Circle

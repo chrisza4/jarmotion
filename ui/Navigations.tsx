@@ -5,10 +5,10 @@ import { createBottomTabNavigator } from 'react-navigation-tabs'
 import * as ImageAssets from '../assets/imageAssets'
 import CalendarPageContainer from './calendar/CalendarPageContainer'
 import HomePage from './home/HomePageNavigator'
-import LogoutPage from './LogoutPage'
 import SensingPageContainer from './sensor/SensorPageContainer'
 import { greenish } from './styles/colors'
 import { TabbarHeight } from './styles/margins'
+import UserSettingPageContainer from './user-settings/UserSettingPageContainer'
 
 // Custom Type until PR get merged and add @types definition
 // https://github.com/react-navigation/tabs/pull/147/files
@@ -74,7 +74,7 @@ const TabNavigator = createBottomTabNavigator(
     },
     Calendar: CalendarPageContainer,
     Sensing: SensingPageContainer,
-    Settings: LogoutPage
+    Settings: UserSettingPageContainer
   },
   bottomTabNavigatorConfig
 )

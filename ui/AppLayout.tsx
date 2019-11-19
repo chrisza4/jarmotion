@@ -18,14 +18,17 @@ function AppLayout(props: AppLayoutProps) {
     props.init()
   }, [])
 
-  const login = async (username: string, password: string) => {
+  const login = async (
+    username: string,
+    password: string
+  ): Promise<boolean> => {
     const res = await LoginService.login(username, password)
     if (!res.jwt) {
-      alert('Incorrect username or password')
-      return
+      return false
     }
     await props.setAuthToken(res.jwt)
     await props.init()
+    return true
   }
 
   switch (props.authStatus.auth) {

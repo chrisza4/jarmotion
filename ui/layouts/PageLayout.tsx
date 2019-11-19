@@ -7,6 +7,7 @@ import { offWhite } from '../styles/colors'
 import {
   BackButton,
   BackButtonText,
+  CenterAvatar,
   PageTitleHolder,
   TitleRow
 } from './PageElements'
@@ -23,7 +24,8 @@ const styles = StyleSheet.create({
     width: '100%',
     resizeMode: 'stretch',
     backgroundColor: 'transparent',
-    position: 'absolute'
+    position: 'absolute',
+    justifyContent: 'center'
   }
 })
 
@@ -31,16 +33,32 @@ interface IPageLayoutProps {
   titleElement: React.ReactNode
   children: React.ReactNode
   showBackButton?: boolean
+  avatarContent?: React.ReactNode
+  hideAvatarBorder?: boolean
+
   onBack?: () => void
 }
 
 const PageLayout = (props: IPageLayoutProps) => {
+  const renderCenterAvatar = () => {
+    if (!props.avatarContent) {
+      return null
+    }
+    return (
+      <CenterAvatar
+        hideAvatarBorder={props.hideAvatarBorder}
+        avatarContent={props.avatarContent}
+      />
+    )
+  }
   const renderTopSection = () => (
     <View>
       <ImageBackground
         style={styles.backgroundImage}
         source={ImageAssets.CurvyTopBg}
-      ></ImageBackground>
+      >
+        {renderCenterAvatar()}
+      </ImageBackground>
     </View>
   )
 
@@ -57,6 +75,7 @@ const PageLayout = (props: IPageLayoutProps) => {
           <PageTitleHolder>{props.titleElement}</PageTitleHolder>
           <View style={{ flex: 1 }} />
         </TitleRow>
+
         {props.children}
       </PageView>
     </ScreenLayout>
