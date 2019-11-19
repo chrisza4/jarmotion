@@ -63,10 +63,10 @@ export class UserStoreClass {
 
   @computed
   public get couple(): IUser {
-    if (!this.others) {
+    if (!this.others || this.others.length === 0) {
       return { id: '', email: '', name: '' }
     }
-    return this.others[0]
+    return this.others[0] || { id: '', email: '', name: '' }
   }
 
   @computed public get users(): IUser[] {
