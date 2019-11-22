@@ -6,3 +6,8 @@ export type ApiResult<T> = {
 export type NonResourceResponse = {
   ok: boolean
 }
+
+export type ApiError = {
+  error_message: string
+  error_status: string
+}

@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Alert, View } from 'react-native'
 import styled from 'styled-components/native'
 import * as ImageAssets from '../assets/imageAssets'
+import { IRegistration } from '../domains/registration/RegistrationTypes'
 import PageCenterLayout from './layouts/PageCenterLayout'
 import { BottomBackground, PageTitleText } from './layouts/PageElements'
 import PageLayout from './layouts/PageLayout'
@@ -12,6 +13,7 @@ import { OverlayLoadingState } from './uikit/LoadingScreen'
 
 type LoginPageProps = {
   login: (username: string, password: string) => Promise<boolean>
+  register: (registration: IRegistration) => Promise<true | string>
 }
 
 const BottomBackgroundPlaceHolder = styled.View`
@@ -71,6 +73,20 @@ const LoginPage = (props: LoginPageProps) => {
       setPageMode(PageMode.Register)
       return
     }
+    setBusy(true)
+    const registration: IRegistration = {
+      email: username,
+      password,
+      name: registerName,
+      code: registrationCode
+    }
+    const isSuccess = await props.register(registration)
+    if (isSuccess !== true) {
+      return Alert.alert('Jarmotion', isSuccess, [
+        { text: 'OK', onPress: () => setBusy(false) }
+      ])
+    }
+    return setBusy(false)
   }
 
   const renderTitle = () => {
@@ -156,6 +172,7 @@ const LoginPage = (props: LoginPageProps) => {
             value={password}
             onChangeText={text => setPassword(text)}
             autoCapitalize='none'
+            secureTextEntry
             style={{ paddingLeft: 61 }}
           />
         </InputPlaceHolderView>

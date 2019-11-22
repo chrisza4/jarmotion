@@ -1,13 +1,11 @@
+import { ILoginResponse } from '../domains/auth/AuthTypes'
 import { unauthFetch } from './apiConnector'
 
-type LoginResponse = {
-  jwt?: string
-}
 export async function login(
   email: string,
   password: string
-): Promise<LoginResponse> {
-  const res = await unauthFetch<LoginResponse>('POST', '/api/login', {
+): Promise<ILoginResponse> {
+  const res = await unauthFetch<ILoginResponse>('POST', '/api/login', {
     email,
     password
   })
