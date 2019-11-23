@@ -44,6 +44,10 @@ export const TitleRow = styled.View`
   justify-content: space-between;
 `
 
+export const PageContentStyle = `
+  flex: 1;
+`
+
 type BottomBackgroundProps = {
   children?: React.ReactNode
 }
