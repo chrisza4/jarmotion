@@ -47,6 +47,10 @@ export const TitleRow = styled.View`
 export const PageContentStyle = `
   flex: 1;
 `
+export const PageContentStyleMiddle = `
+  flex: 1;
+  margin-top: 140px;
+`
 
 type BottomBackgroundProps = {
   children?: React.ReactNode

@@ -1,11 +1,13 @@
 import React from 'react'
+import QRCode from 'react-native-qrcode-svg'
 import styled from 'styled-components/native'
 import {
   BottomBackground,
-  PageContentStyle,
+  PageContentStyleMiddle,
   PageTitleText
 } from '../layouts/PageElements'
 import PageLayout from '../layouts/PageLayout'
+import { DescriptionText } from '../uikit/Texts'
 
 type MyQrPageProps = {
   userId: string
@@ -13,12 +15,14 @@ type MyQrPageProps = {
 }
 
 const MyQrContent = styled.View`
-  ${PageContentStyle}
+  ${PageContentStyleMiddle}
   justify-content: center;
   align-items: center;
 `
 
-const T = styled.Text``
+const QRDescription = styled.View`
+  margin-top: 20px;
+`
 const MyQrPage = (props: MyQrPageProps) => {
   return (
     <PageLayout
@@ -27,7 +31,10 @@ const MyQrPage = (props: MyQrPageProps) => {
       onBack={props.onBack}
     >
       <MyQrContent>
-        <T>QR CODE HERE</T>
+        <QRCode value={props.userId} size={150} />
+        <QRDescription>
+          <DescriptionText>Please have your lover scan this QR</DescriptionText>
+        </QRDescription>
       </MyQrContent>
       <BottomBackground />
     </PageLayout>
