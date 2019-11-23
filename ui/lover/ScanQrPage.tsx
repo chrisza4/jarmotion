@@ -1,18 +1,18 @@
 import { BarCodeScannedCallback, BarCodeScanner } from 'expo-barcode-scanner'
 import * as Permissions from 'expo-permissions'
 import React, { useEffect, useState } from 'react'
-import { Alert } from 'react-native'
+import { Alert, Text } from 'react-native'
 
 import styled from 'styled-components/native'
+import * as UserFunc from '../../domains/users/UserFunc'
 import { IUser } from '../../domains/users/UserTypes'
 import { LoadingState, LoadingStateStatus } from '../../types/LoadingState'
-import { sicklyYellow } from '../../ui/styles/colors'
 import { usePrevious } from '../../utils/reactHooks'
 import * as Utils from '../../utils/utils'
 import { PageContentStyle, PageTitleText } from '../layouts/PageElements'
 import PageLayout from '../layouts/PageLayout'
 import TextButton from '../uikit/buttons/TextButton'
-import Circle from '../uikit/Circle'
+import CircleAvatar from '../uikit/CircleAvatar'
 import { OverlayLoadingState } from '../uikit/LoadingScreen'
 import Modal, {
   ModalBody,
@@ -164,18 +164,17 @@ const ScanQrPage = (props: ScanQrPageProps) => {
           </TitleView>
           <ModalBody>
             <AddFriendModalContent>
-              <Circle
+              <CircleAvatar
                 radius={50}
-                style={{
-                  borderColor: sicklyYellow,
-                  borderWidth: 2.5,
-                  borderStyle: 'solid'
-                }}
-              ></Circle>
+                uri={UserFunc.getThumbnailUrl(props.couple)}
+              ></CircleAvatar>
               <DescriptionView>
-                <DescriptionText>
-                  {`${props.couple?.name || ''} has been added as your lover`}
-                </DescriptionText>
+                <Text>
+                  <BoldText>{`${props.couple?.name || ''} `}</BoldText>
+                  <DescriptionText>
+                    has been added as your lover
+                  </DescriptionText>
+                </Text>
                 <TextButton
                   style={{ marginTop: 30 }}
                   text='Done'
