@@ -6,11 +6,11 @@ import EmojiStatsStore from '../../stores/EmojiStatsStore'
 import EmojiSummaryStore from '../../stores/EmojiSummaryStore'
 import UserStore from '../../stores/UserStore'
 import { combineLoadingState } from '../../types/LoadingState'
-import { INavitationComponentProps } from '../../types/NavigationTypes'
+import { INavigationComponentProps } from '../../types/NavigationTypes'
 import CalendarPage from './CalendarPage'
 import EmojiSummaryModalContainer from './EmojiSummaryModalContainer'
 
-const CalendarPageContainer = observer((props: INavitationComponentProps) => {
+const CalendarPageContainer = observer((props: INavigationComponentProps) => {
   return (
     <CalendarPage
       users={UserStore.users}

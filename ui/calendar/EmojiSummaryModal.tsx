@@ -5,7 +5,7 @@ import styled from 'styled-components/native'
 
 import { IUser } from '../../domains/users/UserTypes'
 import { LoadingState, LoadingStateStatus } from '../../types/LoadingState'
-import { INavitationComponentProps } from '../../types/NavigationTypes'
+import { INavigationComponentProps } from '../../types/NavigationTypes'
 import { PageDescription, PageTitleText } from '../../ui/layouts/PageElements'
 import PageLayout from '../../ui/layouts/PageLayout'
 import EmojiTable, { IEmojiTableRow } from '../../ui/uikit/emoji/EmojiTable'
@@ -21,7 +21,7 @@ const SensorPageContent = styled.View`
   height: ${randomInsignificantHeightWtf}px;
 `
 
-type EmojiSummaryModalProps = INavitationComponentProps & {
+type EmojiSummaryModalProps = INavigationComponentProps & {
   summary: IEmojiTableRow[]
   loadingState: LoadingState
   date: Moment.Moment

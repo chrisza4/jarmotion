@@ -5,7 +5,7 @@ import { createBottomTabNavigator } from 'react-navigation-tabs'
 import * as ImageAssets from '../assets/imageAssets'
 import CalendarPageContainer from './calendar/CalendarPageContainer'
 import HomePage from './home/HomePageNavigator'
-import LoverPage from './lover/LoverPage'
+import LoverPageContainer from './lover/LoverPageContainer'
 import SensingPageContainer from './sensor/SensorPageContainer'
 import { greenish } from './styles/colors'
 import { TabbarHeight } from './styles/margins'
@@ -77,7 +77,7 @@ const TabNavigator = createBottomTabNavigator(
       navigationOptions: () => ({})
     },
     Calendar: CalendarPageContainer,
-    Lover: LoverPage,
+    Lover: LoverPageContainer,
     Sensing: SensingPageContainer,
     Settings: UserSettingPageContainer
   },

@@ -10,13 +10,14 @@ import * as Texts from '../uikit/Texts'
 
 const LoverPageContent = styled.View`
   ${PageContentStyle}
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
 `
 
 type LoverPageProps = {
   lover?: IUser
   me: IUser
+  onShowMyQr: () => void
 }
 
 const NoLoverToobarView = styled.View`
@@ -25,6 +26,11 @@ const NoLoverToobarView = styled.View`
   bottom: 25px;
   justify-content: space-around;
   width: 100%;
+`
+
+const NoLoverContentView = styled.View`
+  margin-top: 50px;
+  align-items: center;
 `
 
 const NoLoverTextContentView = styled.View`
@@ -36,20 +42,22 @@ const LoverPage = (props: LoverPageProps) => {
   const renderLoverPageEmpty = () => {
     return (
       <LoverPageContent>
-        <View>
+        <NoLoverContentView>
           <Image source={ImageAssets.LoverJar} />
-        </View>
-        <NoLoverTextContentView>
-          <Texts.BoldText>You have no lover</Texts.BoldText>
-          <Texts.DescriptionText style={{ marginTop: 12 }}>
-            Please scan your lover's QR Code here
-          </Texts.DescriptionText>
-        </NoLoverTextContentView>
+          <NoLoverTextContentView>
+            <Texts.BoldText>You have no lover</Texts.BoldText>
+            <Texts.DescriptionText style={{ marginTop: 12 }}>
+              Please scan your lover's QR Code here
+            </Texts.DescriptionText>
+          </NoLoverTextContentView>
+        </NoLoverContentView>
+
         <NoLoverToobarView>
           <TextButton
             style={{ width: 120, height: 50 }}
             buttonStyle={TextButtonStyle.BlackButton}
             text='My QR'
+            onPress={props.onShowMyQr}
           />
           <TextButton
             style={{ width: 120, height: 50 }}

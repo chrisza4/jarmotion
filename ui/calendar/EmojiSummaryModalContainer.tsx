@@ -1,11 +1,11 @@
 import { observer } from 'mobx-react'
 import React from 'react'
 import EmojiSummaryStore from '../../stores/EmojiSummaryStore'
-import { INavitationComponentProps } from '../../types/NavigationTypes'
+import { INavigationComponentProps } from '../../types/NavigationTypes'
 import EmojiSummaryModal from './EmojiSummaryModal'
 
 const EmojiSummaryModalContainer = observer(
-  (props: INavitationComponentProps) => {
+  (props: INavigationComponentProps) => {
     return (
       <EmojiSummaryModal
         date={EmojiSummaryStore.date}
