@@ -16,13 +16,22 @@ const LoverPageContainer = observer((props: INavigationComponentProps) => {
   )
 })
 
+const MyQrPageContainer = (props: INavigationComponentProps) => {
+  return (
+    <MyQrPage
+      userId={UserStore.me.id}
+      onBack={() => props.navigation.goBack()}
+    />
+  )
+}
+
 export default createStackNavigator(
   {
     Main: {
       screen: LoverPageContainer
     },
     MyQrPage: {
-      screen: MyQrPage
+      screen: MyQrPageContainer
     }
   },
   {
