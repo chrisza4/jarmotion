@@ -6,6 +6,7 @@ import {
   View,
   ViewStyle
 } from 'react-native'
+import styled from 'styled-components/native'
 import { grayBorder, sicklyYellow } from '../styles/colors'
 import { StatusBarHeight } from '../styles/margins'
 
@@ -84,3 +85,19 @@ const Modal = (props: ModalProps) => {
 }
 
 export default Modal
+
+export const ModalContent = styled.View`
+  margin-top: 5px;
+`
+export const TitleView = styled.View`
+  flex-direction: row;
+  width: 100%;
+  justify-content: center;
+`
+export const TitleText = styled.Text`
+  font-family: 'poppins-semibold';
+  font-size: 21;
+`
+export const ModalBody = styled.View`
+  top: 10;
+`

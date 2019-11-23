@@ -18,18 +18,25 @@ const LoverPageContainer = observer((props: INavigationComponentProps) => {
   )
 })
 
-const MyQrPageContainer = (props: INavigationComponentProps) => {
+const MyQrPageContainer = observer((props: INavigationComponentProps) => {
   return (
     <MyQrPage
       userId={UserStore.me.id}
       onBack={() => props.navigation.goBack()}
     />
   )
-}
+})
 
-const ScanQrPageContainer = (props: INavigationComponentProps) => {
-  return <ScanQrPage onBack={() => props.navigation.goBack()} />
-}
+const ScanQrPageContainer = observer((props: INavigationComponentProps) => {
+  return (
+    <ScanQrPage
+      onBack={() => props.navigation.goBack()}
+      couple={UserStore.couple}
+      onAddUser={userId => UserStore.addLover(userId)}
+      onNavigateToHome={() => props.navigation.navigate('Main')}
+    />
+  )
+})
 
 export default createStackNavigator(
   {

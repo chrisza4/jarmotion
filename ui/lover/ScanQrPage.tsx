@@ -4,16 +4,29 @@ import React, { useEffect, useState } from 'react'
 import { Alert } from 'react-native'
 
 import styled from 'styled-components/native'
+import { IUser } from '../../domains/users/UserTypes'
 import { LoadingState, LoadingStateStatus } from '../../types/LoadingState'
+import { sicklyYellow } from '../../ui/styles/colors'
+import { usePrevious } from '../../utils/reactHooks'
 import * as Utils from '../../utils/utils'
 import { PageContentStyle, PageTitleText } from '../layouts/PageElements'
 import PageLayout from '../layouts/PageLayout'
+import TextButton from '../uikit/buttons/TextButton'
+import Circle from '../uikit/Circle'
 import { OverlayLoadingState } from '../uikit/LoadingScreen'
-import { BoldText } from '../uikit/Texts'
+import Modal, {
+  ModalBody,
+  ModalContent,
+  TitleText,
+  TitleView
+} from '../uikit/Modal'
+import { BoldText, DescriptionText } from '../uikit/Texts'
 
 type ScanQrPageProps = {
   onBack?: () => void
   onAddUser: (userId: string) => Promise<any>
+  onNavigateToHome: () => void
+  couple: IUser | null
 }
 
 const BarcodeHolder = styled.View`
@@ -32,6 +45,19 @@ const PermissionDeniedHolder = styled.View`
   justify-content: center;
   align-items: center;
 `
+
+const AddFriendModalContent = styled.View`
+  height: 100%;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+`
+
+const DescriptionView = styled.View`
+  margin-top: 20px;
+  align-items: center;
+`
+
 const ScanQrPage = (props: ScanQrPageProps) => {
   const [cameraPermission, setCameraPermission] = useState<
     Permissions.PermissionStatus
@@ -39,9 +65,22 @@ const ScanQrPage = (props: ScanQrPageProps) => {
   const [loading, setLoading] = useState<LoadingState>({
     status: LoadingStateStatus.Loaded
   })
+  const [showAddLoverSuccessModal, setShowAddLoverSuccessModal] = useState(
+    false
+  )
+
+  // Ask permission on mount
   useEffect(() => {
     askPermissionForCamear()
   }, [])
+
+  const prevCouple = usePrevious(props.couple)
+  useEffect(() => {
+    if (!prevCouple?.id && !!props.couple?.id) {
+      setShowAddLoverSuccessModal(true)
+    }
+  }, [props.couple?.id])
+
   const askPermissionForCamear = async () => {
     const { status } = await Permissions.askAsync(Permissions.CAMERA)
     setCameraPermission(status)
@@ -118,6 +157,38 @@ const ScanQrPage = (props: ScanQrPageProps) => {
       <OverlayLoadingState
         visible={loading.status === LoadingStateStatus.Loading}
       />
+      <Modal show={showAddLoverSuccessModal}>
+        <ModalContent>
+          <TitleView>
+            <TitleText>Congratulation</TitleText>
+          </TitleView>
+          <ModalBody>
+            <AddFriendModalContent>
+              <Circle
+                radius={50}
+                style={{
+                  borderColor: sicklyYellow,
+                  borderWidth: 2.5,
+                  borderStyle: 'solid'
+                }}
+              ></Circle>
+              <DescriptionView>
+                <DescriptionText>
+                  {`${props.couple?.name || ''} has been added as your lover`}
+                </DescriptionText>
+                <TextButton
+                  style={{ marginTop: 30 }}
+                  text='Done'
+                  onPress={() => {
+                    setShowAddLoverSuccessModal(false)
+                    props.onNavigateToHome()
+                  }}
+                />
+              </DescriptionView>
+            </AddFriendModalContent>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
     </PageLayout>
   )
 }
