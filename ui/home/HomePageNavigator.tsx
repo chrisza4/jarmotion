@@ -1,9 +1,10 @@
 import { observer } from 'mobx-react'
-import React from 'react'
+import React, { useEffect } from 'react'
 import GestureRecognizer from 'react-native-swipe-gestures'
-import { NavigationEventPayload, NavigationEvents } from 'react-navigation'
+import { NavigationEvents } from 'react-navigation'
 import { createStackNavigator } from 'react-navigation-stack'
 import UserStore from '../../stores/UserStore'
+import { LoadingStateStatus } from '../../types/LoadingState'
 import { FullScreenLoadingState } from '../uikit/LoadingScreen'
 import HomePageContainer from './HomePageContainer'
 
@@ -23,17 +24,22 @@ const HomePageMe = observer((props: any) => {
 })
 
 const HomePageCouple = observer((props: any) => {
-  // tslint:disable-next-line: variable-name
-  const navigateToLover = (_payload: NavigationEventPayload) => {
-    if (!UserStore.couple.id) {
+  const loadState = UserStore.loadState.status
+  const couple = UserStore.couple
+
+  const navigateToLoverIfNeeded = () => {
+    if (loadState === LoadingStateStatus.Loaded && !couple.id) {
       props.navigation.navigate('Lover')
     }
   }
 
-  const couple = UserStore.couple
+  useEffect(() => {
+    navigateToLoverIfNeeded()
+  })
+
   if (!couple.id) {
     return (
-      <NavigationEvents onDidFocus={navigateToLover}>
+      <NavigationEvents onDidFocus={navigateToLoverIfNeeded}>
         <EmptyPage />
       </NavigationEvents>
     )
