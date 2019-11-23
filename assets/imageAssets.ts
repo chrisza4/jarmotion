@@ -6,6 +6,7 @@ export const TabbarDashboard = require('./tabbar_dashboard.png')
 export const TabbarCalendar = require('./tabbar_calendar.png')
 export const TabbarDiary = require('./tabbar_diary.png')
 export const TabbarSettings = require('./tabbar_settings.png')
+export const TabbarLover = require('./tabbar_friend.png')
 
 export const ImageButtonAddEmotion = require('./btn_add_emotion.png')
 export const ImageButtonNotification = require('./btn_notification.png')

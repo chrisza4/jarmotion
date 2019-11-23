@@ -54,10 +54,13 @@ const bottomTabNavigatorConfig: JarmotionBottomTabNavigatorConfig = {
           return <TabbarIcon source={ImageAssets.TabbarDashboard} />
         case 'Calendar':
           return <TabbarIcon source={ImageAssets.TabbarCalendar} />
+        case 'Lover':
+          return <TabbarIcon source={ImageAssets.TabbarLover} />
         case 'Sensing':
           return <TabbarIcon source={ImageAssets.TabbarDiary} />
         case 'Settings':
           return <TabbarIcon source={ImageAssets.TabbarSettings} />
+
         default:
           return null
       }
@@ -73,6 +76,7 @@ const TabNavigator = createBottomTabNavigator(
       navigationOptions: () => ({})
     },
     Calendar: CalendarPageContainer,
+    Lover: CalendarPageContainer,
     Sensing: SensingPageContainer,
     Settings: UserSettingPageContainer
   },
