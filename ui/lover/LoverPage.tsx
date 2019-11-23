@@ -18,6 +18,7 @@ type LoverPageProps = {
   lover?: IUser
   me: IUser
   onShowMyQr: () => void
+  onShowScanQr: () => void
 }
 
 const NoLoverToobarView = styled.View`
@@ -63,6 +64,7 @@ const LoverPage = (props: LoverPageProps) => {
             style={{ width: 120, height: 50 }}
             buttonStyle={TextButtonStyle.BlackButton}
             text='Scan QR'
+            onPress={props.onShowScanQr}
           />
         </NoLoverToobarView>
       </LoverPageContent>

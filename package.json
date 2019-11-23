@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "expo": "^33.0.0",
+    "expo-barcode-scanner": "~5.0.1",
     "expo-font": "^5.0.1",
     "expo-image-picker": "~5.0.2",
     "expo-secure-store": "~5.0.1",

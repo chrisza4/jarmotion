@@ -5,6 +5,7 @@ import UserStore from '../../stores/UserStore'
 import { INavigationComponentProps } from '../../types/NavigationTypes'
 import LoverPage from './LoverPage'
 import MyQrPage from './MyQrPage'
+import ScanQrPage from './ScanQrPage'
 
 const LoverPageContainer = observer((props: INavigationComponentProps) => {
   return (
@@ -12,6 +13,7 @@ const LoverPageContainer = observer((props: INavigationComponentProps) => {
       me={UserStore.me}
       lover={UserStore.couple}
       onShowMyQr={() => props.navigation.navigate('MyQrPage')}
+      onShowScanQr={() => props.navigation.navigate('ScanQrPage')}
     />
   )
 })
@@ -25,6 +27,10 @@ const MyQrPageContainer = (props: INavigationComponentProps) => {
   )
 }
 
+const ScanQrPageContainer = (props: INavigationComponentProps) => {
+  return <ScanQrPage onBack={() => props.navigation.goBack()} />
+}
+
 export default createStackNavigator(
   {
     Main: {
@@ -32,6 +38,9 @@ export default createStackNavigator(
     },
     MyQrPage: {
       screen: MyQrPageContainer
+    },
+    ScanQrPage: {
+      screen: ScanQrPageContainer
     }
   },
   {
