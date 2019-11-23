@@ -1,9 +1,11 @@
-import { BarCodeScanner } from 'expo-barcode-scanner'
+import { BarCodeScannedCallback, BarCodeScanner } from 'expo-barcode-scanner'
 import * as Permissions from 'expo-permissions'
 import React, { useEffect, useState } from 'react'
+import { Alert } from 'react-native'
 
 import styled from 'styled-components/native'
-import { LoadingStateStatus } from '../../types/LoadingState'
+import { LoadingState, LoadingStateStatus } from '../../types/LoadingState'
+import * as Utils from '../../utils/utils'
 import { PageContentStyle, PageTitleText } from '../layouts/PageElements'
 import PageLayout from '../layouts/PageLayout'
 import { OverlayLoadingState } from '../uikit/LoadingScreen'
@@ -11,6 +13,7 @@ import { BoldText } from '../uikit/Texts'
 
 type ScanQrPageProps = {
   onBack?: () => void
+  onAddUser: (userId: string) => Promise<any>
 }
 
 const BarcodeHolder = styled.View`
@@ -23,6 +26,7 @@ const BarcodeHolder = styled.View`
   border-width: 1px;
   border-style: solid;
 `
+
 const PermissionDeniedHolder = styled.View`
   ${PageContentStyle}
   justify-content: center;
@@ -32,9 +36,9 @@ const ScanQrPage = (props: ScanQrPageProps) => {
   const [cameraPermission, setCameraPermission] = useState<
     Permissions.PermissionStatus
   >(Permissions.PermissionStatus.UNDETERMINED)
-  const [loading, setLoading] = useState<LoadingStateStatus>(
-    LoadingStateStatus.Loaded
-  )
+  const [loading, setLoading] = useState<LoadingState>({
+    status: LoadingStateStatus.Loaded
+  })
   useEffect(() => {
     askPermissionForCamear()
   }, [])
@@ -42,8 +46,45 @@ const ScanQrPage = (props: ScanQrPageProps) => {
     const { status } = await Permissions.askAsync(Permissions.CAMERA)
     setCameraPermission(status)
   }
+  const onScannedUser: BarCodeScannedCallback = async scanned => {
+    if (!Utils.isUuid(scanned.data)) {
+      setLoading({
+        status: LoadingStateStatus.Error,
+        errorMessage: 'Invalid QR Code'
+      })
+      return Alert.alert('Jarmotion', 'Invalid QR Code', [
+        {
+          text: 'OK',
+          onPress: () => setLoading({ status: LoadingStateStatus.Loaded })
+        }
+      ])
+    }
+    setLoading({ status: LoadingStateStatus.Loading })
+    try {
+      await props.onAddUser(scanned.data)
+      setLoading({ status: LoadingStateStatus.Loaded })
+    } catch (err) {
+      setLoading({
+        status: LoadingStateStatus.Error,
+        errorMessage: 'Invalid QR Code'
+      })
+      Alert.alert('Jarmotion', `Error: ${err.message}`, [
+        {
+          text: 'OK',
+          onPress: () => setLoading({ status: LoadingStateStatus.Loaded })
+        }
+      ])
+    }
+  }
 
   const renderContent = () => {
+    if (loading.status !== LoadingStateStatus.Loaded) {
+      return (
+        <PermissionDeniedHolder>
+          <BoldText>Scanning....</BoldText>
+        </PermissionDeniedHolder>
+      )
+    }
     switch (cameraPermission) {
       case Permissions.PermissionStatus.UNDETERMINED:
         return null
@@ -52,9 +93,7 @@ const ScanQrPage = (props: ScanQrPageProps) => {
           <BarcodeHolder>
             <BarCodeScanner
               style={{ width: '100%', height: '100%' }}
-              onBarCodeScanned={scanned => {
-                setLoading(LoadingStateStatus.Loading)
-              }}
+              onBarCodeScanned={onScannedUser}
             />
           </BarcodeHolder>
         )
@@ -76,7 +115,9 @@ const ScanQrPage = (props: ScanQrPageProps) => {
       onBack={props.onBack}
     >
       {renderContent()}
-      <OverlayLoadingState visible={loading === LoadingStateStatus.Loading} />
+      <OverlayLoadingState
+        visible={loading.status === LoadingStateStatus.Loading}
+      />
     </PageLayout>
   )
 }

@@ -52,3 +52,13 @@ function createUploadData(uri: string, body?: { [key: string]: string }) {
 
   return formData
 }
+
+export async function addLover(userId: string): Promise<IUser> {
+  const res = await authFetch<IUser>('POST', 'api/users/relationship', {
+    user_id: userId
+  })
+  if (res.status !== 200) {
+    throw Error('Cannot fetch user in relationship')
+  }
+  return res.body
+}
