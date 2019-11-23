@@ -46,7 +46,7 @@ const LoverPage = (props: LoverPageProps) => {
         <NoLoverContentView>
           <Image source={ImageAssets.LoverJar} />
           <NoLoverTextContentView>
-            <Texts.BoldText>You have no lover</Texts.BoldText>
+            <Texts.BoldText>We don't know who is your lover</Texts.BoldText>
             <Texts.DescriptionText style={{ marginTop: 12 }}>
               Please scan your lover's QR Code here
             </Texts.DescriptionText>

@@ -3,8 +3,10 @@ import * as Permissions from 'expo-permissions'
 import React, { useEffect, useState } from 'react'
 
 import styled from 'styled-components/native'
+import { LoadingStateStatus } from '../../types/LoadingState'
 import { PageContentStyle, PageTitleText } from '../layouts/PageElements'
 import PageLayout from '../layouts/PageLayout'
+import { OverlayLoadingState } from '../uikit/LoadingScreen'
 import { BoldText } from '../uikit/Texts'
 
 type ScanQrPageProps = {
@@ -30,10 +32,12 @@ const ScanQrPage = (props: ScanQrPageProps) => {
   const [cameraPermission, setCameraPermission] = useState<
     Permissions.PermissionStatus
   >(Permissions.PermissionStatus.UNDETERMINED)
+  const [loading, setLoading] = useState<LoadingStateStatus>(
+    LoadingStateStatus.Loaded
+  )
   useEffect(() => {
     askPermissionForCamear()
   }, [])
-
   const askPermissionForCamear = async () => {
     const { status } = await Permissions.askAsync(Permissions.CAMERA)
     setCameraPermission(status)
@@ -49,8 +53,7 @@ const ScanQrPage = (props: ScanQrPageProps) => {
             <BarCodeScanner
               style={{ width: '100%', height: '100%' }}
               onBarCodeScanned={scanned => {
-                alert('Haha')
-                console.log(scanned)
+                setLoading(LoadingStateStatus.Loading)
               }}
             />
           </BarcodeHolder>
@@ -73,6 +76,7 @@ const ScanQrPage = (props: ScanQrPageProps) => {
       onBack={props.onBack}
     >
       {renderContent()}
+      <OverlayLoadingState visible={loading === LoadingStateStatus.Loading} />
     </PageLayout>
   )
 }
