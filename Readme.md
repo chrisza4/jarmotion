@@ -15,3 +15,15 @@ yarn start
 ```
 yarn test
 ```
+
+### Build & Upload to app store note
+
+#### IOS
+
+1. Update build number in app.json
+2. Run `expo build:ios`
+3.
+
+#### Android
+
+1. Run `expo build:android -t apk`
