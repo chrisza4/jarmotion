@@ -7,6 +7,7 @@ import { getImageFromDevice } from '../../localServices/CameraServices'
 import { LoadingState, LoadingStateStatus } from '../../types/LoadingState'
 import {
   AvatarCenterImage,
+  PageContentStyle,
   PageDescription,
   PageTitleText
 } from '../layouts/PageElements'
@@ -15,7 +16,7 @@ import TextButton, { TextButtonStyle } from '../uikit/buttons/TextButton'
 import { OverlayLoadingState } from '../uikit/LoadingScreen'
 
 const UserSettingPageContent = styled.View`
-  flex: 1;
+  ${PageContentStyle}
   margin-top: 100px;
 `
 const UserSettingFieldHolder = styled.View`

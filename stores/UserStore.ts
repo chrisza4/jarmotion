@@ -53,6 +53,15 @@ export class UserStoreClass {
     }
   }
 
+  @action
+  public async addLover(userId: string) {
+    if (this.others && this.others.length > 0) {
+      throw Error('Couple already exists')
+    }
+    const couple = await UserServices.addLover(userId)
+    this.others = [couple]
+  }
+
   @computed
   public get me(): IUser {
     if (this.myself) {

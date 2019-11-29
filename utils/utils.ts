@@ -17,3 +17,9 @@ export function leftPad(str: string, length: number) {
 export function getHumanMonth(date: Date) {
   return date.getMonth() + 1
 }
+
+export function isUuid(uuid: string) {
+  return /^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(
+    uuid
+  )
+}

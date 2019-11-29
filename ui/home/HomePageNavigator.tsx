@@ -1,8 +1,10 @@
 import { observer } from 'mobx-react'
-import React from 'react'
+import React, { useEffect } from 'react'
 import GestureRecognizer from 'react-native-swipe-gestures'
+import { NavigationEvents } from 'react-navigation'
 import { createStackNavigator } from 'react-navigation-stack'
 import UserStore from '../../stores/UserStore'
+import { LoadingStateStatus } from '../../types/LoadingState'
 import { FullScreenLoadingState } from '../uikit/LoadingScreen'
 import HomePageContainer from './HomePageContainer'
 
@@ -22,9 +24,25 @@ const HomePageMe = observer((props: any) => {
 })
 
 const HomePageCouple = observer((props: any) => {
+  const loadState = UserStore.loadState.status
   const couple = UserStore.couple
+
+  const navigateToLoverIfNeeded = () => {
+    if (loadState === LoadingStateStatus.Loaded && !couple.id) {
+      props.navigation.navigate('Lover')
+    }
+  }
+
+  useEffect(() => {
+    navigateToLoverIfNeeded()
+  })
+
   if (!couple.id) {
-    return <EmptyPage />
+    return (
+      <NavigationEvents onDidFocus={navigateToLoverIfNeeded}>
+        <EmptyPage />
+      </NavigationEvents>
+    )
   }
 
   return (
@@ -34,7 +52,7 @@ const HomePageCouple = observer((props: any) => {
   )
 })
 
-export default createStackNavigator(
+const HomePageNavigator = createStackNavigator(
   {
     Couple: {
       screen: HomePageCouple,
@@ -50,3 +68,5 @@ export default createStackNavigator(
     headerMode: 'none'
   }
 )
+
+export default HomePageNavigator

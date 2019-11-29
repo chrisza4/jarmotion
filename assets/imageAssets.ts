@@ -6,6 +6,7 @@ export const TabbarDashboard = require('./tabbar_dashboard.png')
 export const TabbarCalendar = require('./tabbar_calendar.png')
 export const TabbarDiary = require('./tabbar_diary.png')
 export const TabbarSettings = require('./tabbar_settings.png')
+export const TabbarLover = require('./tabbar_friend.png')
 
 export const ImageButtonAddEmotion = require('./btn_add_emotion.png')
 export const ImageButtonNotification = require('./btn_notification.png')
@@ -20,3 +21,5 @@ export const Jar = require('./jar.png')
 export const InputPlaceHolderJar = require('./input_placeholder_jar.png')
 export const InputPlaceHolderSecure = require('./input_placeholder_secure.png')
 export const LoadingGif = require('./loading.gif')
+
+export const LoverJar = require('./lover_jar.png')

@@ -5,6 +5,7 @@ import { createBottomTabNavigator } from 'react-navigation-tabs'
 import * as ImageAssets from '../assets/imageAssets'
 import CalendarPageContainer from './calendar/CalendarPageContainer'
 import HomePage from './home/HomePageNavigator'
+import LoverPageContainer from './lover/LoverPageContainer'
 import SensingPageContainer from './sensor/SensorPageContainer'
 import { greenish } from './styles/colors'
 import { TabbarHeight } from './styles/margins'
@@ -54,10 +55,13 @@ const bottomTabNavigatorConfig: JarmotionBottomTabNavigatorConfig = {
           return <TabbarIcon source={ImageAssets.TabbarDashboard} />
         case 'Calendar':
           return <TabbarIcon source={ImageAssets.TabbarCalendar} />
+        case 'Lover':
+          return <TabbarIcon source={ImageAssets.TabbarLover} />
         case 'Sensing':
           return <TabbarIcon source={ImageAssets.TabbarDiary} />
         case 'Settings':
           return <TabbarIcon source={ImageAssets.TabbarSettings} />
+
         default:
           return null
       }
@@ -73,6 +77,7 @@ const TabNavigator = createBottomTabNavigator(
       navigationOptions: () => ({})
     },
     Calendar: CalendarPageContainer,
+    Lover: LoverPageContainer,
     Sensing: SensingPageContainer,
     Settings: UserSettingPageContainer
   },

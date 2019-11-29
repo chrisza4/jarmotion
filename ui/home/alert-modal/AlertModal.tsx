@@ -4,7 +4,12 @@ import { View } from 'react-native'
 import styled from 'styled-components/native'
 import { IDisplayAlertItem } from '../../../domains/alert/AlertTypes'
 import TextButton, { TextButtonStyle } from '../../uikit/buttons/TextButton'
-import Modal from '../../uikit/Modal'
+import Modal, {
+  ModalBody,
+  ModalContent,
+  TitleText,
+  TitleView
+} from '../../uikit/Modal'
 import AlertItem from './AlertItem'
 
 interface IAlertModalProps {
@@ -16,21 +21,6 @@ interface IAlertModalProps {
 
 const CloseButtonWrapper = styled.View`
   align-self: flex-end;
-`
-const ModalContent = styled.View`
-  margin-top: 5px;
-`
-const TitleView = styled.View`
-  flex-direction: row;
-  width: 100%;
-  justify-content: center;
-`
-const TitleText = styled.Text`
-  font-family: 'poppins-semibold';
-  font-size: 21;
-`
-const ModalBody = styled.View`
-  top: 10;
 `
 
 const AlertModal = (props: IAlertModalProps) => {
