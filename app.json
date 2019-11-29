@@ -4,7 +4,10 @@
     "slug": "jarmotion",
     "privacy": "public",
     "sdkVersion": "33.0.0",
-    "platforms": ["ios", "android"],
+    "platforms": [
+      "ios",
+      "android"
+    ],
     "version": "1.1.0",
     "orientation": "portrait",
     "icon": "./assets/appIcon1024.png",
@@ -17,7 +20,9 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "assets/*"
+    ],
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "com.chrisza.jarmotion",

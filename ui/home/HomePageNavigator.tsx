@@ -3,6 +3,7 @@ import React, { useEffect } from 'react'
 import GestureRecognizer from 'react-native-swipe-gestures'
 import { NavigationEvents } from 'react-navigation'
 import { createStackNavigator } from 'react-navigation-stack'
+import EmojiStore from '../../stores/EmojiStore'
 import UserStore from '../../stores/UserStore'
 import { LoadingStateStatus } from '../../types/LoadingState'
 import { FullScreenLoadingState } from '../uikit/LoadingScreen'
@@ -17,9 +18,13 @@ const HomePageMe = observer((props: any) => {
   }
 
   return (
-    <GestureRecognizer onSwipeRight={() => props.navigation.navigate('Couple')}>
-      <HomePageContainer currentUser={me} isMyself />
-    </GestureRecognizer>
+    <NavigationEvents onDidFocus={() => EmojiStore.getEmojisByUserId(me.id)}>
+      <GestureRecognizer
+        onSwipeRight={() => props.navigation.navigate('Couple')}
+      >
+        <HomePageContainer currentUser={me} isMyself />
+      </GestureRecognizer>
+    </NavigationEvents>
   )
 })
 
@@ -46,9 +51,13 @@ const HomePageCouple = observer((props: any) => {
   }
 
   return (
-    <GestureRecognizer onSwipeLeft={() => props.navigation.navigate('Me')}>
-      <HomePageContainer currentUser={couple} isMyself={false} />
-    </GestureRecognizer>
+    <NavigationEvents
+      onDidFocus={() => EmojiStore.getEmojisByUserId(couple.id)}
+    >
+      <GestureRecognizer onSwipeLeft={() => props.navigation.navigate('Me')}>
+        <HomePageContainer currentUser={couple} isMyself={false} />
+      </GestureRecognizer>
+    </NavigationEvents>
   )
 })
 
