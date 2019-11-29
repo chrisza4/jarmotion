@@ -46,6 +46,9 @@ export class EmojiStoreClass {
 
   @action.bound
   public async loadEmoji(userId: string) {
+    if (this.loadState[userId]?.status === LoadingStateStatus.Loading) {
+      return
+    }
     this.loadState[userId] = {
       status: LoadingStateStatus.Loading
     }

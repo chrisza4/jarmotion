@@ -18,13 +18,8 @@ const HomePageContainer = observer(
       return <View />
     }
 
-    useEffect(() => {
-      if (props.currentUser) {
-        EmojiStore.loadEmoji(props.currentUser.id)
-      }
-    }, [])
-
     const emojis = EmojiStore.getEmojisByUserId(currentUser.id)
+
     return (
       <HomePage
         emojis={emojis}

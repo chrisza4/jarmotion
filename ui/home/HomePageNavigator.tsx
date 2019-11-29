@@ -17,14 +17,15 @@ const HomePageMe = observer((props: any) => {
     return <EmptyPage />
   }
 
+  useEffect(() => {
+    EmojiStore.loadEmoji(me.id)
+  }, [])
+
   return (
-    <NavigationEvents onDidFocus={() => EmojiStore.getEmojisByUserId(me.id)}>
-      <GestureRecognizer
-        onSwipeRight={() => props.navigation.navigate('Couple')}
-      >
-        <HomePageContainer currentUser={me} isMyself />
-      </GestureRecognizer>
-    </NavigationEvents>
+    <GestureRecognizer onSwipeRight={() => props.navigation.navigate('Couple')}>
+      <HomePageContainer currentUser={me} isMyself />
+      <NavigationEvents onDidFocus={() => EmojiStore.loadEmoji(me.id)} />
+    </GestureRecognizer>
   )
 })
 
@@ -42,6 +43,10 @@ const HomePageCouple = observer((props: any) => {
     navigateToLoverIfNeeded()
   })
 
+  useEffect(() => {
+    EmojiStore.loadEmoji(couple.id)
+  }, [])
+
   if (!couple.id) {
     return (
       <NavigationEvents onDidFocus={navigateToLoverIfNeeded}>
@@ -51,13 +56,14 @@ const HomePageCouple = observer((props: any) => {
   }
 
   return (
-    <NavigationEvents
-      onDidFocus={() => EmojiStore.getEmojisByUserId(couple.id)}
-    >
-      <GestureRecognizer onSwipeLeft={() => props.navigation.navigate('Me')}>
-        <HomePageContainer currentUser={couple} isMyself={false} />
-      </GestureRecognizer>
-    </NavigationEvents>
+    <GestureRecognizer onSwipeLeft={() => props.navigation.navigate('Me')}>
+      <HomePageContainer currentUser={couple} isMyself={false} />
+      <NavigationEvents
+        onDidFocus={() => {
+          EmojiStore.loadEmoji(couple.id)
+        }}
+      />
+    </GestureRecognizer>
   )
 })
 
