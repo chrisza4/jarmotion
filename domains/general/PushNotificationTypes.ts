@@ -2,13 +2,8 @@ export enum PushNotificationEntityType {
   Alert = 'alert'
 }
 
-export enum PushNotifiactionOrigin {
-  Selected = 'selected',
-  Received = 'received'
-}
-
-export type PushNotification = {
-  origin: PushNotifiactionOrigin
+export interface IPushNotification {
+  origin: 'selected' | 'received'
   data: {
     type: PushNotificationEntityType
     id: string

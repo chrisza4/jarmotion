@@ -6,8 +6,7 @@ import { Alert } from 'react-native'
 import * as AlertServices from '../apiServices/alertServices'
 import { AlertStatus, IAlert } from '../domains/alert/AlertTypes'
 import {
-  PushNotifiactionOrigin,
-  PushNotification,
+  IPushNotification,
   PushNotificationEntityType
 } from '../domains/general/PushNotificationTypes'
 import { LoadingState, LoadingStateStatus } from '../types/LoadingState'
@@ -40,7 +39,7 @@ export class AlertStoreClass {
     this.alerts[newAlert.id] = newAlert
   }
 
-  public async handleNotification(notification: PushNotification) {
+  public async handleNotification(notification: IPushNotification) {
     return runInAction(async () => {
       const buttons = [
         {
@@ -53,7 +52,7 @@ export class AlertStoreClass {
       }
       const alertId = notification.data.id
       await this.fetchAlert(alertId)
-      if (notification.origin === PushNotifiactionOrigin.Selected) {
+      if (notification.origin === 'selected') {
         await this.ackAlert(alertId)
         Alert.alert('Jarmotion', 'Thank you for noticing my alert', buttons)
       } else {
@@ -88,7 +87,7 @@ export class AlertStoreClass {
         errorMessage: err.message
       }
     }
-    Notifications.addListener((n: PushNotification) =>
+    Notifications.addListener((n: IPushNotification) =>
       this.handleNotification(n)
     )
   }

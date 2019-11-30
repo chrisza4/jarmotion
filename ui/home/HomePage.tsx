@@ -129,6 +129,7 @@ type HomePageProps = {
   alerting: boolean
   showAlertModal: boolean
   setShowAlertModal: (show: boolean) => void
+  sendAlert: () => void
 }
 
 const HomePage = (props: HomePageProps) => {
@@ -153,12 +154,13 @@ const HomePage = (props: HomePageProps) => {
     }
   }, [props.loadState])
 
-  const renderAlertButton = () => (
+  const renderAlertButtons = () => (
     <View style={styles.notificationButtonHolder}>
       <AlertButton
         alerting={props.alerting}
         onPress={() => props.setShowAlertModal(true)}
       />
+      <AlertButton alerting={false} onPress={() => props.sendAlert()} />
     </View>
   )
 
@@ -169,7 +171,7 @@ const HomePage = (props: HomePageProps) => {
         style={styles.backgroundImage}
         source={ImageAssets.CurvyTopBg}
       >
-        {renderAlertButton()}
+        {renderAlertButtons()}
         <CenterAvatar
           avatarContent={<AvatarCenterImage uri={avatarUri} />}
           hideAvatarBorder={!!avatarUri}
