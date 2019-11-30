@@ -120,6 +120,7 @@ const AddEmotionModal = (props: AddEmotionModalProps) => {
       />
       <TextButton
         text='ADD'
+        style={{ paddingVertical: 0, paddingHorizontal: 10 }}
         buttonStyle={TextButtonStyle.BlackButton}
         onPress={() =>
           props.onAddEmoji ? props.onAddEmoji(selectedEmojiType) : _.noop
