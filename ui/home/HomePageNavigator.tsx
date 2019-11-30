@@ -23,7 +23,11 @@ const HomePageMe = observer((props: any) => {
 
   return (
     <GestureRecognizer onSwipeRight={() => props.navigation.navigate('Couple')}>
-      <HomePageContainer currentUser={me} isMyself />
+      <HomePageContainer
+        currentUser={me}
+        isMyself
+        loverId={UserStore.couple.id}
+      />
       <NavigationEvents onDidFocus={() => EmojiStore.loadEmoji(me.id)} />
     </GestureRecognizer>
   )
@@ -57,7 +61,11 @@ const HomePageCouple = observer((props: any) => {
 
   return (
     <GestureRecognizer onSwipeLeft={() => props.navigation.navigate('Me')}>
-      <HomePageContainer currentUser={couple} isMyself={false} />
+      <HomePageContainer
+        currentUser={couple}
+        isMyself={false}
+        loverId={UserStore.couple.id}
+      />
       <NavigationEvents
         onDidFocus={() => {
           EmojiStore.loadEmoji(couple.id)

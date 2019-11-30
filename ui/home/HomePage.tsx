@@ -41,7 +41,9 @@ const styles = StyleSheet.create({
   notificationButtonHolder: {
     top: 10,
     right: 10,
-    position: 'absolute'
+    position: 'absolute',
+    flexDirection: 'row',
+    justifyContent: 'flex-end'
   },
   chatSection: {
     width: '80%',

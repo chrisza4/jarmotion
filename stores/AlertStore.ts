@@ -39,6 +39,12 @@ export class AlertStoreClass {
     this.alerts[newAlert.id] = newAlert
   }
 
+  @action
+  public async sendAlert(toUserId: string) {
+    const newAlert = await AlertServices.sendAlert(toUserId)
+    this.alerts[newAlert.id] = newAlert
+  }
+
   public async handleNotification(notification: IPushNotification) {
     return runInAction(async () => {
       const buttons = [

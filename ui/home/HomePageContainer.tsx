@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react'
-import React, { useEffect } from 'react'
-import { View } from 'react-native'
+import React from 'react'
+import { Alert, View } from 'react-native'
 import { IUser } from '../../domains/users/UserTypes'
 import AlertStore from '../../stores/AlertStore'
 import EmojiStore from '../../stores/EmojiStore'
@@ -9,6 +9,7 @@ import HomePage from './HomePage'
 type HomePageContainerProps = {
   currentUser?: IUser
   isMyself: boolean
+  loverId?: string
 }
 
 const HomePageContainer = observer(
@@ -20,6 +21,14 @@ const HomePageContainer = observer(
 
     const emojis = EmojiStore.getEmojisByUserId(currentUser.id)
 
+    const onSendAlert = async () => {
+      if (!props.loverId) {
+        return
+      }
+      await AlertStore.sendAlert(props.loverId)
+      Alert.alert('Jarmotion', 'Alert sent')
+    }
+
     return (
       <HomePage
         emojis={emojis}
@@ -30,6 +39,7 @@ const HomePageContainer = observer(
         alerting={AlertStore.isAlerting(currentUser.id)}
         showAlertModal={AlertStore.showAlertModal}
         setShowAlertModal={t => AlertStore.setShowAlertModal(t)}
+        sendAlert={onSendAlert}
       />
     )
   }
