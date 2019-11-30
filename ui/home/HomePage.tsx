@@ -42,8 +42,7 @@ const styles = StyleSheet.create({
     top: 10,
     right: 10,
     position: 'absolute',
-    flexDirection: 'row',
-    justifyContent: 'flex-end'
+    flexDirection: 'row'
   },
   chatSection: {
     width: '80%',
