@@ -1,6 +1,8 @@
 import moment from 'moment'
 import { IEmoji } from '../../../domains/emojis/EmojiTypes'
 
+export const EMOJI_ANIMATION_GAP_MS = 300
+
 export interface IWaitAnimatingEmoji {
   emoji: IEmoji
   expected_animated_time: Date | null
@@ -19,7 +21,7 @@ export function deQueueWaitingEmojis(
     return { newQueue: emojiQueue }
   }
   const nextAnimationTime = moment(now)
-    .add(1, 'seconds')
+    .add(EMOJI_ANIMATION_GAP_MS, 'milliseconds')
     .toDate()
   const newQueue: IWaitAnimatingEmoji[] = emojiQueue
     .slice(1)

@@ -66,7 +66,10 @@ describe('deQueueWaitingEmojis', () => {
     const firstResult = EmojiAddingQueue.deQueueWaitingEmojis(queue, now)
     expect(firstResult.emojiToAnimated?.id).toEqual('e1')
     expect(firstResult.newQueue.length).toEqual(2)
-    const nextAnimatedTime = moment(now).add(1, 'seconds')
+    const nextAnimatedTime = moment(now).add(
+      EmojiAddingQueue.EMOJI_ANIMATION_GAP_MS,
+      'milliseconds'
+    )
     firstResult.newQueue.forEach(q => {
       if (!q.expected_animated_time) {
         fail('Should have expected animated time')
@@ -94,7 +97,10 @@ describe('deQueueWaitingEmojis', () => {
         fail('Should have expected animated time')
       }
       const correct = moment(q.expected_animated_time).isSame(
-        moment(nextAnimatedTime).add(1, 'seconds')
+        moment(nextAnimatedTime).add(
+          EmojiAddingQueue.EMOJI_ANIMATION_GAP_MS,
+          'milliseconds'
+        )
       )
       expect(correct).toEqual(true)
     })
