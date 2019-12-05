@@ -10,6 +10,7 @@ export const TabbarLover = require('./tabbar_friend.png')
 
 export const ImageButtonAddEmotion = require('./btn_add_emotion.png')
 export const ImageButtonNotification = require('./btn_notification.png')
+export const ImageButtonSendNotification = require('./btn_send_noti.png')
 
 export const IconEdit = require('./icon_edit.png')
 export const IconChatNoti = require('./icon_chat_noti.png')

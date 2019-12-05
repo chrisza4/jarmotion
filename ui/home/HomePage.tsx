@@ -21,6 +21,7 @@ import AddEmotionModal from '../modals/AddEmotionModal'
 import { greenish, offWhite } from '../styles/colors'
 import AddEmotionButton from '../uikit/buttons/AddEmotionButton'
 import AlertButton from '../uikit/buttons/AlertButton'
+import SendAlertButton from '../uikit/buttons/SendAlertButton'
 import Circle from '../uikit/Circle'
 import MainLogo from '../uikit/images/MainLogo'
 import JarContainer from '../uikit/Jar/JarContainer'
@@ -161,7 +162,7 @@ const HomePage = (props: HomePageProps) => {
         alerting={props.alerting}
         onPress={() => props.setShowAlertModal(true)}
       />
-      <AlertButton alerting={false} onPress={() => props.sendAlert()} />
+      <SendAlertButton onPress={() => props.sendAlert()} />
     </View>
   )
 
