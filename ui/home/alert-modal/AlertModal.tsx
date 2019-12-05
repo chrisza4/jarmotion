@@ -2,7 +2,10 @@ import _ from 'lodash'
 import React from 'react'
 import { View } from 'react-native'
 import styled from 'styled-components/native'
-import { IDisplayAlertItem } from '../../../domains/alert/AlertTypes'
+import {
+  AlertSource,
+  IDisplayAlertItem
+} from '../../../domains/alert/AlertTypes'
 import TextButton, { TextButtonStyle } from '../../uikit/buttons/TextButton'
 import Modal, {
   ModalBody,
@@ -46,7 +49,11 @@ const AlertModal = (props: IAlertModalProps) => {
             <AlertItem
               key={alert.alertId}
               displayAlert={alert}
-              onAckAlert={props.onAckAlert}
+              onAckAlert={async () => {
+                if (alert.side === AlertSource.MeReceived) {
+                  return props.onAckAlert(alert.alertId)
+                }
+              }}
             />
           ))}
         </ModalBody>
