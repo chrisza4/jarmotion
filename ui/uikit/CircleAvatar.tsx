@@ -13,7 +13,7 @@ const AvatarImage = styled.Image<AvatarImageProps>`
   border-radius: ${props => props.radius}px;
   border-color: ${sicklyYellow};
   border-width: 2.5px;
-  backgroun-color: white;
+  background-color: white;
   display: ${props => (props.hidden ? 'none' : 'flex')};
 `
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View } from 'react-native'
+import { Platform, View } from 'react-native'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import styled from 'styled-components/native'
 import { emojiDisplayName } from '../../../domains/emojis/EmojiFunc'
@@ -19,21 +19,26 @@ type EmojiTableProps = {
   onTryEditEmojiTableRow?: (type: EmojiType, value: string) => void
 }
 
+type OS = 'ios' | 'android' | 'windows' | 'macos' | 'web'
+type EmojiNumberProps = {
+  platform: OS
+}
+
 const EmojiRow = styled.View`
   display: flex;
   flex-direction: row;
   margin-top: 15px;
 `
 
-const EmojiNumberText = styled.Text`
+const EmojiNumberText = styled.Text<EmojiNumberProps>`
   font-family: poppins-bold;
-  font-size: 25px;
-  margin-top: 6px;
+  font-size: ${props => (props.platform === 'ios' ? '25px' : '20px')};
+  margin-top: ${props => (props.platform === 'ios' ? '6px' : '3px')};
 `
-const EmojiNumberTextInput = styled.TextInput`
+const EmojiNumberTextInput = styled.TextInput<EmojiNumberProps>`
   font-family: poppins-bold;
-  font-size: 25px;
-  margin-top: 5px;
+  font-size: ${props => (props.platform === 'ios' ? '25px' : '20px')};
+  margin-top: ${props => (props.platform === 'ios' ? '5px' : '2px')};
 `
 
 const EmojiBox = styled.View`
@@ -85,20 +90,23 @@ const EmojiTable = (props: EmojiTableProps) => {
       props.editable && edittingRowId === emojiSummaryRow.id ? (
         <EmojiNumberTextInput
           autoFocus
+          platform={Platform.OS}
           defaultValue={String(emojiSummaryRow.threshold)}
-          onBlur={e =>
+          onBlur={e => {
             onTryEditEmojiTableRow(
               emojiSummaryRow.emoji_type,
               e.nativeEvent.text
             )
-          }
+          }}
           keyboardType='number-pad'
         />
       ) : (
         <TouchableWithoutFeedback
           onPress={() => props.editable && setEdittingRowId(emojiSummaryRow.id)}
         >
-          <EmojiNumberText>{emojiSummaryRow.threshold}</EmojiNumberText>
+          <EmojiNumberText platform={Platform.OS}>
+            {emojiSummaryRow.threshold}
+          </EmojiNumberText>
         </TouchableWithoutFeedback>
       )
     return (
