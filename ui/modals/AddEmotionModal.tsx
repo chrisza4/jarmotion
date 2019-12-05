@@ -1,6 +1,8 @@
 import _ from 'lodash'
 import React, { useState } from 'react'
 import { StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native'
+import styled from 'styled-components/native'
+import * as EmojiFunc from '../../domains/emojis/EmojiFunc'
 import { EmojiType } from '../../domains/emojis/EmojiTypes'
 import TextButton, { TextButtonStyle } from '../uikit/buttons/TextButton'
 import createEmojiComponent from '../uikit/emoji/createEmojiComponent'
@@ -107,6 +109,12 @@ const AddEmotionModalSection = (props: AddEmotionModalSectionProps) => {
   return <View style={addEmotionModalSectionStyle.holder}>{emojis}</View>
 }
 
+const EmojiText = styled.Text`
+  font-family: poppins-bold;
+  font-size: 25px;
+  align-self: center;
+  margin-top: 40px;
+`
 const AddEmotionModal = (props: AddEmotionModalProps) => {
   const [selectedEmojiType, setSelectedEmojiType] = useState<EmojiType>(
     EmojiType.Heart
@@ -144,6 +152,7 @@ const AddEmotionModal = (props: AddEmotionModalProps) => {
             setSelectedEmojiType={setSelectedEmojiType}
             excludeEmojis={props.excludeEmojis}
           />
+          <EmojiText>{EmojiFunc.emojiDisplayName(selectedEmojiType)}</EmojiText>
         </View>
       </View>
     </Modal>
