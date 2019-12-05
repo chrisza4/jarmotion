@@ -172,21 +172,21 @@ const UserSettingPage = (props: UserSettingPageProps) => {
         <TextButton
           buttonStyle={TextButtonStyle.BlackButton}
           text='Save'
-          style={{ height: 50, width: 100, marginLeft: 10 }}
+          style={{ height: 50, width: 110, marginLeft: 10 }}
           disabled={!dirty}
           onPress={() => onUpdateProfile()}
         />
         <TextButton
           buttonStyle={TextButtonStyle.BlackButton}
           text='Reset'
-          style={{ height: 50, width: 100, marginLeft: 10 }}
+          style={{ height: 50, width: 110, marginLeft: 10 }}
           disabled={!dirty}
           onPress={onReset}
         />
         <TextButton
           text='Log out'
           onPress={() => props.onLogout()}
-          style={{ height: 50, width: 100 }}
+          style={{ height: 50, width: 110 }}
         />
       </ButtonsHolder>
       {props.loadState.status !== LoadingStateStatus.Loaded ? (
