@@ -92,7 +92,7 @@ const EmojiTable = (props: EmojiTableProps) => {
           autoFocus
           platform={Platform.OS}
           defaultValue={String(emojiSummaryRow.threshold)}
-          onBlur={e => {
+          onEndEditing={e => {
             onTryEditEmojiTableRow(
               emojiSummaryRow.emoji_type,
               e.nativeEvent.text
