@@ -39,9 +39,15 @@ const styles = StyleSheet.create({
     resizeMode: 'stretch',
     backgroundColor: 'transparent'
   },
-  notificationButtonHolder: {
+  notificationButtonHolderRight: {
     top: 10,
     right: 10,
+    position: 'absolute',
+    flexDirection: 'row'
+  },
+  notificationButtonHolderLeft: {
+    top: 10,
+    left: 10,
     position: 'absolute',
     flexDirection: 'row'
   },
@@ -156,13 +162,18 @@ const HomePage = (props: HomePageProps) => {
     }
   }, [props.loadState])
 
-  const renderAlertButtons = () => (
-    <View style={styles.notificationButtonHolder}>
+  const renderSendAlertButton = () => (
+    <View style={styles.notificationButtonHolderRight}>
+      <SendAlertButton onPress={() => props.sendAlert()} />
+    </View>
+  )
+
+  const renderViewAlertButton = () => (
+    <View style={styles.notificationButtonHolderLeft}>
       <AlertButton
         alerting={props.alerting}
         onPress={() => props.setShowAlertModal(true)}
       />
-      <SendAlertButton onPress={() => props.sendAlert()} />
     </View>
   )
 
@@ -173,7 +184,8 @@ const HomePage = (props: HomePageProps) => {
         style={styles.backgroundImage}
         source={ImageAssets.CurvyTopBg}
       >
-        {renderAlertButtons()}
+        {renderViewAlertButton()}
+        {renderSendAlertButton()}
         <CenterAvatar
           avatarContent={<AvatarCenterImage uri={avatarUri} />}
           hideAvatarBorder={!!avatarUri}
