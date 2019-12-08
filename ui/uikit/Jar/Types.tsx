@@ -9,6 +9,7 @@ interface IGameEngineWall {
 }
 
 export interface IGameEngineEmoji {
+  id: string
   body: Matter.Body
   radius: number
   emojiType: EmojiType
@@ -24,5 +25,5 @@ export interface IJarEngine {
   wallLeft: IGameEngineWall
   wallRight: IGameEngineWall
   emojis: IGameEngineEmoji[]
-  addEmoji: (emojiType: EmojiType) => IGameEngineEmoji
+  addEmoji: (emojiType: EmojiType, id: string) => IGameEngineEmoji
 }
