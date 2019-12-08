@@ -131,6 +131,10 @@ export function createJarboxMatter(
       Matter.World.add(world, emojiBody.body)
       emojiBodies.push(emojiBody)
       return emojiBody
+    },
+    clearEmojis: () => {
+      emojiBodies.forEach(e => Matter.World.remove(world, e.body))
+      emojiBodies.splice(0, emojiBodies.length)
     }
   }
 }

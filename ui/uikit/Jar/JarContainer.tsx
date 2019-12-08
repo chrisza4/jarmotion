@@ -28,11 +28,15 @@ const withRenderer = (emoji: IGameEngineEmoji) => {
   return { ...emoji, renderer: PhysicalEmojiWrapper(EmojiComponent) }
 }
 
+let isEmojiClearing = false
 const JarContainer = (props: IJarContainerProps) => {
   const [engineInstance, setEngineInstance] = useState<IJarEngine | null>(null)
   const [emojiAddingQueue, setEmojiAddingQueue] = useState<
     IWaitAnimatingEmoji[]
   >([])
+
+  const currentEmojis = props.emojis.filter(e => e.owner_id === props.userId)
+
   // Compare previous emojis and get to update queue
   const previousEmojis = usePrevious(props.emojis)
   useEffect(() => {
@@ -40,7 +44,7 @@ const JarContainer = (props: IJarContainerProps) => {
       return
     }
     const prevEmojisByKey = _.keyBy(previousEmojis, emoji => emoji.id)
-    for (const emoji of props.emojis) {
+    for (const emoji of currentEmojis) {
       if (!prevEmojisByKey[emoji.id]) {
         setEmojiAddingQueue([
           ...emojiAddingQueue,
@@ -50,9 +54,26 @@ const JarContainer = (props: IJarContainerProps) => {
     }
   }, [props.emojis])
 
+  const clearEmojis = () => {
+    engineInstance?.clearEmojis()
+    isEmojiClearing = true
+  }
+
+  useEffect(() => {
+    if (!engineInstance) {
+      return
+    }
+    clearEmojis()
+    const queue = currentEmojis.map(emoji => ({
+      emoji,
+      expected_animated_time: null
+    }))
+    setEmojiAddingQueue(queue)
+  }, [props.userId])
+
   useEffect(() => {
     setEngineInstance(assertJarboxMatter(JarWidth, JarHeight, [], props.userId))
-    const queue = props.emojis.map(emoji => ({
+    const queue = currentEmojis.map(emoji => ({
       emoji,
       expected_animated_time: null
     }))
@@ -62,10 +83,6 @@ const JarContainer = (props: IJarContainerProps) => {
   if (!engineInstance) {
     return null
   }
-
-  const top = props.top || 0
-  const left = props.left || 0
-  const jarLeftCenter = (Dimensions.get('screen').width - JarWidth) / 2
 
   const {
     Physics,
@@ -77,10 +94,24 @@ const JarContainer = (props: IJarContainerProps) => {
     wallRight
   } = engineInstance
 
+  const top = props.top || 0
+  const left = props.left || 0
+  const jarLeftCenter = (Dimensions.get('screen').width - JarWidth) / 2
+
   const emojisObj = emojis.map(c => withRenderer(c))
 
   // Update if queue is exists
   const updateEntitiesEveryGameLoop: PhysicsEngineFunc = entities => {
+    if (isEmojiClearing) {
+      isEmojiClearing = false
+      const staticObject = ['physics', 'ground', 'wallLeft', 'wallRight']
+      const emojiKeys = Object.keys(entities).filter(
+        k => !staticObject.includes(k)
+      )
+      for (const k of emojiKeys) {
+        delete entities[k]
+      }
+    }
     if (!engineInstance || emojiAddingQueue.length === 0) {
       return entities
     }

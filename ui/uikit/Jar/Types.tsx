@@ -26,4 +26,5 @@ export interface IJarEngine {
   wallRight: IGameEngineWall
   emojis: IGameEngineEmoji[]
   addEmoji: (emojiType: EmojiType, id: string) => IGameEngineEmoji
+  clearEmojis: () => void
 }

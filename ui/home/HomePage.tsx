@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Alert, ImageBackground, StyleSheet, View } from 'react-native'
 import styled from 'styled-components/native'
 
+import { TouchableOpacity } from 'react-native-gesture-handler'
 import uuid from 'uuid'
 import * as ImageAssets from '../../assets/imageAssets'
 import { EmojiType, IEmoji } from '../../domains/emojis/EmojiTypes'
@@ -24,7 +25,6 @@ import Circle from '../uikit/Circle'
 import MainLogo from '../uikit/images/MainLogo'
 import JarContainer from '../uikit/Jar/JarContainer'
 import NameTag from '../uikit/NameTag'
-import AlertModalContainer from './alert-modal/AlertModalContainer'
 
 const TopHeight = 188
 const MiddleHeight = JarHeight + 30
@@ -130,17 +130,19 @@ type HomePageProps = {
   loadState: LoadingState
   emojis: IEmoji[]
   addEmojis: (emojis: IEmoji[], userId: string) => void
-  currentUser: IUser
-  isMyself: boolean
-  alerting: boolean
-  showAlertModal: boolean
-  setShowAlertModal: (show: boolean) => void
-  sendAlert: () => void
+  users: IUser[]
+  meUserId: string
 }
 
 const HomePage = (props: HomePageProps) => {
+  const { emojis, addEmojis, users } = props
   const [showAddEmotionModal, setShowAddEmotionModal] = useState(false)
-  const { emojis, addEmojis, currentUser, isMyself } = props
+  const [currentUserId, setCurrentUserId] = useState(props.meUserId)
+
+  const currentUser = users.find(
+    u => u.id === (currentUserId || props.meUserId)
+  )
+  const otherUser = users.find(u => u.id !== currentUser?.id)
 
   const onOpenAddEmotionModal = () => {
     setShowAddEmotionModal(true)
@@ -160,7 +162,11 @@ const HomePage = (props: HomePageProps) => {
     }
   }, [props.loadState])
 
-  const avatarUri = UserFunc.getThumbnailUrl(props.currentUser)
+  if (!currentUser) {
+    return null
+  }
+
+  const avatarUri = UserFunc.getThumbnailUrl(currentUser)
   const renderTopSection = () => (
     <TopSection>
       <ImageBackground
@@ -172,7 +178,13 @@ const HomePage = (props: HomePageProps) => {
           hideAvatarBorder={!!avatarUri}
         />
         <PageTitleHolder>
-          <MainLogo />
+          <TouchableOpacity
+            onPress={() => {
+              setCurrentUserId(otherUser?.id || '')
+            }}
+          >
+            <MainLogo />
+          </TouchableOpacity>
           <PageTitleText>{`${UserFunc.getCapitalizeName(
             currentUser
           )}'s Jar`}</PageTitleText>
@@ -184,9 +196,9 @@ const HomePage = (props: HomePageProps) => {
   const renderMiddleSection = () => {
     return (
       <MiddleSection>
-        <JarContainer emojis={emojis} userId={props.currentUser.id} />
+        <JarContainer emojis={emojis} userId={currentUser.id} />
         <View style={styles.addButtonHolder}>
-          {isMyself && <AddEmotionButton onPress={onOpenAddEmotionModal} />}
+          {<AddEmotionButton onPress={onOpenAddEmotionModal} />}
         </View>
       </MiddleSection>
     )
@@ -216,7 +228,7 @@ const HomePage = (props: HomePageProps) => {
         owner_id: ''
       }
       try {
-        await addEmojis([newEmoji], props.currentUser.id)
+        await addEmojis([newEmoji], currentUser.id)
         setShowAddEmotionModal(false)
       } catch (err) {
         Alert.alert(err.message)
@@ -234,14 +246,6 @@ const HomePage = (props: HomePageProps) => {
     )
   }
 
-  const renderAlertModal = () => {
-    return (
-      <AlertModalContainer
-        show={props.showAlertModal}
-        onClose={() => props.setShowAlertModal(false)}
-      />
-    )
-  }
   return (
     <ScreenLayout hackHeight={ScreenHeight - TabbarHeight}>
       <PageView>
@@ -249,7 +253,6 @@ const HomePage = (props: HomePageProps) => {
         {renderMiddleSection()}
         {renderBottomSection()}
         {renderAddEmotionModal()}
-        {renderAlertModal()}
       </PageView>
     </ScreenLayout>
   )
