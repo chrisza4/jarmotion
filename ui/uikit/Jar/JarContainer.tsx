@@ -28,12 +28,76 @@ const withRenderer = (emoji: IGameEngineEmoji) => {
   return { ...emoji, renderer: PhysicalEmojiWrapper(EmojiComponent) }
 }
 
-let isEmojiClearing = false
+class JarGame {
+  public static getInstance(): JarGame {
+    if (!this.instance) {
+      this.instance = new JarGame()
+    }
+    return this.instance
+  }
+
+  private static instance: JarGame | null = null
+  public emojiAddingQueue: IWaitAnimatingEmoji[] = []
+  private engineInstance: IJarEngine | null = null
+  private isEmojiClearing = false
+  private constructor() {}
+
+  public setEmojiAddingQueue = (newQueue: IWaitAnimatingEmoji[]) => {
+    this.emojiAddingQueue = newQueue
+  }
+  public setEngineInstance = (engine: IJarEngine) => {
+    this.engineInstance = engine
+  }
+
+  public gameLoop: PhysicsEngineFunc = entities => {
+    if (this.isEmojiClearing) {
+      this.isEmojiClearing = false
+      this.deleteAllEmojisInGameLoop(entities)
+    }
+    if (!this.engineInstance || this.emojiAddingQueue.length === 0) {
+      return entities
+    }
+    const toAnimated = EmojiAddingQueue.deQueueWaitingEmojis(
+      this.emojiAddingQueue
+    )
+    if (!toAnimated.emojiToAnimated) {
+      return entities
+    }
+    const emojiToAdd = toAnimated.emojiToAnimated
+    const gameEngineEmojis = this.engineInstance.addEmoji(
+      emojiToAdd.type,
+      emojiToAdd.id
+    )
+    entities[emojiToAdd.id] = withRenderer(gameEngineEmojis)
+    this.setEmojiAddingQueue(toAnimated.newQueue)
+    return entities
+  }
+
+  public replaceEmojiSet = (newQueue: IWaitAnimatingEmoji[]) => {
+    this.clearEmojis()
+    this.setEmojiAddingQueue(newQueue)
+  }
+
+  private clearEmojis = () => {
+    this.engineInstance?.clearEmojis()
+    // For game loop to catch and remove
+    this.isEmojiClearing = true
+  }
+
+  private deleteAllEmojisInGameLoop(entities: any) {
+    const staticObject = ['physics', 'ground', 'wallLeft', 'wallRight']
+    const emojiKeys = Object.keys(entities).filter(
+      k => !staticObject.includes(k)
+    )
+    for (const k of emojiKeys) {
+      delete entities[k]
+    }
+  }
+}
+
 const JarContainer = (props: IJarContainerProps) => {
   const [engineInstance, setEngineInstance] = useState<IJarEngine | null>(null)
-  const [emojiAddingQueue, setEmojiAddingQueue] = useState<
-    IWaitAnimatingEmoji[]
-  >([])
+  const jarGame = JarGame.getInstance()
 
   const currentEmojis = props.emojis.filter(e => e.owner_id === props.userId)
 
@@ -46,38 +110,31 @@ const JarContainer = (props: IJarContainerProps) => {
     const prevEmojisByKey = _.keyBy(previousEmojis, emoji => emoji.id)
     for (const emoji of currentEmojis) {
       if (!prevEmojisByKey[emoji.id]) {
-        setEmojiAddingQueue([
-          ...emojiAddingQueue,
+        jarGame.setEmojiAddingQueue([
+          ...jarGame.emojiAddingQueue,
           { emoji, expected_animated_time: null }
         ])
       }
     }
   }, [props.emojis])
 
-  const clearEmojis = () => {
-    engineInstance?.clearEmojis()
-    isEmojiClearing = true
-  }
-
   useEffect(() => {
-    if (!engineInstance) {
-      return
-    }
-    clearEmojis()
     const queue = currentEmojis.map(emoji => ({
       emoji,
       expected_animated_time: null
     }))
-    setEmojiAddingQueue(queue)
+    jarGame.replaceEmojiSet(queue)
   }, [props.userId])
 
   useEffect(() => {
-    setEngineInstance(assertJarboxMatter(JarWidth, JarHeight, [], props.userId))
+    const newEngine = assertJarboxMatter(JarWidth, JarHeight, [], 'singleton')
+    setEngineInstance(newEngine)
+    jarGame.setEngineInstance(newEngine)
     const queue = currentEmojis.map(emoji => ({
       emoji,
       expected_animated_time: null
     }))
-    setEmojiAddingQueue(queue)
+    jarGame.setEmojiAddingQueue(queue)
   }, [])
 
   if (!engineInstance) {
@@ -100,35 +157,6 @@ const JarContainer = (props: IJarContainerProps) => {
 
   const emojisObj = emojis.map(c => withRenderer(c))
 
-  // Update if queue is exists
-  const updateEntitiesEveryGameLoop: PhysicsEngineFunc = entities => {
-    if (isEmojiClearing) {
-      isEmojiClearing = false
-      const staticObject = ['physics', 'ground', 'wallLeft', 'wallRight']
-      const emojiKeys = Object.keys(entities).filter(
-        k => !staticObject.includes(k)
-      )
-      for (const k of emojiKeys) {
-        delete entities[k]
-      }
-    }
-    if (!engineInstance || emojiAddingQueue.length === 0) {
-      return entities
-    }
-    const toAnimated = EmojiAddingQueue.deQueueWaitingEmojis(emojiAddingQueue)
-    if (!toAnimated.emojiToAnimated) {
-      return entities
-    }
-    const emojiToAdd = toAnimated.emojiToAnimated
-    const gameEngineEmojis = engineInstance.addEmoji(
-      emojiToAdd.type,
-      emojiToAdd.id
-    )
-    entities[emojiToAdd.id] = withRenderer(gameEngineEmojis)
-    setEmojiAddingQueue(toAnimated.newQueue)
-    return entities
-  }
-
   return (
     <View
       style={{
@@ -137,7 +165,7 @@ const JarContainer = (props: IJarContainerProps) => {
       }}
     >
       <GameEngine
-        systems={[Physics, updateEntitiesEveryGameLoop]} // Array of Systems
+        systems={[Physics, jarGame.gameLoop]} // Array of Systems
         entities={{
           physics: { engine, world },
           ground: { ...ground, renderer: SolidDenseBox },
