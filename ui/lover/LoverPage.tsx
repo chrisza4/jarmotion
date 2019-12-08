@@ -1,5 +1,5 @@
 import React from 'react'
-import { Image } from 'react-native'
+import { Alert, Image } from 'react-native'
 import styled from 'styled-components/native'
 import * as ImageAssets from '../../assets/imageAssets'
 import * as UserFunc from '../../domains/users/UserFunc'
@@ -63,10 +63,17 @@ const LoverPage = (props: LoverPageProps) => {
 
         <NoLoverToobarView>
           <TextButton
-            style={{ width: 120, height: 50 }}
+            style={{
+              width: 160,
+              height: 50,
+              paddingHorizontal: 0,
+              paddingVertical: 0
+            }}
             buttonStyle={TextButtonStyle.BlackButton}
             text='Breakup'
-            onPress={props.onShowScanQr}
+            onPress={() =>
+              Alert.alert('Jarmotion', 'Breakup is not supported yet')
+            }
           />
         </NoLoverToobarView>
       </LoverPageContent>
@@ -93,9 +100,14 @@ const LoverPage = (props: LoverPageProps) => {
             onPress={props.onShowMyQr}
           />
           <TextButton
-            style={{ width: 120, height: 50 }}
+            style={{
+              width: 160,
+              height: 50,
+              paddingHorizontal: 0,
+              paddingVertical: 0
+            }}
             buttonStyle={TextButtonStyle.BlackButton}
-            text='Breakup'
+            text='Add lover'
             onPress={props.onShowScanQr}
           />
         </NoLoverToobarView>

@@ -24,3 +24,13 @@ export async function ackAlert(id: string): Promise<IAlert> {
   }
   return res.body
 }
+
+export async function sendAlert(toUserId: string): Promise<IAlert> {
+  const res = await authFetch<IAlert>('POST', 'api/alert', {
+    to_user_id: toUserId
+  })
+  if (res.status !== 200) {
+    throw Error('Cannot send alert')
+  }
+  return res.body
+}

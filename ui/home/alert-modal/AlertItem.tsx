@@ -3,7 +3,10 @@ import React from 'react'
 import { TouchableOpacity } from 'react-native'
 import styled from 'styled-components/native'
 import { isUnacknowledge } from '../../../domains/alert/AlertFunc'
-import { IDisplayAlertItem } from '../../../domains/alert/AlertTypes'
+import {
+  AlertSource,
+  IDisplayAlertItem
+} from '../../../domains/alert/AlertTypes'
 
 interface IAlertItemProps {
   displayAlert: IDisplayAlertItem
@@ -43,20 +46,22 @@ const AlertMessageText = styled.Text<IAlertStatus>`
 `
 
 const AlertItem = (props: IAlertItemProps) => {
-  const unack = isUnacknowledge(props.displayAlert)
+  const canAck =
+    props.displayAlert.side === AlertSource.MeReceived &&
+    isUnacknowledge(props.displayAlert)
   return (
     <TouchableOpacity
-      disabled={!unack}
+      disabled={!canAck}
       onPress={() => props.onAckAlert(props.displayAlert.alertId)}
     >
-      <AlertItemWrapper unack={unack}>
+      <AlertItemWrapper unack={canAck}>
         <AlertItemTimeWrapper>
-          <AlertItemTimeText unack={unack}>
+          <AlertItemTimeText unack={canAck}>
             {moment(props.displayAlert.sentAt).fromNow()}
           </AlertItemTimeText>
         </AlertItemTimeWrapper>
         <AlertMessageTextWrapper>
-          <AlertMessageText unack={unack}>
+          <AlertMessageText unack={canAck}>
             {props.displayAlert.message}
           </AlertMessageText>
         </AlertMessageTextWrapper>

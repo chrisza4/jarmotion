@@ -5,6 +5,7 @@ import Circle from './Circle'
 
 type AvatarImageProps = {
   radius: number
+  hidden?: boolean
 }
 const AvatarImage = styled.Image<AvatarImageProps>`
   width: ${props => props.radius * 2}px;
@@ -12,6 +13,8 @@ const AvatarImage = styled.Image<AvatarImageProps>`
   border-radius: ${props => props.radius}px;
   border-color: ${sicklyYellow};
   border-width: 2.5px;
+  background-color: white;
+  display: ${props => (props.hidden ? 'none' : 'flex')};
 `
 
 type CircleAvatarProps = {
@@ -27,10 +30,20 @@ export default function CircleAvatar(props: CircleAvatarProps) {
         style={{
           borderColor: sicklyYellow,
           borderWidth: 2.5,
-          borderStyle: 'solid'
+          borderStyle: 'solid',
+          backgroundColor: 'white'
         }}
       ></Circle>
     )
   }
-  return <AvatarImage source={{ uri: props.uri }} radius={props.radius} />
+  return (
+    <Circle
+      radius={props.radius}
+      style={{
+        backgroundColor: 'white'
+      }}
+    >
+      <AvatarImage source={{ uri: props.uri }} radius={props.radius} />
+    </Circle>
+  )
 }

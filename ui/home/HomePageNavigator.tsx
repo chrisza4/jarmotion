@@ -19,11 +19,15 @@ const HomePageMe = observer((props: any) => {
 
   useEffect(() => {
     EmojiStore.loadEmoji(me.id)
-  }, [])
+  }, [me])
 
   return (
     <GestureRecognizer onSwipeRight={() => props.navigation.navigate('Couple')}>
-      <HomePageContainer currentUser={me} isMyself />
+      <HomePageContainer
+        currentUser={me}
+        isMyself
+        loverId={UserStore.couple.id}
+      />
       <NavigationEvents onDidFocus={() => EmojiStore.loadEmoji(me.id)} />
     </GestureRecognizer>
   )
@@ -45,7 +49,7 @@ const HomePageCouple = observer((props: any) => {
 
   useEffect(() => {
     EmojiStore.loadEmoji(couple.id)
-  }, [])
+  }, [couple])
 
   if (!couple.id) {
     return (
@@ -57,7 +61,11 @@ const HomePageCouple = observer((props: any) => {
 
   return (
     <GestureRecognizer onSwipeLeft={() => props.navigation.navigate('Me')}>
-      <HomePageContainer currentUser={couple} isMyself={false} />
+      <HomePageContainer
+        currentUser={couple}
+        isMyself={false}
+        loverId={UserStore.couple.id}
+      />
       <NavigationEvents
         onDidFocus={() => {
           EmojiStore.loadEmoji(couple.id)

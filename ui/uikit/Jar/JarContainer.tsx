@@ -5,13 +5,16 @@ import { GameEngine } from 'react-native-game-engine'
 import { IEmoji } from '../../../domains/emojis/EmojiTypes'
 import { usePrevious } from '../../../utils/reactHooks'
 import createEmojiComponent from '../emoji/createEmojiComponent'
+import { IWaitAnimatingEmoji } from './EmojiAddingQueue'
+import * as EmojiAddingQueue from './EmojiAddingQueue'
 import Jar from './Jar'
 import { JarHeight, JarWidth } from './JarConstants'
-import { createJarboxMatter } from './JarEngine'
+import { assertJarboxMatter } from './JarEngine'
 import PhysicalEmojiWrapper from './PhyscialEmojiWrapper'
 import { IGameEngineEmoji, IJarEngine, PhysicsEngineFunc } from './Types'
 
 interface IJarContainerProps {
+  userId: string
   emojis: IEmoji[]
   top?: number
   left?: number
@@ -27,7 +30,9 @@ const withRenderer = (emoji: IGameEngineEmoji) => {
 
 const JarContainer = (props: IJarContainerProps) => {
   const [engineInstance, setEngineInstance] = useState<IJarEngine | null>(null)
-  const [emojiAddingQueue, setEmojiAddingQueue] = useState<IEmoji[]>([])
+  const [emojiAddingQueue, setEmojiAddingQueue] = useState<
+    IWaitAnimatingEmoji[]
+  >([])
   // Compare previous emojis and get to update queue
   const previousEmojis = usePrevious(props.emojis)
   useEffect(() => {
@@ -37,13 +42,21 @@ const JarContainer = (props: IJarContainerProps) => {
     const prevEmojisByKey = _.keyBy(previousEmojis, emoji => emoji.id)
     for (const emoji of props.emojis) {
       if (!prevEmojisByKey[emoji.id]) {
-        setEmojiAddingQueue([...emojiAddingQueue, emoji])
+        setEmojiAddingQueue([
+          ...emojiAddingQueue,
+          { emoji, expected_animated_time: null }
+        ])
       }
     }
   }, [props.emojis])
 
   useEffect(() => {
-    setEngineInstance(createJarboxMatter(JarWidth, JarHeight, props.emojis))
+    setEngineInstance(assertJarboxMatter(JarWidth, JarHeight, [], props.userId))
+    const queue = props.emojis.map(emoji => ({
+      emoji,
+      expected_animated_time: null
+    }))
+    setEmojiAddingQueue(queue)
   }, [])
 
   if (!engineInstance) {
@@ -71,11 +84,17 @@ const JarContainer = (props: IJarContainerProps) => {
     if (!engineInstance || emojiAddingQueue.length === 0) {
       return entities
     }
-    for (const emojiToAdd of emojiAddingQueue) {
-      const gameEngineEmojis = engineInstance.addEmoji(emojiToAdd.type)
-      entities[emojiToAdd.id] = withRenderer(gameEngineEmojis)
+    const toAnimated = EmojiAddingQueue.deQueueWaitingEmojis(emojiAddingQueue)
+    if (!toAnimated.emojiToAnimated) {
+      return entities
     }
-    setEmojiAddingQueue([])
+    const emojiToAdd = toAnimated.emojiToAnimated
+    const gameEngineEmojis = engineInstance.addEmoji(
+      emojiToAdd.type,
+      emojiToAdd.id
+    )
+    entities[emojiToAdd.id] = withRenderer(gameEngineEmojis)
+    setEmojiAddingQueue(toAnimated.newQueue)
     return entities
   }
 

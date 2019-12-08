@@ -20,7 +20,6 @@ import ScreenLayout from '../layouts/ScreenLayout'
 import AddEmotionModal from '../modals/AddEmotionModal'
 import { greenish, offWhite } from '../styles/colors'
 import AddEmotionButton from '../uikit/buttons/AddEmotionButton'
-import AlertButton from '../uikit/buttons/AlertButton'
 import Circle from '../uikit/Circle'
 import MainLogo from '../uikit/images/MainLogo'
 import JarContainer from '../uikit/Jar/JarContainer'
@@ -38,10 +37,17 @@ const styles = StyleSheet.create({
     resizeMode: 'stretch',
     backgroundColor: 'transparent'
   },
-  notificationButtonHolder: {
+  notificationButtonHolderRight: {
     top: 10,
     right: 10,
-    position: 'absolute'
+    position: 'absolute',
+    flexDirection: 'row'
+  },
+  notificationButtonHolderLeft: {
+    top: 10,
+    left: 10,
+    position: 'absolute',
+    flexDirection: 'row'
   },
   chatSection: {
     width: '80%',
@@ -129,6 +135,7 @@ type HomePageProps = {
   alerting: boolean
   showAlertModal: boolean
   setShowAlertModal: (show: boolean) => void
+  sendAlert: () => void
 }
 
 const HomePage = (props: HomePageProps) => {
@@ -153,15 +160,6 @@ const HomePage = (props: HomePageProps) => {
     }
   }, [props.loadState])
 
-  const renderAlertButton = () => (
-    <View style={styles.notificationButtonHolder}>
-      <AlertButton
-        alerting={props.alerting}
-        onPress={() => props.setShowAlertModal(true)}
-      />
-    </View>
-  )
-
   const avatarUri = UserFunc.getThumbnailUrl(props.currentUser)
   const renderTopSection = () => (
     <TopSection>
@@ -169,7 +167,6 @@ const HomePage = (props: HomePageProps) => {
         style={styles.backgroundImage}
         source={ImageAssets.CurvyTopBg}
       >
-        {renderAlertButton()}
         <CenterAvatar
           avatarContent={<AvatarCenterImage uri={avatarUri} />}
           hideAvatarBorder={!!avatarUri}
@@ -187,7 +184,7 @@ const HomePage = (props: HomePageProps) => {
   const renderMiddleSection = () => {
     return (
       <MiddleSection>
-        <JarContainer emojis={emojis} />
+        <JarContainer emojis={emojis} userId={props.currentUser.id} />
         <View style={styles.addButtonHolder}>
           {isMyself && <AddEmotionButton onPress={onOpenAddEmotionModal} />}
         </View>

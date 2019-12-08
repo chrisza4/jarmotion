@@ -68,8 +68,8 @@ export default class AlertButton extends React.Component<IAlertButtonProps> {
           source={ImageAssets.ImageButtonNotification}
           resizeMode='contain'
           style={{
-            width: 70,
-            height: 70,
+            width: 60,
+            height: 60,
             transform: [
               {
                 rotate: this.animatedValue.interpolate({
