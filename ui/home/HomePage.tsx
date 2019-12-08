@@ -131,19 +131,19 @@ type HomePageProps = {
   emojis: IEmoji[]
   addEmojis: (emojis: IEmoji[], userId: string) => void
   users: IUser[]
-  meUserId: string
+  loverUserId: string
 }
 
 const HomePage = (props: HomePageProps) => {
   const { emojis, addEmojis, users } = props
   const [showAddEmotionModal, setShowAddEmotionModal] = useState(false)
-  const [currentUserId, setCurrentUserId] = useState(props.meUserId)
+  const [currentUserId, setCurrentUserId] = useState(props.loverUserId)
 
   const currentUser = users.find(
-    u => u.id === (currentUserId || props.meUserId)
+    u => u.id === (currentUserId || props.loverUserId)
   )
   const otherUser = users.find(u => u.id !== currentUser?.id)
-
+  const isMe = currentUser?.id !== props.loverUserId
   const onOpenAddEmotionModal = () => {
     setShowAddEmotionModal(true)
   }
@@ -198,7 +198,7 @@ const HomePage = (props: HomePageProps) => {
       <MiddleSection>
         <JarContainer emojis={emojis} userId={currentUser.id} />
         <View style={styles.addButtonHolder}>
-          {<AddEmotionButton onPress={onOpenAddEmotionModal} />}
+          {isMe && <AddEmotionButton onPress={onOpenAddEmotionModal} />}
         </View>
       </MiddleSection>
     )

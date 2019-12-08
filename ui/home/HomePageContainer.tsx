@@ -17,9 +17,9 @@ const HomePageContainer = observer(
       <HomePage
         emojis={EmojiStore.emojis}
         addEmojis={EmojiStore.addEmojis}
-        loadState={EmojiStore.getLoadStateByUserId(UserStore.me.id)}
+        loadState={EmojiStore.getLoadStateByUserId(UserStore.couple.id)}
         users={UserStore.users}
-        meUserId={UserStore.me.id}
+        loverUserId={UserStore.couple.id}
       />
     )
   }
