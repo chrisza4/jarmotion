@@ -184,7 +184,7 @@ const HomePage = (props: HomePageProps) => {
   const renderMiddleSection = () => {
     return (
       <MiddleSection>
-        <JarContainer emojis={emojis} />
+        <JarContainer emojis={emojis} userId={props.currentUser.id} />
         <View style={styles.addButtonHolder}>
           {isMyself && <AddEmotionButton onPress={onOpenAddEmotionModal} />}
         </View>

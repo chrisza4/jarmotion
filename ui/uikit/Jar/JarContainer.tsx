@@ -9,11 +9,12 @@ import { IWaitAnimatingEmoji } from './EmojiAddingQueue'
 import * as EmojiAddingQueue from './EmojiAddingQueue'
 import Jar from './Jar'
 import { JarHeight, JarWidth } from './JarConstants'
-import { createJarboxMatter } from './JarEngine'
+import { assertJarboxMatter } from './JarEngine'
 import PhysicalEmojiWrapper from './PhyscialEmojiWrapper'
 import { IGameEngineEmoji, IJarEngine, PhysicsEngineFunc } from './Types'
 
 interface IJarContainerProps {
+  userId: string
   emojis: IEmoji[]
   top?: number
   left?: number
@@ -50,7 +51,7 @@ const JarContainer = (props: IJarContainerProps) => {
   }, [props.emojis])
 
   useEffect(() => {
-    setEngineInstance(createJarboxMatter(JarWidth, JarHeight, []))
+    setEngineInstance(assertJarboxMatter(JarWidth, JarHeight, [], props.userId))
     const queue = props.emojis.map(emoji => ({
       emoji,
       expected_animated_time: null

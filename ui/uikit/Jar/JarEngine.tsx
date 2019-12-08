@@ -1,6 +1,25 @@
-import Matter from 'matter-js'
+import Matter, { Bodies } from 'matter-js'
 import { EmojiType, IEmoji } from '../../../domains/emojis/EmojiTypes'
 import { IGameEngineEmoji, IJarEngine, PhysicsEngineFunc } from './Types'
+
+const jarboxMatterMap: { [userId: string]: IJarEngine } = {}
+export function assertJarboxMatter(
+  jarWidth: number,
+  jarHeight: number,
+  emojis: IEmoji[],
+  forUserId: string
+) {
+  let currentEngine = jarboxMatterMap[forUserId]
+  if (!currentEngine) {
+    jarboxMatterMap[forUserId] = createJarboxMatter(jarWidth, jarHeight, emojis)
+    currentEngine = jarboxMatterMap[forUserId]
+  } else {
+    currentEngine.emojis.forEach(e =>
+      Matter.World.remove(currentEngine.world, e.body)
+    )
+  }
+  return currentEngine
+}
 
 export function createJarboxMatter(
   jarWidth: number,
@@ -109,6 +128,7 @@ export function createJarboxMatter(
     addEmoji: (emojiType: EmojiType): IGameEngineEmoji => {
       const emojiBody = getEmojiBody(emojiType)
       Matter.World.add(world, emojiBody.body)
+      emojiBodies.push(emojiBody)
       return emojiBody
     }
   }
