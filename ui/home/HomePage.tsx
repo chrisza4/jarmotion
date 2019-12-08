@@ -20,8 +20,6 @@ import ScreenLayout from '../layouts/ScreenLayout'
 import AddEmotionModal from '../modals/AddEmotionModal'
 import { greenish, offWhite } from '../styles/colors'
 import AddEmotionButton from '../uikit/buttons/AddEmotionButton'
-import AlertButton from '../uikit/buttons/AlertButton'
-import SendAlertButton from '../uikit/buttons/SendAlertButton'
 import Circle from '../uikit/Circle'
 import MainLogo from '../uikit/images/MainLogo'
 import JarContainer from '../uikit/Jar/JarContainer'
@@ -162,21 +160,6 @@ const HomePage = (props: HomePageProps) => {
     }
   }, [props.loadState])
 
-  const renderSendAlertButton = () => (
-    <View style={styles.notificationButtonHolderRight}>
-      <SendAlertButton onPress={() => props.sendAlert()} />
-    </View>
-  )
-
-  const renderViewAlertButton = () => (
-    <View style={styles.notificationButtonHolderLeft}>
-      <AlertButton
-        alerting={props.alerting}
-        onPress={() => props.setShowAlertModal(true)}
-      />
-    </View>
-  )
-
   const avatarUri = UserFunc.getThumbnailUrl(props.currentUser)
   const renderTopSection = () => (
     <TopSection>
@@ -184,8 +167,6 @@ const HomePage = (props: HomePageProps) => {
         style={styles.backgroundImage}
         source={ImageAssets.CurvyTopBg}
       >
-        {renderViewAlertButton()}
-        {renderSendAlertButton()}
         <CenterAvatar
           avatarContent={<AvatarCenterImage uri={avatarUri} />}
           hideAvatarBorder={!!avatarUri}
