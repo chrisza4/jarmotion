@@ -19,7 +19,7 @@ const HomePageMe = observer((props: any) => {
 
   useEffect(() => {
     EmojiStore.loadEmoji(me.id)
-  }, [])
+  }, [me])
 
   return (
     <GestureRecognizer onSwipeRight={() => props.navigation.navigate('Couple')}>
@@ -49,7 +49,7 @@ const HomePageCouple = observer((props: any) => {
 
   useEffect(() => {
     EmojiStore.loadEmoji(couple.id)
-  }, [])
+  }, [couple])
 
   if (!couple.id) {
     return (
