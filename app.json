@@ -21,7 +21,7 @@
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "com.chrisza.jarmotion",
-      "buildNumber": "1.2.2",
+      "buildNumber": "1.2.4",
       "infoPlist": {
         "NSCameraUsageDescription": "This app use camera to connect lover account via QR code."
       }

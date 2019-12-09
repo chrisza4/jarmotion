@@ -79,6 +79,16 @@ export class UserStoreClass {
     this.others = [couple]
   }
 
+  @action
+  public clean() {
+    this.myself = null
+    this.initPromise = null
+    this.others = null
+    this.loadState = {
+      status: LoadingStateStatus.Initial
+    }
+  }
+
   private async initPrivately() {
     this.loadState = {
       status: LoadingStateStatus.Loading
