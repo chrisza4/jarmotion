@@ -7,12 +7,12 @@ export function assertJarboxMatter(
   jarWidth: number,
   jarHeight: number,
   emojis: IEmoji[],
-  forUserId: string
+  id: string
 ) {
-  let currentEngine = jarboxMatterMap[forUserId]
+  let currentEngine = jarboxMatterMap[id]
   if (!currentEngine) {
-    jarboxMatterMap[forUserId] = createJarboxMatter(jarWidth, jarHeight, emojis)
-    currentEngine = jarboxMatterMap[forUserId]
+    jarboxMatterMap[id] = createJarboxMatter(jarWidth, jarHeight, emojis)
+    currentEngine = jarboxMatterMap[id]
   }
   return currentEngine
 }
