@@ -1,9 +1,9 @@
 import _ from 'lodash'
-import React, { useEffect, useState } from 'react'
-import { Dimensions, View } from 'react-native'
+import React, { useEffect, useMemo, useState } from 'react'
+import { AppState, Dimensions, View } from 'react-native'
 import { GameEngine } from 'react-native-game-engine'
 import { IEmoji } from '../../../domains/emojis/EmojiTypes'
-import { usePrevious } from '../../../utils/reactHooks'
+import { useForceUpdate, usePrevious } from '../../../utils/reactHooks'
 import createEmojiComponent from '../emoji/createEmojiComponent'
 import { IWaitAnimatingEmoji } from './EmojiAddingQueue'
 import * as EmojiAddingQueue from './EmojiAddingQueue'
@@ -27,6 +27,7 @@ const withRenderer = (emoji: IGameEngineEmoji) => {
   })
   return { ...emoji, renderer: PhysicalEmojiWrapper(EmojiComponent) }
 }
+
 class JarGame {
   public static getInstance(): JarGame {
     if (!this.instance) {
@@ -104,9 +105,12 @@ const JarContainer = (props: IJarContainerProps) => {
   const [engineInstance, setEngineInstance] = useState<IJarEngine | null>(null)
   const jarGame = JarGame.getInstance()
 
-  const currentEmojis = props.emojis.filter(e => e.owner_id === props.userId)
+  const currentEmojis = useMemo(
+    () => props.emojis.filter(e => e.owner_id === props.userId),
+    [props.emojis, props.userId]
+  )
 
-  // Compare previous emojis and get to update queue
+  // Compare previous emojis and add accordingly
   const previousEmojis = usePrevious(props.emojis)
   useEffect(() => {
     if (!previousEmojis) {
@@ -119,6 +123,7 @@ const JarContainer = (props: IJarContainerProps) => {
     jarGame.setEmojiAddingQueue([...jarGame.emojiAddingQueue, ...toAddedEmojis])
   }, [props.emojis])
 
+  // Clear Emoji on user Id Changes
   useEffect(() => {
     const queue = currentEmojis.map(emoji => ({
       emoji,
@@ -127,6 +132,7 @@ const JarContainer = (props: IJarContainerProps) => {
     jarGame.replaceEmojiSet(queue)
   }, [props.userId])
 
+  // Initialize JarEngine
   useEffect(() => {
     const newEngine = assertJarboxMatter(JarWidth, JarHeight, [], 'singleton')
     setEngineInstance(newEngine)
@@ -136,6 +142,15 @@ const JarContainer = (props: IJarContainerProps) => {
       expected_animated_time: null
     }))
     jarGame.setEmojiAddingQueue(queue)
+  }, [])
+
+  // Listen to app state changes and reset
+  const forceUpdate = useForceUpdate()
+  useEffect(() => {
+    AppState.addEventListener('change', forceUpdate)
+    return () => {
+      AppState.removeEventListener('change', forceUpdate)
+    }
   }, [])
 
   if (!engineInstance) {
