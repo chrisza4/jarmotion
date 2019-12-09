@@ -110,6 +110,14 @@ const JarContainer = (props: IJarContainerProps) => {
     [props.emojis, props.userId]
   )
 
+  const updateEmojis = () => {
+    const queue = currentEmojis.map(emoji => ({
+      emoji,
+      expected_animated_time: null
+    }))
+    jarGame.replaceEmojiSet(queue)
+  }
+
   // Compare previous emojis and add accordingly
   const previousEmojis = usePrevious(props.emojis)
   useEffect(() => {
@@ -125,11 +133,7 @@ const JarContainer = (props: IJarContainerProps) => {
 
   // Clear Emoji on user Id Changes
   useEffect(() => {
-    const queue = currentEmojis.map(emoji => ({
-      emoji,
-      expected_animated_time: null
-    }))
-    jarGame.replaceEmojiSet(queue)
+    updateEmojis()
   }, [props.userId])
 
   // Initialize JarEngine
@@ -137,11 +141,7 @@ const JarContainer = (props: IJarContainerProps) => {
     const newEngine = assertJarboxMatter(JarWidth, JarHeight, [], 'singleton')
     setEngineInstance(newEngine)
     jarGame.setEngineInstance(newEngine)
-    const queue = currentEmojis.map(emoji => ({
-      emoji,
-      expected_animated_time: null
-    }))
-    jarGame.setEmojiAddingQueue(queue)
+    updateEmojis()
   }, [])
 
   // Listen to app state changes and reset
