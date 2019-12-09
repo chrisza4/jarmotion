@@ -148,6 +148,10 @@ const HomePage = (props: HomePageProps) => {
     setShowAddEmotionModal(true)
   }
 
+  const switchUser = () => {
+    setCurrentUserId(otherUser?.id || '')
+  }
+
   useEffect(() => {
     if (props.loadState.status === LoadingStateStatus.Error) {
       const errMessage = props.loadState.errorMessage
@@ -174,15 +178,13 @@ const HomePage = (props: HomePageProps) => {
         source={ImageAssets.CurvyTopBg}
       >
         <CenterAvatar
-          avatarContent={<AvatarCenterImage uri={avatarUri} />}
+          avatarContent={
+            <AvatarCenterImage uri={avatarUri} onPress={switchUser} />
+          }
           hideAvatarBorder={!!avatarUri}
         />
         <PageTitleHolder>
-          <TouchableOpacity
-            onPress={() => {
-              setCurrentUserId(otherUser?.id || '')
-            }}
-          >
+          <TouchableOpacity onPress={switchUser}>
             <MainLogo />
           </TouchableOpacity>
           <PageTitleText>{`${UserFunc.getCapitalizeName(
