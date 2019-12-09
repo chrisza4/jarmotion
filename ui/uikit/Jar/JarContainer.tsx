@@ -27,7 +27,6 @@ const withRenderer = (emoji: IGameEngineEmoji) => {
   })
   return { ...emoji, renderer: PhysicalEmojiWrapper(EmojiComponent) }
 }
-
 class JarGame {
   public static getInstance(): JarGame {
     if (!this.instance) {
@@ -37,6 +36,12 @@ class JarGame {
   }
 
   private static instance: JarGame | null = null
+  private static readonly staticObject = [
+    'physics',
+    'ground',
+    'wallLeft',
+    'wallRight'
+  ]
   public emojiAddingQueue: IWaitAnimatingEmoji[] = []
   private engineInstance: IJarEngine | null = null
   private isEmojiClearing = false
@@ -57,6 +62,7 @@ class JarGame {
     if (!this.engineInstance || this.emojiAddingQueue.length === 0) {
       return entities
     }
+
     const toAnimated = EmojiAddingQueue.deQueueWaitingEmojis(
       this.emojiAddingQueue
     )
@@ -85,9 +91,8 @@ class JarGame {
   }
 
   private deleteAllEmojisInGameLoop(entities: any) {
-    const staticObject = ['physics', 'ground', 'wallLeft', 'wallRight']
     const emojiKeys = Object.keys(entities).filter(
-      k => !staticObject.includes(k)
+      k => !JarGame.staticObject.includes(k)
     )
     for (const k of emojiKeys) {
       delete entities[k]
@@ -108,14 +113,10 @@ const JarContainer = (props: IJarContainerProps) => {
       return
     }
     const prevEmojisByKey = _.keyBy(previousEmojis, emoji => emoji.id)
-    for (const emoji of currentEmojis) {
-      if (!prevEmojisByKey[emoji.id]) {
-        jarGame.setEmojiAddingQueue([
-          ...jarGame.emojiAddingQueue,
-          { emoji, expected_animated_time: null }
-        ])
-      }
-    }
+    const toAddedEmojis = currentEmojis
+      .filter(emoji => !prevEmojisByKey[emoji.id])
+      .map(emoji => ({ emoji, expected_animated_time: null }))
+    jarGame.setEmojiAddingQueue([...jarGame.emojiAddingQueue, ...toAddedEmojis])
   }, [props.emojis])
 
   useEffect(() => {
@@ -156,7 +157,6 @@ const JarContainer = (props: IJarContainerProps) => {
   const jarLeftCenter = (Dimensions.get('screen').width - JarWidth) / 2
 
   const emojisObj = emojis.map(c => withRenderer(c))
-
   return (
     <View
       style={{
