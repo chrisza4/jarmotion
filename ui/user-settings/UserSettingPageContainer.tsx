@@ -1,6 +1,7 @@
 import { observer } from 'mobx-react'
 import React from 'react'
 import AuthStore from '../../stores/AuthStore'
+import StarterStore from '../../stores/StarterStore'
 import UserStore from '../../stores/UserStore'
 import UserSettingPage from './UserSettingPage'
 
@@ -12,7 +13,7 @@ const UserSettingPageContainer = observer(() => {
       onUploadAvatar={uri => UserStore.uploadAvatar(uri)}
       onUpdateProfile={updates => UserStore.updateProfile(updates)}
       onLogout={() => {
-        UserStore.clean()
+        StarterStore.clean()
         AuthStore.destroyAuthToken()
       }}
     />

@@ -13,6 +13,7 @@ type AppLayoutProps = {
   authStatus: AuthStoreStatus
   setAuthToken: (token: string) => Promise<void>
   init: () => Promise<void>
+  appReady: boolean
 }
 
 function AppLayout(props: AppLayoutProps) {
@@ -48,14 +49,14 @@ function AppLayout(props: AppLayoutProps) {
     return true
   }
 
-  switch (props.authStatus.auth) {
-    case 'loading':
-      return <FullScreenLoadingState />
-    case false:
-      return <LoginPage login={login} register={register} />
-    case true:
-      return <Navigations />
+  if (props.authStatus.auth === 'loading') {
+    return <FullScreenLoadingState />
+  } else if (!props.authStatus.auth) {
+    return <LoginPage login={login} register={register} />
+  } else if (!props.appReady) {
+    return <FullScreenLoadingState />
   }
+  return <Navigations />
 }
 
 export default observer(() => (
@@ -63,5 +64,6 @@ export default observer(() => (
     init={() => StarterStore.initApp()}
     setAuthToken={(token: string) => AuthStore.setAuthToken(token)}
     authStatus={AuthStore.getAuthStatus}
+    appReady={StarterStore.isReady}
   />
 ))
