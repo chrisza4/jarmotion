@@ -65,7 +65,7 @@ const LoginPage = (props: LoginPageProps) => {
         { text: 'OK', onPress: () => setBusy(false) }
       ])
     }
-    return setBusy(false)
+    // return setBusy(false)
   }
 
   const onRegister = async () => {

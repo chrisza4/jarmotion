@@ -31,7 +31,7 @@ const MyQrPage = (props: MyQrPageProps) => {
       onBack={props.onBack}
     >
       <MyQrContent>
-        <QRCode value={props.userId} size={150} />
+        {props.userId ? <QRCode value={props.userId} size={150} /> : null}
         <QRDescription>
           <DescriptionText>Please have your lover scan this QR</DescriptionText>
         </QRDescription>

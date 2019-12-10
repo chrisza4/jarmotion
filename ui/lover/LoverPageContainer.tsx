@@ -33,7 +33,7 @@ const ScanQrPageContainer = observer((props: INavigationComponentProps) => {
       onBack={() => props.navigation.goBack()}
       couple={UserStore.couple}
       onAddUser={userId => UserStore.addLover(userId)}
-      onNavigateToHome={() => props.navigation.navigate('Main')}
+      onNavigateToHome={() => props.navigation.navigate({ routeName: 'Home' })}
     />
   )
 })

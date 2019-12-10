@@ -117,7 +117,7 @@ const LoverPage = (props: LoverPageProps) => {
   return (
     <PageLayout titleElement={<PageTitleText>Lover</PageTitleText>}>
       <LoverPageContent>
-        {props.lover ? renderLoverPageWithLover() : renderLoverPageEmpty()}
+        {props.lover?.id ? renderLoverPageWithLover() : renderLoverPageEmpty()}
       </LoverPageContent>
     </PageLayout>
   )

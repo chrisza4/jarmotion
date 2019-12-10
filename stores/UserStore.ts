@@ -4,6 +4,29 @@ import { IUser, IUserUpdate } from '../domains/users/UserTypes'
 import { LoadingState, LoadingStateStatus } from '../types/LoadingState'
 
 export class UserStoreClass {
+  @computed
+  public get me(): IUser {
+    if (this.myself) {
+      return this.myself
+    }
+    return { id: '', email: '', name: '' }
+  }
+
+  @computed
+  public get couple(): IUser {
+    if (!this.others || this.others.length === 0) {
+      return { id: '', email: '', name: '' }
+    }
+    return this.others[0] || { id: '', email: '', name: '' }
+  }
+
+  @computed public get users(): IUser[] {
+    if (!this.myself) {
+      return []
+    }
+    return [this.me, ...(this.others || [])]
+  }
+
   @observable public loadState: LoadingState = {
     status: LoadingStateStatus.Initial
   }
@@ -13,20 +36,14 @@ export class UserStoreClass {
   @observable
   private myself: IUser | null = null
 
+  private initPromise: Promise<void> | null = null
+
   @action
   public async init() {
-    this.loadState = {
-      status: LoadingStateStatus.Loading
+    if (!this.initPromise) {
+      this.initPromise = this.initPrivately()
     }
-    const [me, others] = await Promise.all([
-      UserServices.getMyself(),
-      UserServices.getUsersInRelationship()
-    ])
-    this.myself = me
-    this.others = others
-    this.loadState = {
-      status: LoadingStateStatus.Loaded
-    }
+    return this.initPromise
   }
 
   @action
@@ -62,27 +79,29 @@ export class UserStoreClass {
     this.others = [couple]
   }
 
-  @computed
-  public get me(): IUser {
-    if (this.myself) {
-      return this.myself
+  @action
+  public clean() {
+    this.myself = null
+    this.initPromise = null
+    this.others = null
+    this.loadState = {
+      status: LoadingStateStatus.Initial
     }
-    return { id: '', email: '', name: '' }
   }
 
-  @computed
-  public get couple(): IUser {
-    if (!this.others || this.others.length === 0) {
-      return { id: '', email: '', name: '' }
+  private async initPrivately() {
+    this.loadState = {
+      status: LoadingStateStatus.Loading
     }
-    return this.others[0] || { id: '', email: '', name: '' }
-  }
-
-  @computed public get users(): IUser[] {
-    if (!this.myself) {
-      return []
+    const [me, others] = await Promise.all([
+      UserServices.getMyself(),
+      UserServices.getUsersInRelationship()
+    ])
+    this.myself = me
+    this.others = others
+    this.loadState = {
+      status: LoadingStateStatus.Loaded
     }
-    return [this.me, ...(this.others || [])]
   }
 }
 

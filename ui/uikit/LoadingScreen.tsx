@@ -1,11 +1,12 @@
 import React from 'react'
 import { ActivityIndicator, Modal as ReactNativeModal } from 'react-native'
 import styled from 'styled-components/native'
+import { sicklyYellow } from '../../ui/styles/colors'
 import PageCenterLayout from '../layouts/PageCenterLayout'
 
 export function FullScreenLoadingState() {
   return (
-    <PageCenterLayout>
+    <PageCenterLayout style={{ backgroundColor: sicklyYellow }}>
       <ActivityIndicator size='large' />
     </PageCenterLayout>
   )

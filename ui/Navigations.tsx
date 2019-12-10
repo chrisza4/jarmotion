@@ -4,7 +4,7 @@ import { BottomTabNavigatorConfig, createAppContainer } from 'react-navigation' 
 import { createBottomTabNavigator } from 'react-navigation-tabs'
 import * as ImageAssets from '../assets/imageAssets'
 import CalendarPageContainer from './calendar/CalendarPageContainer'
-import HomePage from './home/HomePageNavigator'
+import HomePageContainer from './home/HomePageContainer'
 import LoverPageContainer from './lover/LoverPageContainer'
 import SensingPageContainer from './sensor/SensorPageContainer'
 import { greenish } from './styles/colors'
@@ -73,7 +73,7 @@ const bottomTabNavigatorConfig: JarmotionBottomTabNavigatorConfig = {
 const TabNavigator = createBottomTabNavigator(
   {
     Home: {
-      screen: HomePage,
+      screen: HomePageContainer,
       navigationOptions: () => ({})
     },
     Calendar: CalendarPageContainer,

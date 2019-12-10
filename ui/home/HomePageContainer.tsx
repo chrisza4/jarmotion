@@ -1,46 +1,46 @@
 import { observer } from 'mobx-react'
-import React from 'react'
-import { Alert, View } from 'react-native'
-import { IUser } from '../../domains/users/UserTypes'
-import AlertStore from '../../stores/AlertStore'
+import React, { useEffect } from 'react'
+import { View } from 'react-native'
+import { NavigationEvents } from 'react-navigation'
 import EmojiStore from '../../stores/EmojiStore'
+import UserStore from '../../stores/UserStore'
+import { INavigationComponentProps } from '../../types/NavigationTypes'
 import HomePage from './HomePage'
 
-type HomePageContainerProps = {
-  currentUser?: IUser
-  isMyself: boolean
-  loverId?: string
-}
-
 const HomePageContainer = observer(
-  (props: HomePageContainerProps): JSX.Element => {
-    const { currentUser } = props
-    if (!currentUser) {
-      return <View />
-    }
+  (props: INavigationComponentProps): JSX.Element => {
+    useEffect(() => {
+      refresh()
+    }, [])
 
-    const emojis = EmojiStore.getEmojisByUserId(currentUser.id)
-
-    const onSendAlert = async () => {
-      if (!props.loverId) {
-        return
+    const navigateToLoverIfNeeded = () => {
+      if (!UserStore.couple?.id) {
+        props.navigation.navigate({ routeName: 'Lover' })
       }
-      await AlertStore.sendAlert(props.loverId)
-      Alert.alert('Jarmotion', 'Alert sent')
+    }
+    const refresh = () => {
+      UserStore.init().then(() => {
+        EmojiStore.loadEmoji(UserStore.me.id)
+        EmojiStore.loadEmoji(UserStore.couple.id)
+      })
     }
 
     return (
-      <HomePage
-        emojis={emojis}
-        addEmojis={EmojiStore.addEmojis}
-        loadState={EmojiStore.getLoadStateByUserId(currentUser.id)}
-        currentUser={currentUser}
-        isMyself={props.isMyself}
-        alerting={AlertStore.isAlerting(currentUser.id)}
-        showAlertModal={AlertStore.showAlertModal}
-        setShowAlertModal={t => AlertStore.setShowAlertModal(t)}
-        sendAlert={onSendAlert}
-      />
+      <View>
+        <HomePage
+          emojis={EmojiStore.emojis}
+          addEmojis={EmojiStore.addEmojis}
+          loadState={EmojiStore.getLoadStateByUserId(UserStore.couple.id)}
+          users={UserStore.users}
+          loverUserId={UserStore.couple.id}
+        />
+        <NavigationEvents
+          onDidFocus={() => {
+            navigateToLoverIfNeeded()
+            refresh()
+          }}
+        />
+      </View>
     )
   }
 )

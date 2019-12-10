@@ -7,12 +7,12 @@ export function assertJarboxMatter(
   jarWidth: number,
   jarHeight: number,
   emojis: IEmoji[],
-  forUserId: string
+  id: string
 ) {
-  let currentEngine = jarboxMatterMap[forUserId]
+  let currentEngine = jarboxMatterMap[id]
   if (!currentEngine) {
-    jarboxMatterMap[forUserId] = createJarboxMatter(jarWidth, jarHeight, emojis)
-    currentEngine = jarboxMatterMap[forUserId]
+    jarboxMatterMap[id] = createJarboxMatter(jarWidth, jarHeight, emojis)
+    currentEngine = jarboxMatterMap[id]
   }
   return currentEngine
 }
@@ -131,6 +131,10 @@ export function createJarboxMatter(
       Matter.World.add(world, emojiBody.body)
       emojiBodies.push(emojiBody)
       return emojiBody
+    },
+    clearEmojis: () => {
+      emojiBodies.forEach(e => Matter.World.remove(world, e.body))
+      emojiBodies.splice(0, emojiBodies.length)
     }
   }
 }
