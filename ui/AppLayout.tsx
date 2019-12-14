@@ -4,16 +4,15 @@ import * as LoginService from '../apiServices/loginService'
 import * as RegistrationService from '../apiServices/registrationService'
 import { IRegistration } from '../domains/registration/RegistrationTypes'
 import AuthStore, { AuthStoreStatus } from '../stores/AuthStore'
-import StarterStore from '../stores/StarterStore'
+import StarterStore, { AppLoadingStatus } from '../stores/StarterStore'
 import LoginPage from './LoginPage'
 import Navigations from './Navigations'
 import { FullScreenLoadingState } from './uikit/LoadingScreen'
 
 type AppLayoutProps = {
   authStatus: AuthStoreStatus
-  setAuthToken: (token: string) => Promise<void>
-  init: () => Promise<void>
-  appReady: boolean
+  init: (token?: string) => Promise<void>
+  appReadiness: AppLoadingStatus
 }
 
 function AppLayout(props: AppLayoutProps) {
@@ -29,8 +28,7 @@ function AppLayout(props: AppLayoutProps) {
     if (!res.jwt) {
       return false
     }
-    await props.setAuthToken(res.jwt)
-    await props.init()
+    await props.init(res.jwt)
     return true
   }
 
@@ -44,26 +42,25 @@ function AppLayout(props: AppLayoutProps) {
     if (!res || !res.jwt) {
       return 'Invalid JWT'
     }
-    await props.setAuthToken(res.jwt)
-    await props.init()
+    await props.init(res.jwt)
     return true
   }
 
-  if (props.authStatus.auth === 'loading') {
-    return <FullScreenLoadingState />
-  } else if (!props.authStatus.auth) {
-    return <LoginPage login={login} register={register} />
-  } else if (!props.appReady) {
-    return <FullScreenLoadingState />
+  switch (props.appReadiness) {
+    case AppLoadingStatus.Loading:
+      return <FullScreenLoadingState />
+    case AppLoadingStatus.Unauthorized:
+      return <LoginPage login={login} register={register} />
+    case AppLoadingStatus.Ready:
+    default:
+      return <Navigations />
   }
-  return <Navigations />
 }
 
 export default observer(() => (
   <AppLayout
-    init={() => StarterStore.initApp()}
-    setAuthToken={(token: string) => AuthStore.setAuthToken(token)}
+    init={token => StarterStore.initApp(token)}
     authStatus={AuthStore.getAuthStatus}
-    appReady={StarterStore.isReady}
+    appReadiness={StarterStore.appReadinessStatus}
   />
 ))

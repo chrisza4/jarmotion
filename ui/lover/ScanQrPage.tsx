@@ -91,7 +91,7 @@ const ScanQrPage = (props: ScanQrPageProps) => {
         status: LoadingStateStatus.Error,
         errorMessage: 'Invalid QR Code'
       })
-      return Alert.alert('Jarmotion', 'Invalid QR Code', [
+      return Alert.alert('Jarmo', 'Invalid QR Code', [
         {
           text: 'OK',
           onPress: () => setLoading({ status: LoadingStateStatus.Loaded })
@@ -107,7 +107,7 @@ const ScanQrPage = (props: ScanQrPageProps) => {
         status: LoadingStateStatus.Error,
         errorMessage: 'Invalid QR Code'
       })
-      Alert.alert('Jarmotion', `Error: ${err.message}`, [
+      Alert.alert('Jarmo', `Error: ${err.message}`, [
         {
           text: 'OK',
           onPress: () => setLoading({ status: LoadingStateStatus.Loaded })

@@ -60,9 +60,9 @@ export class AlertStoreClass {
       await this.fetchAlert(alertId)
       if (notification.origin === 'selected') {
         await this.ackAlert(alertId)
-        Alert.alert('Jarmotion', 'Thank you for noticing my alert', buttons)
+        Alert.alert('Jarmo', 'Thank you for noticing my alert', buttons)
       } else {
-        Alert.alert('Jarmotion', 'You got a personal alert.', buttons)
+        Alert.alert('Jarmo', 'You got a personal alert.', buttons)
       }
     })
   }

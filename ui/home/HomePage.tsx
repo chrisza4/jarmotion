@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Alert, ImageBackground, StyleSheet, View } from 'react-native'
+import { Alert, ImageBackground, StyleSheet, Text, View } from 'react-native'
 import styled from 'styled-components/native'
 
 import { TouchableOpacity } from 'react-native-gesture-handler'

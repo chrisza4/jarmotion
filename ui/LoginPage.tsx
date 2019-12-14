@@ -61,7 +61,7 @@ const LoginPage = (props: LoginPageProps) => {
     setBusy(true)
     const isSuccess = await props.login(username, password)
     if (!isSuccess) {
-      return Alert.alert('Jarmotion', 'Incorrect username or password', [
+      return Alert.alert('Jarmo', 'Incorrect username or password', [
         { text: 'OK', onPress: () => setBusy(false) }
       ])
     }
@@ -82,7 +82,7 @@ const LoginPage = (props: LoginPageProps) => {
     }
     const isSuccess = await props.register(registration)
     if (isSuccess !== true) {
-      return Alert.alert('Jarmotion', isSuccess, [
+      return Alert.alert('Jarmo', isSuccess, [
         { text: 'OK', onPress: () => setBusy(false) }
       ])
     }

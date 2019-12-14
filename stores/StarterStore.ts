@@ -8,6 +8,12 @@ import AuthStore, { AuthStoreClass } from './AuthStore'
 import EmojiStore from './EmojiStore'
 import UserStore, { UserStoreClass } from './UserStore'
 
+export enum AppLoadingStatus {
+  Loading = 'loading',
+  Unauthorized = 'unauth',
+  Ready = 'auth & ready'
+}
+
 export class StarterStoreClass {
   @observable
   public starterStatus: LoadingStateStatus = LoadingStateStatus.Initial
@@ -19,19 +25,37 @@ export class StarterStoreClass {
   ) {}
 
   @computed
-  public get isReady(): boolean {
-    return this.starterStatus === LoadingStateStatus.Loaded
+  public get appReadinessStatus(): AppLoadingStatus {
+    if (this.starterStatus !== LoadingStateStatus.Loaded) {
+      return AppLoadingStatus.Loading
+    }
+
+    switch (this.authStore.getAuthStatus.auth) {
+      case 'loading':
+        return AppLoadingStatus.Loading
+      case false:
+        return AppLoadingStatus.Unauthorized
+      case true:
+        return AppLoadingStatus.Ready
+    }
   }
 
   @action
-  public async initApp() {
-    await this.authStore.initFromStorage()
-    if (
-      !this.authStore.getAuthStatus.auth ||
-      this.authStore.getAuthStatus.auth === 'loading'
-    ) {
+  public async initApp(token?: string) {
+    this.starterStatus = LoadingStateStatus.Loading
+    if (!token) {
+      await this.authStore.initFromStorage()
+    } else {
+      await this.authStore.setAuthToken(token)
+    }
+    if (this.authStore.getAuthStatus.auth === 'loading') {
+      throw Error('Unexpected loading auth')
+    }
+    if (!this.authStore.getAuthStatus.auth) {
+      this.starterStatus = LoadingStateStatus.Loaded
       return
     }
+
     DeviceServices.regisDevice().catch(error =>
       // tslint:disable-next-line: no-console
       console.error('Register device error:', error)

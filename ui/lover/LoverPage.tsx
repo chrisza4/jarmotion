@@ -71,9 +71,7 @@ const LoverPage = (props: LoverPageProps) => {
             }}
             buttonStyle={TextButtonStyle.BlackButton}
             text='Breakup'
-            onPress={() =>
-              Alert.alert('Jarmotion', 'Breakup is not supported yet')
-            }
+            onPress={() => Alert.alert('Jarmo', 'Breakup is not supported yet')}
           />
         </NoLoverToobarView>
       </LoverPageContent>

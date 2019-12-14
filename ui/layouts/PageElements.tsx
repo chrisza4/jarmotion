@@ -79,22 +79,28 @@ type CenterAvatarProps = {
 }
 
 const radius = 37.5
+
+export const CenterAvatarRow = styled.View`
+  position: absolute;
+  top: 100px;
+`
+
 export const CenterAvatar = (props: CenterAvatarProps) => (
-  <Circle
-    radius={radius}
-    style={{
-      backgroundColor: 'white',
-      position: 'absolute',
-      top: 100,
-      borderColor: sicklyYellow,
-      borderWidth: props.hideAvatarBorder ? 0 : 2.5,
-      left: ScreenWidth / 2 - radius,
-      justifyContent: 'flex-start',
-      alignItems: 'flex-start'
-    }}
-  >
-    {props.avatarContent}
-  </Circle>
+  <CenterAvatarRow>
+    <Circle
+      radius={radius}
+      style={{
+        backgroundColor: 'white',
+        borderColor: sicklyYellow,
+        borderWidth: props.hideAvatarBorder ? 0 : 2.5,
+        left: ScreenWidth / 2 - radius,
+        justifyContent: 'flex-start',
+        alignItems: 'flex-start'
+      }}
+    >
+      {props.avatarContent}
+    </Circle>
+  </CenterAvatarRow>
 )
 
 const AvatarButtonEmpty = styled.View`
