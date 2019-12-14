@@ -1,5 +1,5 @@
 import React from 'react'
-import { ImageBackground, Text, View } from 'react-native'
+import { ImageBackground, View } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import styled from 'styled-components/native'
 import * as ImageAssets from '../../assets/imageAssets'
@@ -84,6 +84,7 @@ type CenterAvatarProps = {
   avatarContent?: React.ReactNode
   hideAvatarBorder?: boolean
   triangleButtonDirection?: 'none' | 'left' | 'right'
+  onPressTriangleButton?: () => void
 }
 
 const radius = 37.5
@@ -92,6 +93,8 @@ export const CenterAvatarRow = styled.View`
   position: absolute;
   top: 100px;
   flex-direction: row;
+  width: 100%;
+  height: ${radius * 2};
 `
 
 export const CenterAvatar = (props: CenterAvatarProps) => {
@@ -106,21 +109,27 @@ export const CenterAvatar = (props: CenterAvatarProps) => {
     const triangleSize = 15
     const left =
       props.triangleButtonDirection === 'left'
-        ? -triangleSize - triangleMargin
-        : radius * 2 + triangleMargin
+        ? ScreenWidth / 2 - (radius + triangleSize + triangleMargin)
+        : ScreenWidth / 2 + (radius + triangleSize + triangleMargin)
 
     return (
-      <Triangle
-        width={triangleSize}
-        height={triangleSize}
-        color={blackButton}
-        direction={props.triangleButtonDirection}
+      <TouchableOpacity
         style={{
-          position: 'absolute',
-          left,
-          top: radius - triangleSize / 2
+          marginTop: radius - triangleSize / 2,
+          marginLeft: left,
+          width: triangleSize
         }}
-      ></Triangle>
+        onPress={() =>
+          props.onPressTriangleButton ? props.onPressTriangleButton() : null
+        }
+      >
+        <Triangle
+          width={triangleSize}
+          height={triangleSize}
+          color={blackButton}
+          direction={props.triangleButtonDirection}
+        ></Triangle>
+      </TouchableOpacity>
     )
   }
 
@@ -129,6 +138,7 @@ export const CenterAvatar = (props: CenterAvatarProps) => {
       <Circle
         radius={radius}
         style={{
+          position: 'absolute',
           backgroundColor: 'white',
           borderColor: sicklyYellow,
           borderWidth: props.hideAvatarBorder ? 0 : 2.5,
@@ -138,8 +148,8 @@ export const CenterAvatar = (props: CenterAvatarProps) => {
         }}
       >
         {props.avatarContent}
-        {renderTriangle()}
       </Circle>
+      {renderTriangle()}
     </CenterAvatarRow>
   )
 }
