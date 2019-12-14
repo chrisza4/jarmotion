@@ -16,6 +16,7 @@ export type TriangleProps = {
   width: number
   height: number
   color: string
+  style?: StyleProp<ViewStyle>
 }
 
 function getBorderStyle(
@@ -152,7 +153,7 @@ const Triangle = (props: TriangleProps) => {
     backgroundColor: 'transparent',
     borderStyle: 'solid'
   }
-  return <View style={[defaultStyle, borderStyles]} />
+  return <View style={[defaultStyle, borderStyles, props.style]} />
 }
 
 export default Triangle
