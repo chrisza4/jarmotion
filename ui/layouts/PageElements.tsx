@@ -1,6 +1,5 @@
 import React from 'react'
 import { ImageBackground, View } from 'react-native'
-import { TouchableOpacity } from 'react-native-gesture-handler'
 import styled from 'styled-components/native'
 import * as ImageAssets from '../../assets/imageAssets'
 import { ScreenWidth } from '../../ui/styles/margins'
@@ -89,7 +88,7 @@ type CenterAvatarProps = {
 
 const radius = 37.5
 
-export const CenterAvatarRow = styled.View`
+export const CenterAvatarRow = styled.TouchableOpacity`
   position: absolute;
   top: 100px;
   flex-direction: row;
@@ -113,28 +112,28 @@ export const CenterAvatar = (props: CenterAvatarProps) => {
         : ScreenWidth / 2 + (radius + triangleSize + triangleMargin)
 
     return (
-      <TouchableOpacity
+      <Triangle
+        width={triangleSize}
+        height={triangleSize}
+        color={blackButton}
+        direction={props.triangleButtonDirection}
         style={{
-          marginTop: radius - triangleSize / 2,
-          marginLeft: left,
-          width: triangleSize
+          position: 'absolute',
+          left,
+          top: radius - triangleSize / 2
         }}
-        onPress={() =>
-          props.onPressTriangleButton ? props.onPressTriangleButton() : null
-        }
-      >
-        <Triangle
-          width={triangleSize}
-          height={triangleSize}
-          color={blackButton}
-          direction={props.triangleButtonDirection}
-        ></Triangle>
-      </TouchableOpacity>
+      ></Triangle>
     )
   }
 
   return (
-    <CenterAvatarRow>
+    <CenterAvatarRow
+      onPress={() =>
+        props.onPressTriangleButton ? props.onPressTriangleButton() : null
+      }
+      disabled={!props.onPressTriangleButton}
+      activeOpacity={1}
+    >
       <Circle
         radius={radius}
         style={{

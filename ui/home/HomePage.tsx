@@ -182,7 +182,8 @@ const HomePage = (props: HomePageProps) => {
             <AvatarCenterImage uri={avatarUri} onPress={switchUser} />
           }
           hideAvatarBorder={!!avatarUri}
-          triangleButtonDirection='left'
+          triangleButtonDirection={isMe ? 'left' : 'right'}
+          onPressTriangleButton={switchUser}
         />
         <PageTitleHolder>
           <TouchableOpacity onPress={switchUser}>
