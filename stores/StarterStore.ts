@@ -60,22 +60,28 @@ export class StarterStoreClass {
       // tslint:disable-next-line: no-console
       console.error('Register device error:', error)
     )
-    await Promise.all([this.userStore.init(), this.alertStore.init()])
-    const socket = await establishedSocket(
-      this.authStore.getAuthStatus.token,
-      [this.userStore.me.id, this.userStore.couple.id],
-      () => {
-        // tslint:disable-next-line: no-console
-        console.error('Socket error, retrying')
-      }
-    )
-    socket.on('emoji:add', (entity: IJarmotionEntity) => {
-      EmojiStore.fetchEmoji(entity.id)
-    })
-    socket.on('alert:add', (entity: IJarmotionEntity) => {
-      AlertStore.fetchAlert(entity.id)
-    })
-    this.starterStatus = LoadingStateStatus.Loaded
+    try {
+      await Promise.all([this.userStore.init(), this.alertStore.init()])
+
+      const socket = await establishedSocket(
+        this.authStore.getAuthStatus.token,
+        [this.userStore.me.id, this.userStore.couple.id],
+        () => {
+          // tslint:disable-next-line: no-console
+          console.error('Socket error, retrying')
+        }
+      )
+      socket.on('emoji:add', (entity: IJarmotionEntity) => {
+        EmojiStore.fetchEmoji(entity.id)
+      })
+      socket.on('alert:add', (entity: IJarmotionEntity) => {
+        AlertStore.fetchAlert(entity.id)
+      })
+
+      this.starterStatus = LoadingStateStatus.Loaded
+    } catch (err) {
+      this.clean()
+    }
   }
 
   @action
