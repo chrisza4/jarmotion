@@ -10,6 +10,14 @@ export async function regisDevice() {
   await authFetch<null>('POST', 'api/devices', { token })
 }
 
+export async function revokeDevice() {
+  const token = await requestToken()
+  if (!token) {
+    return
+  }
+  await authFetch<null>('DELETE', 'api/devices', { token })
+}
+
 async function requestToken(): Promise<string | null> {
   const { status: existingStatus } = await Permissions.getAsync(
     Permissions.NOTIFICATIONS
