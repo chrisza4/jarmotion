@@ -97,7 +97,7 @@ const LoginPage = (props: LoginPageProps) => {
     return (
       <PageTitleHolder>
         <MainLogo />
-        <PageTitleText>{String(pageMode)}</PageTitleText>
+        <PageTitleText>JARMO</PageTitleText>
       </PageTitleHolder>
     )
   }
@@ -108,6 +108,8 @@ const LoginPage = (props: LoginPageProps) => {
     }
     return (
       <PageCenterLayout>
+        <BoldText>Welcome to Jarmo! </BoldText>
+        <BoldText>Please login.</BoldText>
         <InputPlaceHolderView>
           <InputPlaceHolderImage source={ImageAssets.InputPlaceHolderJar} />
           <FormTextInput
