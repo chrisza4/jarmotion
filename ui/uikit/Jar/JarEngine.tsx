@@ -49,19 +49,21 @@ export function createJarboxMatter(
     }
   }
   const wallMargin = 10 // Margin between exact border of Jar and area that holding emojis
+  // Should be only jarHeight + 100, but Height of Matter.js engine need to double react view height
+  const wallHeight = (jarHeight + 100) * 2
   const wallLeft = {
     body: Matter.Bodies.rectangle(
       0 - wallWidth + wallMargin,
       jarHeight,
       wallWidth,
-      1000,
+      wallHeight,
       {
         isStatic: true
       }
     ),
     size: {
       width: wallWidth,
-      height: 1000
+      height: wallHeight
     }
   }
 
@@ -70,14 +72,14 @@ export function createJarboxMatter(
       jarWidth - wallMargin,
       jarHeight,
       wallWidth,
-      1000,
+      wallHeight,
       {
         isStatic: true
       }
     ),
     size: {
       width: wallWidth,
-      height: 1000
+      height: wallHeight
     }
   }
 

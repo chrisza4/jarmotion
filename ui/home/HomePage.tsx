@@ -186,9 +186,7 @@ const HomePage = (props: HomePageProps) => {
           onPressTriangleButton={switchUser}
         />
         <PageTitleHolder>
-          <TouchableOpacity onPress={switchUser}>
-            <MainLogo />
-          </TouchableOpacity>
+          <MainLogo />
           <PageTitleText>{`${UserFunc.getCapitalizeName(
             currentUser
           )}'s Jar`}</PageTitleText>
