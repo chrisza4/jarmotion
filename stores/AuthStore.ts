@@ -9,9 +9,6 @@ type AuthStatusLoading = {
 export type AuthStoreStatus = AuthStatus | AuthStatusLoading
 
 export class AuthStoreClass {
-  @observable
-  private authToken: string | null = null
-
   @computed
   public get getAuthStatus(): AuthStoreStatus {
     if (this.authToken === null) {
@@ -23,9 +20,15 @@ export class AuthStoreClass {
     return { auth: true, token: this.authToken }
   }
 
+  @observable
+  public hasLoggedIn: boolean = false
+  @observable
+  private authToken: string | null = null
+
   @action
   public async setAuthToken(token: string): Promise<void> {
     await AuthServices.setAuthToken(token)
+    this.hasLoggedIn = true
     this.authToken = token
   }
 
@@ -37,7 +40,11 @@ export class AuthStoreClass {
 
   @action
   public async initFromStorage() {
-    const status = await AuthServices.getAuthStatus()
+    const [status, hasLoggedIn]: [AuthStatus, boolean] = await Promise.all([
+      AuthServices.getAuthStatus(),
+      AuthServices.hasLoggedIn()
+    ])
+    this.hasLoggedIn = hasLoggedIn
     this.authToken = status.auth ? status.token : ''
   }
 }

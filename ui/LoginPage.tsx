@@ -10,8 +10,10 @@ import TextButton, { TextButtonStyle } from './uikit/buttons/TextButton'
 import FormTextInput from './uikit/FormTextInput'
 import MainLogo from './uikit/images/MainLogo'
 import { OverlayLoadingState } from './uikit/LoadingScreen'
+import { BoldText } from './uikit/Texts'
 
 type LoginPageProps = {
+  hasLoggedIn: boolean
   login: (username: string, password: string) => Promise<boolean>
   register: (registration: IRegistration) => Promise<true | string>
 }
@@ -33,6 +35,7 @@ const InputPlaceHolderImage = styled.Image`
   top: 16px;
 `
 const InputPlaceHolderView = styled.View`
+  margin-top: 10px;
   width: 80%;
 `
 
@@ -51,7 +54,9 @@ const LoginPage = (props: LoginPageProps) => {
   const [registrationCode, setRegistrationCode] = useState('')
   const [registerName, setRegisterName] = useState('')
   const [busy, setBusy] = useState(false)
-  const [pageMode, setPageMode] = useState(PageMode.Login)
+  const [pageMode, setPageMode] = useState(
+    props.hasLoggedIn ? PageMode.Login : PageMode.Register
+  )
 
   const onLogin = async () => {
     if (pageMode !== PageMode.Login) {
@@ -65,7 +70,6 @@ const LoginPage = (props: LoginPageProps) => {
         { text: 'OK', onPress: () => setBusy(false) }
       ])
     }
-    // return setBusy(false)
   }
 
   const onRegister = async () => {
@@ -135,6 +139,8 @@ const LoginPage = (props: LoginPageProps) => {
     }
     return (
       <PageCenterLayout>
+        <BoldText>Welcome to Jarmo! </BoldText>
+        <BoldText>Please register using code.</BoldText>
         <InputPlaceHolderView>
           <InputPlaceHolderImage source={ImageAssets.InputPlaceHolderJar} />
           <FormTextInput

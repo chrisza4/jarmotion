@@ -86,9 +86,9 @@ export class StarterStoreClass {
 
   @action
   public clean() {
-    this.starterStatus = LoadingStateStatus.Initial
     DeviceServices.revokeDevice()
     this.userStore.clean()
+    this.starterStatus = LoadingStateStatus.Loaded
   }
 }
 
