@@ -144,15 +144,6 @@ const JarContainer = (props: IJarContainerProps) => {
     updateEmojis()
   }, [])
 
-  // Listen to app state changes and reset
-  const forceUpdate = useForceUpdate()
-  useEffect(() => {
-    AppState.addEventListener('change', forceUpdate)
-    return () => {
-      AppState.removeEventListener('change', forceUpdate)
-    }
-  }, [])
-
   if (!engineInstance) {
     return null
   }
