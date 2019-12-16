@@ -1,5 +1,6 @@
 import React from 'react'
 import { Image } from 'react-native'
+import * as ImageAssets from '../../../assets/imageAssets'
 import { EmojiType } from '../../../domains/emojis/EmojiTypes'
 
 export interface IEmojiProps {
@@ -8,37 +9,37 @@ export interface IEmojiProps {
 }
 
 export const emojiImageMap = {
-  [EmojiType.Heart]: require(`../../../assets/emoji_heart.png`),
-  [EmojiType.Afraid]: require(`../../../assets/emojis/afraid.png`),
-  [EmojiType.Amused]: require(`../../../assets/emojis/amused.png`),
-  [EmojiType.Angry]: require(`../../../assets/emojis/angry.png`),
-  [EmojiType.Anxious]: require(`../../../assets/emojis/anxious.png`),
-  [EmojiType.Ashamed]: require(`../../../assets/emojis/ashamed.png`),
-  [EmojiType.Bashful]: require(`../../../assets/emojis/bashful.png`),
-  [EmojiType.Bored]: require(`../../../assets/emojis/bored.png`),
-  [EmojiType.Cold]: require(`../../../assets/emojis/cold.png`),
-  [EmojiType.Confident]: require(`../../../assets/emojis/confident.png`),
-  [EmojiType.Confused]: require(`../../../assets/emojis/confused.png`),
-  [EmojiType.Crazy]: require(`../../../assets/emojis/crazy.png`),
-  [EmojiType.Curious]: require(`../../../assets/emojis/curious.png`),
-  [EmojiType.Depressed]: require(`../../../assets/emojis/depressed.png`),
-  [EmojiType.Determined]: require(`../../../assets/emojis/determined.png`),
-  [EmojiType.Enraged]: require(`../../../assets/emojis/enraged.png`),
-  [EmojiType.Envious]: require(`../../../assets/emojis/envious.png`),
-  [EmojiType.Frightened]: require(`../../../assets/emojis/frightened.png`),
-  [EmojiType.Happy]: require(`../../../assets/emojis/happy.png`),
-  [EmojiType.Hot]: require(`../../../assets/emojis/hot.png`),
-  [EmojiType.Indifferent]: require(`../../../assets/emojis/indifferent.png`),
-  [EmojiType.Jealous]: require(`../../../assets/emojis/jealous.png`),
-  [EmojiType.Love]: require(`../../../assets/emojis/love.png`),
-  [EmojiType.Miserable]: require(`../../../assets/emojis/miserable.png`),
-  [EmojiType.Sad]: require(`../../../assets/emojis/sad.png`),
-  [EmojiType.Sick]: require(`../../../assets/emojis/sick.png`),
-  [EmojiType.Sorry]: require(`../../../assets/emojis/sorry.png`),
-  [EmojiType.Stupid]: require(`../../../assets/emojis/stupid.png`),
-  [EmojiType.Surprised]: require(`../../../assets/emojis/surprised.png`),
-  [EmojiType.Suspicious]: require(`../../../assets/emojis/suspicious.png`),
-  [EmojiType.Withdraw]: require(`../../../assets/emojis/withdraw.png`)
+  [EmojiType.Heart]: ImageAssets.EmojiTypeHeart,
+  [EmojiType.Afraid]: ImageAssets.EmojiTypeAfraid,
+  [EmojiType.Amused]: ImageAssets.EmojiTypeAmused,
+  [EmojiType.Angry]: ImageAssets.EmojiTypeAngry,
+  [EmojiType.Anxious]: ImageAssets.EmojiTypeAnxious,
+  [EmojiType.Ashamed]: ImageAssets.EmojiTypeAshamed,
+  [EmojiType.Bashful]: ImageAssets.EmojiTypeBashful,
+  [EmojiType.Bored]: ImageAssets.EmojiTypeBored,
+  [EmojiType.Cold]: ImageAssets.EmojiTypeCold,
+  [EmojiType.Confident]: ImageAssets.EmojiTypeConfident,
+  [EmojiType.Confused]: ImageAssets.EmojiTypeConfused,
+  [EmojiType.Crazy]: ImageAssets.EmojiTypeCrazy,
+  [EmojiType.Curious]: ImageAssets.EmojiTypeCurious,
+  [EmojiType.Depressed]: ImageAssets.EmojiTypeDepressed,
+  [EmojiType.Determined]: ImageAssets.EmojiTypeDetermined,
+  [EmojiType.Enraged]: ImageAssets.EmojiTypeEnraged,
+  [EmojiType.Envious]: ImageAssets.EmojiTypeEnvious,
+  [EmojiType.Frightened]: ImageAssets.EmojiTypeFrightened,
+  [EmojiType.Happy]: ImageAssets.EmojiTypeHappy,
+  [EmojiType.Hot]: ImageAssets.EmojiTypeHot,
+  [EmojiType.Indifferent]: ImageAssets.EmojiTypeIndifferent,
+  [EmojiType.Jealous]: ImageAssets.EmojiTypeJealous,
+  [EmojiType.Love]: ImageAssets.EmojiTypeLove,
+  [EmojiType.Miserable]: ImageAssets.EmojiTypeMiserable,
+  [EmojiType.Sad]: ImageAssets.EmojiTypeSad,
+  [EmojiType.Sick]: ImageAssets.EmojiTypeSick,
+  [EmojiType.Sorry]: ImageAssets.EmojiTypeSorry,
+  [EmojiType.Stupid]: ImageAssets.EmojiTypeStupid,
+  [EmojiType.Surprised]: ImageAssets.EmojiTypeSurprised,
+  [EmojiType.Suspicious]: ImageAssets.EmojiTypeSuspicious,
+  [EmojiType.Withdraw]: ImageAssets.EmojiTypeWithdraw
 }
 
 const createEmojiComponent = ({ type }: IEmojiProps) => () => (
