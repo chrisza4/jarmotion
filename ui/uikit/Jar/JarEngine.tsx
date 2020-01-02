@@ -89,7 +89,7 @@ export function createJarboxMatter(
     const jarCenter = jarWidth / 2 - radius
     return {
       body: Matter.Bodies.circle(
-        jarCenter + randomToRange(-jarWidth / 8, jarWidth / 8),
+        jarCenter + randomToRange(-jarWidth / 6, jarWidth / 6),
         10,
         radius,
         {
