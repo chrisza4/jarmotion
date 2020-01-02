@@ -23,3 +23,8 @@ export function isUuid(uuid: string) {
     uuid
   )
 }
+
+export function randomToRange(start: number, end: number) {
+  const range = end - start
+  return Math.random() * range + start
+}

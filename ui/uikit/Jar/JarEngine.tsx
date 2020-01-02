@@ -1,5 +1,6 @@
 import Matter from 'matter-js'
 import { EmojiType, IEmoji } from '../../../domains/emojis/EmojiTypes'
+import { randomToRange } from '../../../utils/utils'
 import { IGameEngineEmoji, IJarEngine, PhysicsEngineFunc } from './Types'
 
 const jarboxMatterMap: { [userId: string]: IJarEngine } = {}
@@ -85,9 +86,10 @@ export function createJarboxMatter(
 
   const getEmojiBody = (emojiType: EmojiType, id: string): IGameEngineEmoji => {
     const radius = 14
+    const jarCenter = jarWidth / 2 - radius
     return {
       body: Matter.Bodies.circle(
-        jarWidth / 2 - radius,
+        jarCenter + randomToRange(-jarWidth / 8, jarWidth / 8),
         10,
         radius,
         {
