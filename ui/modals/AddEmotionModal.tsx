@@ -1,5 +1,6 @@
+import { Ionicons } from '@expo/vector-icons'
 import _ from 'lodash'
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { StyleSheet, TouchableWithoutFeedback, View } from 'react-native'
 import { TextInput } from 'react-native-gesture-handler'
 import styled from 'styled-components/native'
@@ -116,6 +117,17 @@ const EmojiText = styled.Text`
   align-self: center;
   margin-top: 40px;
 `
+
+const SearchView = styled.View`
+  flex-direction: row;
+  align-items: center;
+  margin-left: 10px;
+`
+const SearchTextInput = styled.TextInput`
+  width: 200px;
+  height: 30px;
+  margin-left: 5px;
+`
 const AddEmotionModal = (props: AddEmotionModalProps) => {
   const [selectedEmojiType, setSelectedEmojiType] = useState<EmojiType>(
     EmojiType.Heart
@@ -162,12 +174,14 @@ const AddEmotionModal = (props: AddEmotionModalProps) => {
           <SubtitleText>{props.subtitle}</SubtitleText>
         </TitleView>
         <View style={styles.content}>
-          <TextInput
-            style={{ width: 200, height: 30 }}
-            placeholder='Search'
-            onChangeText={setSearchText}
-            value={searchText}
-          />
+          <SearchView>
+            <Ionicons name='md-search' size={20} />
+            <SearchTextInput
+              placeholder='Search'
+              onChangeText={setSearchText}
+              value={searchText}
+            />
+          </SearchView>
           <AddEmotionModalSection
             selectedEmojiType={selectedEmojiType}
             setSelectedEmojiType={setSelectedEmojiType}
