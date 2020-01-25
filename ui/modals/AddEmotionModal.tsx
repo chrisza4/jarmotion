@@ -17,7 +17,7 @@ const emojiList = Object.values(EmojiType)
 
 type AddEmotionModalProps = {
   show: boolean
-  excludeEmojis?: EmojiType[]
+  filter?: (emoji: EmojiType) => boolean
   title: string
   subtitle: string
   onClose?: () => void
@@ -89,13 +89,11 @@ const EmojiWrapper = ({ children, selected, onPress }: EmojiWrapperProps) => {
 type AddEmotionModalSectionProps = {
   selectedEmojiType: EmojiType
   setSelectedEmojiType: (type: EmojiType) => void
-  excludeEmojis?: EmojiType[]
+  filter?: (emoji: EmojiType) => boolean
 }
 const AddEmotionModalSection = (props: AddEmotionModalSectionProps) => {
-  const { excludeEmojis } = props
-  const displayEmojiList = excludeEmojis
-    ? emojiList.filter(e => !excludeEmojis.includes(e))
-    : emojiList
+  const { filter } = props
+  const displayEmojiList = filter ? emojiList.filter(filter) : emojiList
   const emojis = displayEmojiList.map(emojiName => {
     const Emoji = createEmojiComponent({ type: emojiName })
     return (
@@ -152,7 +150,7 @@ const AddEmotionModal = (props: AddEmotionModalProps) => {
           <AddEmotionModalSection
             selectedEmojiType={selectedEmojiType}
             setSelectedEmojiType={setSelectedEmojiType}
-            excludeEmojis={props.excludeEmojis}
+            filter={props.filter}
           />
           <EmojiText>{EmojiFunc.emojiDisplayName(selectedEmojiType)}</EmojiText>
         </View>
