@@ -1,6 +1,7 @@
 import _ from 'lodash'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { StyleSheet, TouchableWithoutFeedback, View } from 'react-native'
+import { TextInput } from 'react-native-gesture-handler'
 import styled from 'styled-components/native'
 import * as EmojiFunc from '../../domains/emojis/EmojiFunc'
 import { EmojiType } from '../../domains/emojis/EmojiTypes'
@@ -119,6 +120,20 @@ const AddEmotionModal = (props: AddEmotionModalProps) => {
   const [selectedEmojiType, setSelectedEmojiType] = useState<EmojiType>(
     EmojiType.Heart
   )
+  const [searchText, setSearchText] = useState<string>('')
+
+  useEffect(() => {
+    setSearchText('')
+  }, [props.show])
+
+  const filterEmojiBySearchText = (e: EmojiType) => {
+    if (!searchText) {
+      return true
+    }
+    return String(e).startsWith(searchText.toLowerCase())
+  }
+  const filterProps = props.filter || (() => true)
+  const filter = (e: EmojiType) => filterProps(e) && filterEmojiBySearchText(e)
   const footer = (
     <View style={styles.footerHolder}>
       <TextButton
@@ -147,10 +162,16 @@ const AddEmotionModal = (props: AddEmotionModalProps) => {
           <SubtitleText>{props.subtitle}</SubtitleText>
         </TitleView>
         <View style={styles.content}>
+          <TextInput
+            style={{ width: 200, height: 30 }}
+            placeholder='Search'
+            onChangeText={setSearchText}
+            value={searchText}
+          />
           <AddEmotionModalSection
             selectedEmojiType={selectedEmojiType}
             setSelectedEmojiType={setSelectedEmojiType}
-            filter={props.filter}
+            filter={filter}
           />
           <EmojiText>{EmojiFunc.emojiDisplayName(selectedEmojiType)}</EmojiText>
         </View>
