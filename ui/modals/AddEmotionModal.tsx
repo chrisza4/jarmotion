@@ -1,12 +1,17 @@
 import _ from 'lodash'
 import React, { useState } from 'react'
-import { StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native'
+import { StyleSheet, TouchableWithoutFeedback, View } from 'react-native'
 import styled from 'styled-components/native'
 import * as EmojiFunc from '../../domains/emojis/EmojiFunc'
 import { EmojiType } from '../../domains/emojis/EmojiTypes'
 import TextButton, { TextButtonStyle } from '../uikit/buttons/TextButton'
 import createEmojiComponent from '../uikit/emoji/createEmojiComponent'
-import Modal from '../uikit/Modal'
+import Modal, {
+  ModalContent,
+  SubtitleText,
+  TitleText,
+  TitleView
+} from '../uikit/Modal'
 
 const emojiList = Object.values(EmojiType)
 
@@ -21,9 +26,6 @@ type AddEmotionModalProps = {
 
 // Prepare to Refactor.... Nearly same style as AlertModal
 const styles = StyleSheet.create({
-  title: {
-    marginTop: 5
-  },
   textCenterHolder: {
     flexDirection: 'row',
     width: '100%',
@@ -139,13 +141,13 @@ const AddEmotionModal = (props: AddEmotionModalProps) => {
 
   return (
     <Modal show={props.show} showFooter footer={footer}>
-      <View style={styles.title}>
-        <View style={styles.textCenterHolder}>
-          <Text style={styles.textHeader}>{props.title}</Text>
-        </View>
-        <View style={styles.textCenterHolder}>
-          <Text style={styles.textHeaderDescription}>{props.subtitle}</Text>
-        </View>
+      <ModalContent>
+        <TitleView>
+          <TitleText>{props.title}</TitleText>
+        </TitleView>
+        <TitleView>
+          <SubtitleText>{props.subtitle}</SubtitleText>
+        </TitleView>
         <View style={styles.content}>
           <AddEmotionModalSection
             selectedEmojiType={selectedEmojiType}
@@ -154,7 +156,7 @@ const AddEmotionModal = (props: AddEmotionModalProps) => {
           />
           <EmojiText>{EmojiFunc.emojiDisplayName(selectedEmojiType)}</EmojiText>
         </View>
-      </View>
+      </ModalContent>
     </Modal>
   )
 }

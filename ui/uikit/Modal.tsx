@@ -98,6 +98,10 @@ export const TitleText = styled.Text`
   font-family: 'poppins-semibold';
   font-size: 21;
 `
+
+export const SubtitleText = styled.Text`
+  font-family: 'poppins-light';
+`
 export const ModalBody = styled.View`
   top: 10;
 `
