@@ -6,7 +6,8 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eject": "expo eject",
-    "tslint": "tslint"
+    "tslint": "tslint",
+    "test": "jest"
   },
   "dependencies": {
     "expo": "^35.0.0",
